@@ -21,20 +21,25 @@ WORKDIR /usr/share/nginx/html
 # Install gettext for envsubst
 RUN apk add --no-cache gettext
 
-# Remove default nginx config
-RUN rm /etc/nginx/conf.d/default.conf
-
-# Copy custom nginx config template
-COPY nginx.conf /etc/nginx/templates/default.conf.template
-
 # Copy built files from build stage
 COPY --from=build /app/dist .
+
+# Copy nginx config template
+COPY nginx.conf /etc/nginx/templates/nginx.conf.template
 
 # Set default PORT
 ENV PORT=80
 
-# Expose port
-EXPOSE ${PORT}
+# Create startup script
+RUN echo '#!/bin/sh' > /docker-entrypoint.sh && \
+    echo 'envsubst "\$PORT" < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/default.conf' >> /docker-entrypoint.sh && \
+    echo 'cat /etc/nginx/conf.d/default.conf' >> /docker-entrypoint.sh && \
+    echo 'nginx -t' >> /docker-entrypoint.sh && \
+    echo 'nginx -g "daemon off;"' >> /docker-entrypoint.sh && \
+    chmod +x /docker-entrypoint.sh
 
-# Start nginx with environment variable substitution
-CMD /bin/sh -c "envsubst '\$PORT' < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+# Expose port
+EXPOSE $PORT
+
+# Start nginx
+CMD ["/docker-entrypoint.sh"]
