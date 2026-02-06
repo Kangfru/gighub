@@ -33,7 +33,13 @@ ENV PORT=80
 # Create startup script
 RUN echo '#!/bin/sh' > /docker-entrypoint.sh && \
     echo '# /etc/resolv.conf에서 DNS resolver 읽기' >> /docker-entrypoint.sh && \
-    echo 'export NAMESERVER=$(cat /etc/resolv.conf | grep nameserver | head -1 | awk "{print \$2}")' >> /docker-entrypoint.sh && \
+    echo 'NAMESERVER_RAW=$(cat /etc/resolv.conf | grep nameserver | head -1 | awk "{print \$2}")' >> /docker-entrypoint.sh && \
+    echo '# IPv6 주소는 대괄호로 감싸기' >> /docker-entrypoint.sh && \
+    echo 'if echo "$NAMESERVER_RAW" | grep -q ":"; then' >> /docker-entrypoint.sh && \
+    echo '  export NAMESERVER="[$NAMESERVER_RAW]"' >> /docker-entrypoint.sh && \
+    echo 'else' >> /docker-entrypoint.sh && \
+    echo '  export NAMESERVER="$NAMESERVER_RAW"' >> /docker-entrypoint.sh && \
+    echo 'fi' >> /docker-entrypoint.sh && \
     echo 'echo "Using DNS resolver: $NAMESERVER"' >> /docker-entrypoint.sh && \
     echo '' >> /docker-entrypoint.sh && \
     echo '# PORT와 NAMESERVER를 nginx.conf에 주입' >> /docker-entrypoint.sh && \
