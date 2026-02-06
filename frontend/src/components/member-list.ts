@@ -1,0 +1,37 @@
+// Band member list component
+
+import type { BandMemberInfo } from '../api/bands'
+
+export function renderMemberList(members: BandMemberInfo[]): string {
+  return `
+    <div class="bg-white rounded-lg shadow-md p-6">
+      <h3 class="text-xl font-bold text-gray-900 mb-4">멤버 목록</h3>
+      <div class="space-y-3">
+        ${members
+          .map(
+            (member) => `
+          <div class="flex justify-between items-center py-2 border-b last:border-b-0">
+            <div>
+              <span class="font-medium text-gray-900">${member.user.name}</span>
+              ${
+                member.user.instrument
+                  ? `<span class="text-gray-500 text-sm ml-2">(${member.user.instrument})</span>`
+                  : ''
+              }
+              ${
+                member.role === 'LEADER'
+                  ? '<span class="bg-yellow-500 text-white text-xs px-2 py-0.5 rounded ml-2">리더</span>'
+                  : ''
+              }
+            </div>
+            <span class="text-sm text-gray-500">
+              ${new Date(member.joinedAt).toLocaleDateString('ko-KR')} 가입
+            </span>
+          </div>
+        `
+          )
+          .join('')}
+      </div>
+    </div>
+  `
+}
