@@ -72,7 +72,19 @@ class ApiClient {
       return undefined as T
     }
 
-    const data = await response.json()
+    // JSON 파싱 안전하게 처리
+    let data: any
+    try {
+      const text = await response.text()
+      data = text ? JSON.parse(text) : {}
+    } catch (e) {
+      // JSON 파싱 실패 시 (예: HTML 에러 페이지)
+      if (!response.ok) {
+        const userMessage = this.getUserFriendlyMessage(response.status)
+        throw new Error(userMessage)
+      }
+      throw new Error('서버 응답을 처리할 수 없습니다.')
+    }
 
     if (!response.ok) {
       // 사용자 친화적인 에러 메시지 매핑
