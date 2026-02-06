@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: gighub
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+jwt:
+  secret: ${JWT_SECRET}
+  access-expiry: 3600000
+  refresh-expiry: 604800000
+
+server:
+  port: 8080

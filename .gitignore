@@ -1,0 +1,29 @@
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# Kotlin / Gradle
+.gradle/
+build/
+*.class
+*.jar
+*.war
+
+# Node.js
+node_modules/
+dist/
+
+# Environment
+.env
+.env.local
+.env.*.local
+backend/src/main/resources/application-local.yml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
