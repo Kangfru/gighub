@@ -11,7 +11,7 @@ export interface ApiError {
 }
 
 class ApiClient {
-  private baseURL = ''
+  private baseURL = import.meta.env.VITE_API_URL || ''
 
   async request<T>(
     endpoint: string,
