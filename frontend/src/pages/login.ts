@@ -9,37 +9,37 @@ export function renderLoginPage(): void {
   const app = document.querySelector<HTMLDivElement>('#app')!
 
   app.innerHTML = `
-    <div class="min-h-screen flex items-center justify-center px-4 bg-[#0a0a0a]">
-      <div class="bg-[#111111] border border-gray-800 p-10 rounded-2xl w-full max-w-md scale-in">
-        <div class="text-center mb-8">
-          <div class="text-6xl mb-4">🎸</div>
-          <h1 class="text-4xl font-bold gradient-text mb-2">GigHub</h1>
-          <p class="text-gray-400">밴드 연습곡 투표 시스템</p>
+    <div class="min-h-screen flex items-center justify-center p-8 bg-zinc-950 w-full">
+      <div class="card-base w-full max-w-md scale-in bg-zinc-900 border-zinc-800 p-8 sm:p-12 shadow-2xl">
+        <div class="text-center mb-10">
+          <div class="text-6xl mb-6 animate-bounce">🎸</div>
+          <h1 class="text-4xl font-bold text-white mb-2 tracking-tight">GigHub</h1>
+          <p class="text-zinc-400">밴드 연습곡 투표 시스템</p>
         </div>
 
-        <form id="login-form" class="space-y-5">
-          <div>
-            <label class="block text-sm font-semibold text-gray-300 mb-2">
+        <form id="login-form" class="space-y-10">
+          <div class="space-y-4">
+            <label class="block text-sm font-bold text-zinc-300 ml-1">
               이메일
             </label>
             <input
               type="email"
               id="email"
               required
-              class="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 rounded-lg focus:outline-none transition-all text-white"
+              class="input-base"
               placeholder="example@email.com"
             />
           </div>
 
-          <div>
-            <label class="block text-sm font-semibold text-gray-300 mb-2">
+          <div class="space-y-4">
+            <label class="block text-sm font-bold text-zinc-300 ml-1">
               비밀번호
             </label>
             <input
               type="password"
               id="password"
               required
-              class="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 rounded-lg focus:outline-none transition-all text-white"
+              class="input-base"
               placeholder="최소 8자"
             />
           </div>
@@ -48,13 +48,13 @@ export function renderLoginPage(): void {
 
           <button
             type="submit"
-            class="w-full btn-gradient text-white font-semibold py-4 px-8 rounded-lg shadow-lg"
+            class="w-full btn-primary py-4 text-lg shadow-xl mt-12"
           >
             로그인
           </button>
         </form>
 
-        <div class="mt-6 text-center text-sm text-gray-400">
+        <div class="mt-8 text-center text-sm text-zinc-400">
           계정이 없으신가요?
           <button
             onclick="window.navigateTo('/register')"

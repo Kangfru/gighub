@@ -16,27 +16,27 @@ export function renderNavbar(): string {
   }
 
   return `
-    <nav class="bg-[#111111] border-b border-gray-800 text-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav class="bg-zinc-900 border-b border-zinc-800 text-white sticky top-0 z-40 backdrop-blur-lg bg-zinc-900/80">
+      <div class="container mx-auto px-8 lg:px-12 w-full">
         <div class="flex justify-between h-16">
           <div class="flex items-center">
             <button
               class="text-2xl font-bold hover:opacity-80 transition-opacity flex items-center gap-2"
               onclick="window.navigateTo('/bands')"
             >
-              <span class="text-3xl">🎸</span>
-              <span class="gradient-text">GigHub</span>
+              <span class="text-3xl animate-pulse">🎸</span>
+              <span class="text-white font-bold tracking-tight">GigHub</span>
             </button>
           </div>
 
-          <div class="flex items-center gap-4">
-            <div class="text-right">
+          <div class="flex items-center gap-6">
+            <div class="text-right hidden sm:block">
               <div class="font-semibold text-white">${user.name}</div>
-              ${user.instrument ? `<div class="text-xs text-gray-400">${user.instrument}</div>` : ''}
+              ${user.instrument ? `<div class="text-xs text-zinc-400">${user.instrument}</div>` : ''}
             </div>
             <button
               onclick="window.handleLogout()"
-              class="px-4 py-2 bg-[#1f1f1f] hover:bg-[#2a2a2a] border border-gray-700 hover:border-gray-600 rounded-lg font-medium transition-all"
+              class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 hover:border-zinc-600 rounded-xl font-medium transition-all text-sm"
             >
               로그아웃
             </button>
@@ -48,18 +48,18 @@ export function renderNavbar(): string {
 }
 
 // 전역 함수로 등록
-;(window as any).navigateTo = (path: string) => {
+; (window as any).navigateTo = (path: string) => {
   router.navigate(path)
 }
 
-;(window as any).handleLogout = async () => {
-  try {
-    await logout()
-    showToast('로그아웃 되었습니다', 'info')
-  } catch (error) {
-    console.error('Logout error:', error)
-  } finally {
-    clearAuth()
-    setTimeout(() => router.navigate('/login'), 500)
+  ; (window as any).handleLogout = async () => {
+    try {
+      await logout()
+      showToast('로그아웃 되었습니다', 'info')
+    } catch (error) {
+      console.error('Logout error:', error)
+    } finally {
+      clearAuth()
+      setTimeout(() => router.navigate('/login'), 500)
+    }
   }
-}
