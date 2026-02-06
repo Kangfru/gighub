@@ -75,16 +75,15 @@ class ApiClient {
     const data = await response.json()
 
     if (!response.ok) {
-      const error = data as ApiError
       // 사용자 친화적인 에러 메시지 매핑
-      const userMessage = this.getUserFriendlyMessage(response.status, error.code)
+      const userMessage = this.getUserFriendlyMessage(response.status)
       throw new Error(userMessage)
     }
 
     return data as T
   }
 
-  private getUserFriendlyMessage(status: number, errorCode?: string): string {
+  private getUserFriendlyMessage(status: number): string {
     // HTTP 상태 코드별 기본 메시지
     switch (status) {
       case 400:
