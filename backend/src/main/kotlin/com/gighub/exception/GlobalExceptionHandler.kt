@@ -23,11 +23,11 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(GigHubException::class)
     fun handleGigHubException(ex: GigHubException): ResponseEntity<ErrorResponse> {
-        logger.warn("GigHubException: ${ex.errorCode.code} - ${ex.message}")
+        logger.warn("GigHubException: code=${ex.errorCode.code}, message=${ex.message}", ex)
 
         val response = ErrorResponse(
             code = ex.errorCode.code,
-            message = ex.message ?: ex.errorCode.message
+            message = ex.errorCode.message // 항상 정의된 메시지 사용 (보안)
         )
 
         return ResponseEntity
@@ -59,8 +59,10 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception::class)
     fun handleUnexpectedException(ex: Exception): ResponseEntity<ErrorResponse> {
-        logger.error("Unexpected exception", ex)
+        // 전체 스택 트레이스를 로그에 기록 (Railway 로그에서 확인 가능)
+        logger.error("Unexpected exception: ${ex.javaClass.simpleName} - ${ex.message}", ex)
 
+        // 사용자에게는 generic 메시지만 반환 (보안)
         val response = ErrorResponse(
             code = ErrorCode.INTERNAL_SERVER_ERROR.code,
             message = ErrorCode.INTERNAL_SERVER_ERROR.message

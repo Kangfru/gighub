@@ -76,10 +76,32 @@ class ApiClient {
 
     if (!response.ok) {
       const error = data as ApiError
-      throw new Error(error.message || '오류가 발생했습니다.')
+      // 사용자 친화적인 에러 메시지 매핑
+      const userMessage = this.getUserFriendlyMessage(response.status, error.code)
+      throw new Error(userMessage)
     }
 
     return data as T
+  }
+
+  private getUserFriendlyMessage(status: number, errorCode?: string): string {
+    // HTTP 상태 코드별 기본 메시지
+    switch (status) {
+      case 400:
+        return '잘못된 요청입니다. 입력 내용을 확인해주세요.'
+      case 401:
+        return '인증이 필요합니다. 다시 로그인해주세요.'
+      case 403:
+        return '권한이 없습니다.'
+      case 404:
+        return '요청한 정보를 찾을 수 없습니다.'
+      case 409:
+        return '이미 존재하거나 중복된 요청입니다.'
+      case 500:
+        return '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'
+      default:
+        return '오류가 발생했습니다. 잠시 후 다시 시도해주세요.'
+    }
   }
 
   private async refreshAccessToken(): Promise<boolean> {
