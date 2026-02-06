@@ -46,6 +46,11 @@ data class CreateInviteCodeRequest(
     }
 }
 
+data class JoinBandRequest(
+    @field:NotBlank(message = "초대 코드는 필수입니다")
+    val inviteCode: String
+)
+
 // Response DTOs
 data class BandResponse(
     val id: Long,

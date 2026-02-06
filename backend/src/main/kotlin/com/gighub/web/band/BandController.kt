@@ -114,4 +114,13 @@ class BandController(
         bandService.deleteInviteCode(userId, bandId, code)
         return ResponseEntity.noContent().build()
     }
+
+    @PostMapping("/join")
+    fun joinBand(
+        @CurrentUser userId: Long,
+        @Valid @RequestBody request: JoinBandRequest
+    ): ResponseEntity<BandResponse> {
+        val response = bandService.joinBand(userId, request)
+        return ResponseEntity.status(HttpStatus.CREATED).body(response)
+    }
 }

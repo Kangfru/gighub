@@ -34,6 +34,7 @@ enum class ErrorCode(
     POLL_NOT_ACTIVE("BIZ004", HttpStatus.BAD_REQUEST, "투표가 진행 중이 아닙니다"),
     INVALID_DATE_RANGE("BIZ005", HttpStatus.BAD_REQUEST, "시작일은 종료일보다 이전이어야 합니다"),
     CANNOT_REMOVE_LAST_LEADER("BIZ006", HttpStatus.BAD_REQUEST, "마지막 리더는 제거할 수 없습니다"),
+    ALREADY_BAND_MEMBER("BIZ007", HttpStatus.CONFLICT, "이미 해당 밴드의 멤버입니다"),
 
     // 서버 에러 (SYS)
     INTERNAL_SERVER_ERROR("SYS001", HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류가 발생했습니다"),

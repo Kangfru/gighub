@@ -220,4 +220,57 @@ class BandService(
 
         inviteCodeRepository.delete(inviteCode)
     }
+
+    @Transactional
+    fun joinBand(userId: Long, request: JoinBandRequest): BandResponse {
+        val user = userRepository.findById(userId).orElseThrow {
+            GigHubException.ResourceNotFoundException(errorCode = ErrorCode.USER_NOT_FOUND)
+        }
+
+        // 1. 초대 코드 검증
+        val inviteCode = inviteCodeRepository.findByCode(request.inviteCode)
+            ?: throw GigHubException.ResourceNotFoundException(errorCode = ErrorCode.INVITE_CODE_NOT_FOUND)
+
+        // 2. 초대 코드가 이미 사용되었는지 확인
+        if (inviteCode.usedByUser != null) {
+            throw GigHubException.BusinessException(
+                errorCode = ErrorCode.INVITE_CODE_ALREADY_USED,
+                message = "이미 사용된 초대 코드입니다"
+            )
+        }
+
+        // 3. 초대 코드가 만료되었는지 확인
+        if (inviteCode.expiresAt.isBefore(LocalDateTime.now())) {
+            throw GigHubException.BusinessException(
+                errorCode = ErrorCode.INVITE_CODE_EXPIRED,
+                message = "만료된 초대 코드입니다"
+            )
+        }
+
+        // 4. 이미 해당 밴드의 멤버인지 확인
+        val existingMember = bandMemberRepository.findByBandIdAndUserId(inviteCode.band.id, userId)
+        if (existingMember != null) {
+            throw GigHubException.BusinessException(
+                errorCode = ErrorCode.ALREADY_BAND_MEMBER,
+                message = "이미 해당 밴드의 멤버입니다"
+            )
+        }
+
+        // 5. 밴드 멤버 추가
+        val bandMember = BandMember(
+            band = inviteCode.band,
+            user = user,
+            role = inviteCode.inviteRole
+        )
+        bandMemberRepository.save(bandMember)
+
+        // 6. 초대 코드 사용 처리
+        inviteCode.usedByUser = user
+
+        // 7. 멤버 수 계산
+        val memberCount = bandMemberRepository.countByBandIdAndRole(inviteCode.band.id, BandRole.LEADER) +
+                bandMemberRepository.countByBandIdAndRole(inviteCode.band.id, BandRole.MEMBER)
+
+        return BandResponse.from(inviteCode.band, inviteCode.inviteRole, memberCount)
+    }
 }

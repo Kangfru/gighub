@@ -53,6 +53,10 @@ export interface UpdateMemberRoleRequest {
   role: 'LEADER' | 'MEMBER'
 }
 
+export interface JoinBandRequest {
+  inviteCode: string
+}
+
 export async function createBand(data: CreateBandRequest): Promise<BandResponse> {
   return apiClient.post<BandResponse>('/api/bands', data)
 }
@@ -116,4 +120,8 @@ export async function deleteInviteCode(
   code: string
 ): Promise<void> {
   return apiClient.delete<void>(`/api/bands/${bandId}/invite-codes/${code}`)
+}
+
+export async function joinBand(data: JoinBandRequest): Promise<BandResponse> {
+  return apiClient.post<BandResponse>('/api/bands/join', data)
 }
