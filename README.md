@@ -6,7 +6,7 @@
 
 ## 📋 목차
 
-- [주요 기능](#-주요 기능)
+- [주요 기능](#-주요-기능)
 - [기술 스택](#-기술-스택)
 - [아키텍처](#-아키텍처)
 - [로컬 개발 환경](#-로컬-개발-환경)
@@ -429,42 +429,3 @@ Content-Type: application/json
   "songId": 123
 }
 ```
-
-더 자세한 API 문서는 [CLAUDE.md](./CLAUDE.md)를 참조하세요.
-
----
-
-## 🤝 기여하기
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📝 라이선스
-
-이 프로젝트는 개인 학습 프로젝트입니다.
-
----
-
-## 👤 개발자
-
-**Kangfru** - [GitHub](https://github.com/Kangfru)
-
----
-
-## 🙏 감사의 말
-
-- Spring Boot 4.0 for modern Java development
-- Railway.app for seamless deployment
-- Tailwind CSS for beautiful styling
-- Claude Code for development assistance
-
----
-
-## 📮 문의
-
-프로젝트에 대한 질문이나 제안이 있으시면 [Issues](https://github.com/Kangfru/gighub/issues)에 남겨주세요.

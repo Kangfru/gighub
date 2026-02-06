@@ -10,7 +10,7 @@ export function renderLoadingSpinner(): string {
 
 export function renderSkeletonCard(): string {
   return `
-    <div class="bg-white rounded-xl p-6 shadow-lg">
+    <div class="bg-[#111111] border border-gray-800 rounded-xl p-6">
       <div class="flex justify-between items-start mb-4">
         <div class="skeleton h-6 w-32 rounded"></div>
         <div class="skeleton h-6 w-16 rounded-full"></div>

@@ -16,27 +16,27 @@ export function renderNavbar(): string {
   }
 
   return `
-    <nav class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white shadow-2xl">
+    <nav class="bg-[#111111] border-b border-gray-800 text-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <div class="flex items-center">
             <button
-              class="text-2xl font-bold hover:scale-105 transition-transform flex items-center gap-2"
+              class="text-2xl font-bold hover:opacity-80 transition-opacity flex items-center gap-2"
               onclick="window.navigateTo('/bands')"
             >
               <span class="text-3xl">🎸</span>
-              <span>GigHub</span>
+              <span class="gradient-text">GigHub</span>
             </button>
           </div>
 
           <div class="flex items-center gap-4">
             <div class="text-right">
-              <div class="font-semibold">${user.name}</div>
-              ${user.instrument ? `<div class="text-xs text-purple-100">${user.instrument}</div>` : ''}
+              <div class="font-semibold text-white">${user.name}</div>
+              ${user.instrument ? `<div class="text-xs text-gray-400">${user.instrument}</div>` : ''}
             </div>
             <button
               onclick="window.handleLogout()"
-              class="px-6 py-3 bg-white bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm rounded-xl font-semibold transition-all hover:scale-105 shadow-lg"
+              class="px-4 py-2 bg-[#1f1f1f] hover:bg-[#2a2a2a] border border-gray-700 hover:border-gray-600 rounded-lg font-medium transition-all"
             >
               로그아웃
             </button>

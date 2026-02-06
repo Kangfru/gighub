@@ -10,21 +10,21 @@ export function renderSongCard(
 ): string {
   const voteButtonClass = isVoted
     ? 'bg-red-500 hover:bg-red-600'
-    : 'bg-blue-500 hover:bg-blue-600'
+    : 'btn-gradient'
   const voteButtonText = isVoted ? '투표 취소' : '투표하기'
   const voteAction = isVoted
     ? `window.handleCancelVote(${voteId})`
     : `window.handleVote(${song.id})`
 
   return `
-    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+    <div class="bg-[#111111] border border-gray-800 hover:border-gray-700 rounded-lg p-6 transition-all">
       <div class="flex justify-between items-start mb-3">
         <div class="flex-1">
-          <h4 class="text-lg font-bold text-gray-900">${song.artist}</h4>
-          <p class="text-gray-700">${song.title}</p>
+          <h4 class="text-lg font-bold text-white">${song.artist}</h4>
+          <p class="text-gray-300">${song.title}</p>
         </div>
         <div class="flex items-center gap-2">
-          <span class="text-2xl font-bold text-blue-600">${song.voteCount}</span>
+          <span class="text-2xl font-bold text-blue-400">${song.voteCount}</span>
           <span class="text-sm text-gray-500">표</span>
         </div>
       </div>
@@ -35,7 +35,7 @@ export function renderSongCard(
         <a
           href="${song.youtubeUrl}"
           target="_blank"
-          class="text-blue-500 hover:underline text-sm mb-2 block"
+          class="text-blue-400 hover:text-blue-300 hover:underline text-sm mb-2 block"
         >
           🎵 YouTube에서 듣기
         </a>
@@ -45,7 +45,7 @@ export function renderSongCard(
 
       ${
         song.description
-          ? `<p class="text-gray-600 text-sm mb-3">${song.description}</p>`
+          ? `<p class="text-gray-400 text-sm mb-3">${song.description}</p>`
           : ''
       }
 
@@ -53,7 +53,7 @@ export function renderSongCard(
         <span class="text-sm text-gray-500">제안: ${song.suggestedBy.name}</span>
         <button
           onclick="${voteAction}"
-          class="${voteButtonClass} text-white px-4 py-2 rounded transition"
+          class="${voteButtonClass} text-white px-4 py-2 rounded-lg transition font-medium"
         >
           ${voteButtonText}
         </button>

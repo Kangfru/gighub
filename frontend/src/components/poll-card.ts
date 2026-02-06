@@ -7,7 +7,7 @@ export function renderPollCard(poll: PollResponse): string {
   const statusColors = {
     UPCOMING: 'bg-blue-500',
     ACTIVE: 'bg-green-500',
-    ENDED: 'bg-gray-500'
+    ENDED: 'bg-gray-600'
   }
 
   const statusLabels = {
@@ -21,11 +21,11 @@ export function renderPollCard(poll: PollResponse): string {
 
   return `
     <div
-      class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer"
+      class="bg-[#111111] border border-gray-800 hover:border-gray-700 rounded-lg p-6 transition-all cursor-pointer hover:-translate-y-1"
       onclick="window.navigateTo('/polls/${poll.id}')"
     >
       <div class="flex justify-between items-start mb-3">
-        <h3 class="text-xl font-bold text-gray-900">${poll.title}</h3>
+        <h3 class="text-xl font-bold text-white">${poll.title}</h3>
         <span class="${statusColor} text-white text-xs px-2 py-1 rounded">
           ${statusLabel}
         </span>
@@ -33,7 +33,7 @@ export function renderPollCard(poll: PollResponse): string {
 
       ${
         poll.description
-          ? `<p class="text-gray-600 text-sm mb-3 line-clamp-2">${poll.description}</p>`
+          ? `<p class="text-gray-400 text-sm mb-3 line-clamp-2">${poll.description}</p>`
           : ''
       }
 
