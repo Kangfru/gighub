@@ -2,12 +2,13 @@
 FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app
 
-# Copy Gradle wrapper
+# Copy Gradle wrapper and config files
 COPY gradlew .
 COPY gradle gradle
-
-# Copy Gradle files
 COPY build.gradle.kts settings.gradle.kts ./
+
+# Give execution permission to gradlew
+RUN chmod +x ./gradlew
 
 # Download dependencies (cached layer)
 RUN ./gradlew dependencies --no-daemon || true
