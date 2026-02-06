@@ -32,7 +32,12 @@ ENV PORT=80
 
 # Create startup script
 RUN echo '#!/bin/sh' > /docker-entrypoint.sh && \
-    echo 'envsubst "\$PORT" < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/default.conf' >> /docker-entrypoint.sh && \
+    echo '# /etc/resolv.conf에서 DNS resolver 읽기' >> /docker-entrypoint.sh && \
+    echo 'export NAMESERVER=$(cat /etc/resolv.conf | grep nameserver | head -1 | awk "{print \$2}")' >> /docker-entrypoint.sh && \
+    echo 'echo "Using DNS resolver: $NAMESERVER"' >> /docker-entrypoint.sh && \
+    echo '' >> /docker-entrypoint.sh && \
+    echo '# PORT와 NAMESERVER를 nginx.conf에 주입' >> /docker-entrypoint.sh && \
+    echo 'envsubst "\$PORT \$NAMESERVER" < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/default.conf' >> /docker-entrypoint.sh && \
     echo 'cat /etc/nginx/conf.d/default.conf' >> /docker-entrypoint.sh && \
     echo 'nginx -t' >> /docker-entrypoint.sh && \
     echo 'nginx -g "daemon off;"' >> /docker-entrypoint.sh && \
