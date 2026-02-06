@@ -325,6 +325,12 @@ DELETE /api/bands/{bandId}
 - Header: Authorization: Bearer {token}
 - Response: 204 No Content
 - Note: LEADER만 가능
+
+POST /api/bands/join
+- Header: Authorization: Bearer {token}
+- Body: { inviteCode }
+- Response: { band, role }
+- Note: 이미 가입한 사용자가 초대 코드로 밴드에 참여
 ```
 
 ### Band Members

@@ -63,10 +63,13 @@ class BandService(
             GigHubException.ResourceNotFoundException(errorCode = ErrorCode.BAND_NOT_FOUND)
         }
 
+        val myMembership = bandMemberRepository.findByBandIdAndUserId(bandId, userId)
+            ?: throw GigHubException.UnauthorizedException(errorCode = ErrorCode.MEMBER_REQUIRED)
+
         val bandMembers = bandMemberRepository.findByBandIdWithUser(bandId)
         val memberInfos = bandMembers.map { BandMemberInfo.from(it) }
 
-        return BandDetailResponse.from(band, memberInfos)
+        return BandDetailResponse.from(band, myMembership.role, memberInfos)
     }
 
     @Transactional

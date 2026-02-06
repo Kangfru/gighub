@@ -76,14 +76,16 @@ data class BandDetailResponse(
     val id: Long,
     val name: String,
     val description: String?,
+    val myRole: BandRole,
     val members: List<BandMemberInfo>,
     val createdAt: LocalDateTime
 ) {
     companion object {
-        fun from(band: Band, members: List<BandMemberInfo>) = BandDetailResponse(
+        fun from(band: Band, myRole: BandRole, members: List<BandMemberInfo>) = BandDetailResponse(
             id = band.id,
             name = band.name,
             description = band.description,
+            myRole = myRole,
             members = members,
             createdAt = band.createdAt
         )

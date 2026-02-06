@@ -16,6 +16,7 @@ export interface BandDetailResponse {
   id: number
   name: string
   description?: string
+  myRole: 'LEADER' | 'MEMBER'
   members: BandMemberInfo[]
   createdAt: string
 }

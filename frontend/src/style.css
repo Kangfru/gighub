@@ -34,6 +34,7 @@ body {
   background-color: var(--background);
   color: #fafafa;
   /* zinc-50 */
+  align-items: center;     /* Centers vertically */
 }
 
 #app {
