@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+jwt:
+  secret: ${JWT_SECRET}
+  access-expiry: 3600000    # 1 hour
+  refresh-expiry: 604800000  # 7 days
+
+logging:
+  level:
+    com.gighub: INFO
+    org.springframework: INFO
+
+server:
+  port: ${PORT:8080}
+
+cors:
+  allowed-origins: ${FRONTEND_URL}
