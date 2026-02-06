@@ -65,6 +65,9 @@ router.setNotFound(() => {
 // 라우터 초기화
 router.init()
 
+// 전역 navigateTo 함수 노출
+;(window as any).navigateTo = (path: string) => router.navigate(path)
+
 // 초기 페이지 - 루트 경로 처리
 if (window.location.pathname === '/') {
   router.navigate(isAuthenticated() ? '/bands' : '/login')

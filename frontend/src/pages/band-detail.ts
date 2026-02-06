@@ -123,7 +123,7 @@ export async function renderBandDetailPage(
         </div>
       </div>
 
-      ${band.myRole === 'LEADER' ? renderBandSettingsModal(bandId) : ''}
+      ${band.myRole === 'LEADER' ? renderBandSettingsModal() : ''}
     `
 
     if (band.myRole === 'LEADER') {
@@ -145,7 +145,7 @@ export async function renderBandDetailPage(
   }
 }
 
-function renderBandSettingsModal(bandId: number): string {
+function renderBandSettingsModal(): string {
   return `
     <!-- 밴드 설정 모달 -->
     <div id="band-settings-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 px-4">
@@ -345,7 +345,7 @@ async function loadInviteCodes(bandId: number): Promise<void> {
       return
     }
 
-    container.innerHTML = codes.map(code => renderInviteCodeCard(bandId, code)).join('')
+    container.innerHTML = codes.map(code => renderInviteCodeCard(code)).join('')
   } catch (error) {
     container.innerHTML = `
       <div class="text-center text-red-400 py-4">
@@ -355,7 +355,7 @@ async function loadInviteCodes(bandId: number): Promise<void> {
   }
 }
 
-function renderInviteCodeCard(bandId: number, code: InviteCodeResponse): string {
+function renderInviteCodeCard(code: InviteCodeResponse): string {
   const isExpired = new Date(code.expiresAt) < new Date()
   const isUsed = code.usedByUser !== undefined && code.usedByUser !== null
 
