@@ -11,7 +11,8 @@ export interface ApiError {
 }
 
 class ApiClient {
-  private baseURL = import.meta.env.VITE_API_URL || ''
+  // Nginx 프록시 사용: 상대 경로로 요청 → Nginx가 백엔드로 프록시
+  private baseURL = ''
 
   async request<T>(
     endpoint: string,

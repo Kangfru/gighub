@@ -11,11 +11,7 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Build-time environment variables
-ARG VITE_API_URL
-ENV VITE_API_URL=$VITE_API_URL
-
-# Build application
+# Build application (Nginx 프록시 사용하므로 환경 변수 불필요)
 RUN npm run build
 
 # Runtime stage
