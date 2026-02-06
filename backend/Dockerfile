@@ -1,23 +1,20 @@
 # Build stage
-FROM eclipse-temurin:21-jdk AS build
+FROM gradle:8.14.1-jdk21 AS build
 WORKDIR /app
 
-# Copy Gradle wrapper and config files
-COPY gradlew .
-COPY gradle gradle
+# Copy project files
 COPY build.gradle.kts settings.gradle.kts ./
-
-# Give execution permission to gradlew
-RUN chmod +x ./gradlew
+COPY gradle gradle
+COPY gradlew ./
 
 # Download dependencies (cached layer)
-RUN ./gradlew dependencies --no-daemon || true
+RUN gradle dependencies --no-daemon || true
 
 # Copy source code
 COPY src src
 
 # Build application
-RUN ./gradlew bootJar --no-daemon -x test
+RUN gradle bootJar --no-daemon -x test
 
 # Runtime stage
 FROM eclipse-temurin:21-jre-alpine
