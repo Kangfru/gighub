@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:${DATABASE_URL}
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/gighub}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
