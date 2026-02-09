@@ -6,7 +6,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: false
     properties:
       hibernate:
@@ -24,8 +24,12 @@ logging:
     com.gighub: INFO
     org.springframework: WARN
     org.springframework.security: WARN
-    org.hibernate.SQL: DEBUG  # SQL 쿼리 로그 (필요시 제거)
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # SQL 파라미터 로그 (필요시 제거)
+#    org.hibernate.SQL: DEBUG  # SQL 쿼리 로그 (필요시 제거)
+#    org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # SQL 파라미터 로그 (필요시 제거)
+
+app:
+  request-logging:
+    enabled: false
 
 server:
   port: ${PORT:8080}
