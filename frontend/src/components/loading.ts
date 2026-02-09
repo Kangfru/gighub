@@ -10,16 +10,16 @@ export function renderLoadingSpinner(): string {
 
 export function renderSkeletonCard(): string {
   return `
-    <div class="bg-[#111111] border border-gray-800 rounded-xl p-6">
+    <div class="bg-white border border-neutral-200 rounded-2xl p-8 animate-pulse">
       <div class="flex justify-between items-start mb-4">
-        <div class="skeleton h-6 w-32 rounded"></div>
-        <div class="skeleton h-6 w-16 rounded-full"></div>
+        <div class="h-6 w-32 bg-neutral-200 rounded"></div>
+        <div class="h-6 w-16 bg-neutral-200 rounded-full"></div>
       </div>
-      <div class="skeleton h-4 w-full rounded mb-2"></div>
-      <div class="skeleton h-4 w-3/4 rounded mb-4"></div>
-      <div class="flex justify-between items-center">
-        <div class="skeleton h-4 w-20 rounded"></div>
-        <div class="skeleton h-4 w-24 rounded"></div>
+      <div class="h-4 w-full bg-neutral-200 rounded mb-2"></div>
+      <div class="h-4 w-3/4 bg-neutral-200 rounded mb-4"></div>
+      <div class="flex justify-between items-center pt-4 border-t border-neutral-200">
+        <div class="h-4 w-20 bg-neutral-200 rounded"></div>
+        <div class="h-4 w-24 bg-neutral-200 rounded"></div>
       </div>
     </div>
   `

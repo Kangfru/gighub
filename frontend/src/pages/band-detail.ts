@@ -25,9 +25,9 @@ export async function renderBandDetailPage(
   // 로딩 UI
   app.innerHTML = `
     ${renderNavbar()}
-    <div class="min-h-screen bg-[#0a0a0a] py-8">
+    <div class="min-h-screen bg-neutral-50 py-8">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center text-gray-400">로딩 중...</div>
+        <div class="text-center text-neutral-500">로딩 중...</div>
       </div>
     </div>
   `
@@ -40,30 +40,30 @@ export async function renderBandDetailPage(
 
     app.innerHTML = `
       ${renderNavbar()}
-      <div class="min-h-screen bg-[#0a0a0a] py-8">
+      <div class="min-h-screen bg-neutral-50 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <!-- 뒤로가기 -->
           <button
             onclick="window.navigateTo('/bands')"
-            class="text-blue-400 hover:text-blue-300 mb-4"
+            class="text-blue-600 hover:text-blue-700 mb-4 font-medium"
           >
             ← 밴드 목록
           </button>
 
           <!-- 밴드 정보 -->
-          <div class="bg-zinc-900 border border-zinc-800 rounded-lg p-6 mb-8">
+          <div class="bg-white border border-neutral-200 rounded-2xl p-8 mb-8 shadow-sm">
             <div class="flex justify-between items-start mb-4">
               <div>
-                <h1 class="text-3xl font-bold text-white">${band.name}</h1>
+                <h1 class="text-3xl font-bold text-neutral-900">${band.name}</h1>
                 ${
                   band.description
-                    ? `<p class="text-zinc-400 mt-2">${band.description}</p>`
+                    ? `<p class="text-neutral-600 mt-2">${band.description}</p>`
                     : ''
                 }
-                <span class="inline-block mt-3 px-3 py-1 text-xs font-semibold rounded-full ${
+                <span class="inline-block mt-3 px-3 py-1 text-xs font-medium rounded-full ${
                   band.myRole === 'LEADER'
-                    ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
-                    : 'bg-zinc-700/50 text-zinc-300 border border-zinc-600/30'
+                    ? 'badge-leader'
+                    : 'badge-neutral'
                 }">
                   ${band.myRole === 'LEADER' ? '리더' : '멤버'}
                 </span>
@@ -90,10 +90,10 @@ export async function renderBandDetailPage(
             <!-- 투표 목록 -->
             <div class="lg:col-span-2">
               <div class="flex justify-between items-center mb-4">
-                <h2 class="text-2xl font-bold text-white">투표 목록</h2>
+                <h2 class="text-2xl font-bold text-neutral-900">투표 목록</h2>
                 <button
                   onclick="window.navigateTo('/bands/${bandId}/polls/create')"
-                  class="btn-gradient text-white px-4 py-2 rounded-lg transition font-medium"
+                  class="btn-primary px-6 py-2.5 rounded-full text-sm"
                 >
                   + 투표 만들기
                 </button>
@@ -102,7 +102,7 @@ export async function renderBandDetailPage(
               ${
                 polls.length === 0
                   ? `
-                <div class="bg-[#111111] border border-gray-800 rounded-lg p-8 text-center text-gray-400">
+                <div class="bg-white border border-neutral-200 rounded-2xl p-8 text-center text-neutral-500 shadow-sm">
                   <p>아직 투표가 없습니다.</p>
                   <p class="text-sm mt-2">첫 투표를 만들어보세요!</p>
                 </div>
@@ -132,9 +132,9 @@ export async function renderBandDetailPage(
   } catch (error) {
     app.innerHTML = `
       ${renderNavbar()}
-      <div class="min-h-screen bg-[#0a0a0a] py-8">
+      <div class="min-h-screen bg-neutral-50 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center text-red-400">
+          <div class="text-center text-red-600">
             오류가 발생했습니다: ${
               error instanceof Error ? error.message : '알 수 없는 오류'
             }

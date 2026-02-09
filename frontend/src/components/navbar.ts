@@ -16,27 +16,27 @@ export function renderNavbar(): string {
   }
 
   return `
-    <nav class="bg-zinc-900 border-b border-zinc-800 text-white sticky top-0 z-40 backdrop-blur-lg bg-zinc-900/80">
+    <nav class="bg-white/80 border-b border-neutral-200 text-neutral-900 sticky top-0 z-40 backdrop-blur-lg">
       <div class="container mx-auto px-8 lg:px-12 w-full">
         <div class="flex justify-between h-16">
           <div class="flex items-center">
             <button
-              class="text-2xl font-bold hover:opacity-80 transition-opacity flex items-center gap-2"
+              class="text-2xl font-bold hover:opacity-70 transition-opacity flex items-center gap-2"
               onclick="window.navigateTo('/bands')"
             >
-              <span class="text-3xl animate-pulse">🎸</span>
-              <span class="text-white font-bold tracking-tight">GigHub</span>
+              <span class="text-2xl">🎸</span>
+              <span class="text-neutral-900 font-bold tracking-tight">GigHub</span>
             </button>
           </div>
 
           <div class="flex items-center gap-6">
             <div class="text-right hidden sm:block">
-              <div class="font-semibold text-white">${user.name}</div>
-              ${user.instrument ? `<div class="text-xs text-zinc-400">${user.instrument}</div>` : ''}
+              <div class="font-semibold text-neutral-900">${user.name}</div>
+              ${user.instrument ? `<div class="text-xs text-neutral-500">${user.instrument}</div>` : ''}
             </div>
             <button
               onclick="window.handleLogout()"
-              class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 hover:border-zinc-600 rounded-xl font-medium transition-all text-sm"
+              class="px-5 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border border-neutral-300 hover:border-neutral-400 rounded-full font-medium transition-all text-sm"
             >
               로그아웃
             </button>

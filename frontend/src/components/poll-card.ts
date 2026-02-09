@@ -25,29 +25,29 @@ export function renderPollCard(poll: PollResponse): string {
       onclick="window.navigateTo('/polls/${poll.id}')"
     >
       <div class="flex justify-between items-start mb-4">
-        <h3 class="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">${poll.title}</h3>
+        <h3 class="text-xl font-bold text-neutral-900 group-hover:text-blue-600 transition-colors">${poll.title}</h3>
         <span class="badge ${statusColor}">
           ${statusLabel}
         </span>
       </div>
 
       ${poll.description
-      ? `<p class="text-zinc-400 text-sm mb-4 line-clamp-2">${poll.description}</p>`
+      ? `<p class="text-neutral-600 text-sm mb-4 line-clamp-2">${poll.description}</p>`
       : ''
     }
 
-      <div class="text-sm text-zinc-500 space-y-2 pt-4 border-t border-zinc-800">
+      <div class="text-sm text-neutral-500 space-y-2 pt-4 border-t border-neutral-200">
         <div class="flex justify-between">
           <span>기간</span>
-          <span class="text-zinc-300">${formatDate(poll.startDate)} ~ ${formatDate(poll.endDate)}</span>
+          <span class="text-neutral-700 font-medium">${formatDate(poll.startDate)} ~ ${formatDate(poll.endDate)}</span>
         </div>
         <div class="flex justify-between">
           <span>곡 후보</span>
-          <span class="text-zinc-300">${poll.songCount}개</span>
+          <span class="text-neutral-700 font-medium">${poll.songCount}개</span>
         </div>
         <div class="flex justify-between">
           <span>생성자</span>
-          <span class="text-zinc-300">${poll.createdBy.name}</span>
+          <span class="text-neutral-700 font-medium">${poll.createdBy.name}</span>
         </div>
       </div>
     </div>

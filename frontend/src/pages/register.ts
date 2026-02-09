@@ -9,17 +9,17 @@ export function renderRegisterPage(): void {
   const app = document.querySelector<HTMLDivElement>('#app')!
 
   app.innerHTML = `
-    <div class="min-h-screen flex items-center justify-center p-8 bg-zinc-950 w-full">
-      <div class="card-base w-full max-w-md scale-in bg-zinc-900 border-zinc-800 p-8 sm:p-12 shadow-2xl">
-        <div class="text-center mb-10">
-          <div class="text-6xl mb-6 animate-pulse">🎸</div>
-          <h1 class="text-4xl font-bold text-white mb-2 tracking-tight">GigHub</h1>
-          <p class="text-zinc-400">밴드 연습곡 투표 시스템</p>
+    <div class="min-h-screen flex items-center justify-center p-8 bg-neutral-50 w-full">
+      <div class="card-base w-full max-w-md scale-in p-10 sm:p-12">
+        <div class="text-center mb-12">
+          <div class="text-5xl mb-4">🎸</div>
+          <h1 class="text-4xl font-bold text-neutral-900 mb-3 tracking-tight">GigHub</h1>
+          <p class="text-neutral-500 text-base">밴드 연습곡 투표 시스템</p>
         </div>
 
-        <form id="register-form" class="space-y-8">
-          <div class="space-y-3">
-            <label class="block text-sm font-bold text-zinc-300 ml-1">
+        <form id="register-form" class="space-y-5">
+          <div class="space-y-2">
+            <label class="block text-sm font-medium text-neutral-700">
               이메일
             </label>
             <input
@@ -31,8 +31,8 @@ export function renderRegisterPage(): void {
             />
           </div>
 
-          <div class="space-y-3">
-            <label class="block text-sm font-bold text-zinc-300 ml-1">
+          <div class="space-y-2">
+            <label class="block text-sm font-medium text-neutral-700">
               비밀번호
             </label>
             <input
@@ -45,8 +45,8 @@ export function renderRegisterPage(): void {
             />
           </div>
 
-          <div class="space-y-3">
-            <label class="block text-sm font-bold text-zinc-300 ml-1">
+          <div class="space-y-2">
+            <label class="block text-sm font-medium text-neutral-700">
               이름
             </label>
             <input
@@ -59,8 +59,8 @@ export function renderRegisterPage(): void {
             />
           </div>
 
-          <div class="space-y-3">
-            <label class="block text-sm font-bold text-zinc-300 ml-1">
+          <div class="space-y-2">
+            <label class="block text-sm font-medium text-neutral-700">
               악기/역할 (선택)
             </label>
             <input
@@ -71,8 +71,8 @@ export function renderRegisterPage(): void {
             />
           </div>
 
-          <div class="space-y-3">
-            <label class="block text-sm font-bold text-zinc-300 ml-1">
+          <div class="space-y-2">
+            <label class="block text-sm font-medium text-neutral-700">
               초대 코드 (선택)
             </label>
             <input
@@ -81,26 +81,26 @@ export function renderRegisterPage(): void {
               class="input-base"
               placeholder="밴드 초대 코드"
             />
-            <p class="text-xs text-blue-400 mt-2 bg-blue-500/5 border border-blue-500/10 px-3 py-2 rounded-lg leading-relaxed">
+            <p class="text-xs text-blue-700 mt-2 bg-blue-50 border border-blue-200 px-4 py-3 rounded-xl leading-relaxed">
               💡 초대 코드가 없어도 가입 가능합니다. 가입 후 밴드를 만들거나 초대를 받으세요.
             </p>
           </div>
 
-          <div id="error-message" class="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-lg hidden"></div>
+          <div id="error-message" class="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl hidden"></div>
 
           <button
             type="submit"
-            class="w-full btn-primary py-4 text-lg shadow-xl mt-8"
+            class="w-full btn-primary py-4 text-base mt-6"
           >
             가입하기
           </button>
         </form>
 
-        <div class="mt-8 text-center text-sm text-zinc-400">
+        <div class="mt-8 text-center text-sm text-neutral-500">
           이미 계정이 있으신가요?
           <button
             onclick="window.navigateTo('/login')"
-            class="text-blue-400 hover:text-blue-300 font-semibold hover:underline transition ml-1"
+            class="text-blue-600 hover:text-blue-700 font-medium hover:underline transition ml-1"
           >
             로그인
           </button>
