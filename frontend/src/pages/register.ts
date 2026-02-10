@@ -20,7 +20,7 @@ export function renderRegisterPage(): void {
 
         <!-- Register Card -->
         <div class="card fade-in" style="animation-delay: 0.1s;">
-          <h2 class="text-2xl font-semibold mb-10" style="color: #171717;">회원가입</h2>
+          <h2 class="text-2xl font-semibold" style="color: #171717; margin-bottom: 1.25rem;">회원가입</h2>
 
           <form id="register-form">
             <!-- Email Input -->
@@ -104,7 +104,7 @@ export function renderRegisterPage(): void {
           </form>
 
           <!-- Login Link -->
-          <div class="text-center mt-10 pt-8" style="border-top: 1px solid #e5e5e5;">
+          <div class="text-center pt-8" style="border-top: 1px solid #e5e5e5; margin-top: 1.25rem;">
             <span style="color: #737373; font-size: 0.9375rem;">이미 계정이 있으신가요?</span>
             <button
               onclick="window.navigateTo('/login')"
