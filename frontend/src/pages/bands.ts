@@ -12,8 +12,8 @@ export async function renderBandsPage(): Promise<void> {
   // 로딩 UI
   app.innerHTML = `
     ${renderNavbar()}
-    <div class="min-h-screen py-12 bg-neutral-50 w-full flex justify-center">
-      <div class="container mx-auto px-8 lg:px-12 w-full">
+    <div style="min-height: 100vh; padding: 3rem 0; background: #fafafa; display: flex; justify-content: center;">
+      <div style="max-width: 80rem; width: 100%; padding: 0 1.5rem;">
         ${renderSkeletonGrid()}
       </div>
     </div>
@@ -24,28 +24,30 @@ export async function renderBandsPage(): Promise<void> {
 
     app.innerHTML = `
       ${renderNavbar()}
-      <div class="min-h-screen py-12 bg-neutral-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex justify-between items-center mb-12 fade-in">
+      <div style="min-height: 100vh; padding: 3rem 0; background: #fafafa;">
+        <div style="max-width: 80rem; margin: 0 auto; padding: 0 1.5rem;">
+          <div class="fade-in" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
             <div>
-              <h1 class="text-4xl font-bold text-neutral-900 mb-2 tracking-tight">내 밴드</h1>
-              <p class="text-neutral-600">함께 음악을 만들어가는 공간</p>
+              <h1 style="font-size: 2.25rem; font-weight: 600; color: #171717; margin-bottom: 0.5rem; letter-spacing: -0.02em;">내 밴드</h1>
+              <p style="color: #737373;">함께 음악을 만들어가는 공간</p>
             </div>
-            <div class="flex gap-3">
+            <div style="display: flex; gap: 0.75rem;">
               <button
                 onclick="window.showJoinBandModal()"
-                class="btn-secondary flex items-center gap-2"
+                class="btn btn-secondary"
+                style="display: inline-flex; align-items: center; gap: 0.5rem;"
               >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <svg style="width: 1.25rem; height: 1.25rem;" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M11 6a3 3 0 11-6 0 3 3 0 016 0zM14 17a6 6 0 00-12 0h12zM13 8a1 1 0 100 2h4a1 1 0 100-2h-4z"></path>
                 </svg>
                 밴드 참여
               </button>
               <button
                 onclick="window.showCreateBandModal()"
-                class="btn-primary flex items-center gap-2"
+                class="btn btn-primary"
+                style="display: inline-flex; align-items: center; gap: 0.5rem;"
               >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <svg style="width: 1.25rem; height: 1.25rem;" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
                 </svg>
                 밴드 만들기
@@ -55,25 +57,27 @@ export async function renderBandsPage(): Promise<void> {
 
           ${bands.length === 0
         ? `
-            <div class="text-center mt-24 fade-in">
-              <div class="text-7xl mb-6">🎸</div>
-              <p class="text-2xl font-bold text-neutral-900 mb-3">아직 밴드가 없습니다</p>
-              <p class="text-neutral-600 mb-10">밴드를 만들거나 초대 코드로 가입해보세요!</p>
-              <div class="flex gap-4 justify-center">
+            <div class="fade-in" style="text-align: center; margin-top: 6rem;">
+              <div style="font-size: 4.5rem; margin-bottom: 1.5rem;">🎸</div>
+              <p style="font-size: 1.5rem; font-weight: 600; color: #171717; margin-bottom: 0.75rem;">아직 밴드가 없습니다</p>
+              <p style="color: #737373; margin-bottom: 2.5rem;">밴드를 만들거나 초대 코드로 가입해보세요!</p>
+              <div style="display: flex; gap: 1rem; justify-content: center;">
                 <button
                   onclick="window.showJoinBandModal()"
-                  class="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-4"
+                  class="btn btn-secondary btn-lg"
+                  style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1rem; padding: 1rem 2rem;"
                 >
-                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <svg style="width: 1.5rem; height: 1.5rem;" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M11 6a3 3 0 11-6 0 3 3 0 016 0zM14 17a6 6 0 00-12 0h12zM13 8a1 1 0 100 2h4a1 1 0 100-2h-4z"></path>
                   </svg>
                   초대 코드로 참여
                 </button>
                 <button
                   onclick="window.showCreateBandModal()"
-                  class="btn-primary inline-flex items-center gap-2 text-lg px-8 py-4"
+                  class="btn btn-primary btn-lg"
+                  style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1rem; padding: 1rem 2rem;"
                 >
-                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <svg style="width: 1.5rem; height: 1.5rem;" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
                   </svg>
                   첫 밴드 만들기
@@ -82,7 +86,7 @@ export async function renderBandsPage(): Promise<void> {
             </div>
           `
         : `
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); gap: 2rem;">
               ${bands.map((band) => renderBandCard(band)).join('')}
             </div>
           `
@@ -190,15 +194,15 @@ export async function renderBandsPage(): Promise<void> {
     const message = error instanceof Error ? error.message : '알 수 없는 오류'
     app.innerHTML = `
       ${renderNavbar()}
-      <div class="min-h-screen py-12 bg-neutral-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center mt-24 fade-in">
-            <div class="text-7xl mb-6">⚠️</div>
-            <p class="text-2xl font-bold text-red-600 mb-3">오류가 발생했습니다</p>
-            <p class="text-neutral-600 mb-8">${message}</p>
+      <div style="min-height: 100vh; padding: 3rem 0; background: #fafafa;">
+        <div style="max-width: 80rem; margin: 0 auto; padding: 0 1.5rem;">
+          <div class="fade-in" style="text-align: center; margin-top: 6rem;">
+            <div style="font-size: 4.5rem; margin-bottom: 1.5rem;">⚠️</div>
+            <p style="font-size: 1.5rem; font-weight: 600; color: #dc2626; margin-bottom: 0.75rem;">오류가 발생했습니다</p>
+            <p style="color: #737373; margin-bottom: 2rem;">${message}</p>
             <button
               onclick="window.location.reload()"
-              class="btn-primary"
+              class="btn btn-primary"
             >
               다시 시도
             </button>
