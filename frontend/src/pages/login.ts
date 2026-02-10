@@ -12,9 +12,9 @@ export function renderLoginPage(): void {
     <div class="min-h-screen flex items-center justify-center p-6" style="background: #fafafa;">
       <div class="w-full max-w-md">
         <!-- Logo & Title -->
-        <div class="text-center mb-12 fade-in">
-          <div class="text-5xl mb-4">🎸</div>
-          <h1 class="text-4xl font-semibold mb-3" style="color: #171717; letter-spacing: -0.02em;">GigHub</h1>
+        <div class="text-center fade-in" style="margin-bottom: 3rem;">
+          <div class="text-5xl" style="margin-bottom: 1rem;">🎸</div>
+          <h1 class="text-4xl font-semibold" style="color: #171717; letter-spacing: -0.02em; margin-bottom: 0.75rem;">GigHub</h1>
           <p class="text-base" style="color: #737373;">밴드 연습곡 투표 시스템</p>
         </div>
 
@@ -54,7 +54,7 @@ export function renderLoginPage(): void {
             <button
               type="submit"
               class="btn btn-primary btn-lg w-full"
-              style="margin-top: 2rem;"
+              style="margin-top: 0.75rem;"
             >
               로그인
             </button>
