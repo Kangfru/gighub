@@ -28,6 +28,8 @@ GigHub is a voting system for band rehearsal song selection. Band members can cr
 - Each invite code is tied to a specific band
 - Invite code has a role (LEADER or MEMBER)
 - When user registers with invite code, they automatically join the band with specified role
+- **Multi-use**: 동일한 초대 코드로 여러 사용자가 가입 가능
+- 만료 전까지 무제한 재사용 가능
 
 ### Poll & Voting
 - Polls belong to a specific band
@@ -40,20 +42,26 @@ GigHub is a voting system for band rehearsal song selection. Band members can cr
 
 ### Backend
 ```
-Language: Kotlin 2.2.x
-Framework: Spring Boot 4.0.x
-Security: Spring Security + JWT
+Language: Kotlin 2.2.21
+Framework: Spring Boot 4.0.2
+Security: Spring Security + JWT (jjwt 0.12.6)
 ORM: Spring Data JPA
-Build Tool: Gradle Kotlin DSL
-Database: PostgreSQL
+Build Tool: Gradle 9.3.0 (Kotlin DSL)
+Database: PostgreSQL 17
+JDK: 21 (system has JDK 25)
 Deployment: Railway.app
 ```
 
+**Spring Boot 4.0 주요 변경사항:**
+- `spring-boot-starter-web` → `spring-boot-starter-webmvc` 사용
+- Test starters: `spring-boot-starter-webmvc-test`, `spring-boot-starter-security-test`
+- Jackson group ID: `tools.jackson.module:jackson-module-kotlin` (NOT `com.fasterxml.jackson`)
+
 ### Frontend
 ```
-Build Tool: Vite
-Language: TypeScript
-Styling: Tailwind CSS
+Build Tool: Vite 7.2.4
+Language: TypeScript 5.9.3
+Styling: Tailwind CSS 4.1.18 (@tailwindcss/vite plugin, CSS-first config)
 Framework: Vanilla JS (no React/Vue)
 HTTP Client: Fetch API
 Deployment: Vercel
@@ -61,7 +69,8 @@ Deployment: Vercel
 
 ### Database
 ```
-PostgreSQL on Supabase (free tier)
+PostgreSQL 17 (Docker for local development)
+Production: Supabase (free tier)
 - 500MB storage
 - Sufficient for MVP
 ```
@@ -158,29 +167,27 @@ class InviteCode(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
-    
+
     @Column(unique = true, nullable = false)
     val code: String, // UUID
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "band_id", nullable = false)
     val band: Band, // 어느 밴드로 초대하는지
-    
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     val inviteRole: BandRole = BandRole.MEMBER, // 초대된 사람의 역할
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "used_by_user_id")
-    val usedByUser: User? = null,
-    
+
     @Column(nullable = false)
     val createdAt: LocalDateTime = LocalDateTime.now(),
-    
+
     @Column(nullable = false)
     val expiresAt: LocalDateTime
 )
 ```
+
+**Note**: 초대 코드는 **다회용(multi-use)**입니다. 여러 사용자가 동일한 초대 코드로 밴드에 가입할 수 있습니다.
 
 ### Poll
 ```kotlin
@@ -361,8 +368,8 @@ POST /api/bands/{bandId}/invite-codes
 
 GET /api/bands/{bandId}/invite-codes
 - Header: Authorization: Bearer {token}
-- Response: [{ code, usedByUser?, createdAt, expiresAt, role }]
-- Note: LEADER만 가능
+- Response: [{ code, createdAt, expiresAt, role }]
+- Note: LEADER만 가능, 초대 코드는 다회용이므로 사용 이력 표시 없음
 
 DELETE /api/bands/{bandId}/invite-codes/{code}
 - Header: Authorization: Bearer {token}
@@ -449,7 +456,8 @@ GET /api/polls/{pollId}/votes/me
 ### Invite Code
 - UUID v4 format
 - Default expiry: 30 days
-- Single-use only (marked as used after registration)
+- **Multi-use**: 여러 사용자가 동일한 초대 코드로 가입 가능
+- 만료 전까지 무제한 사용 가능
 
 ## Frontend Structure
 
@@ -615,18 +623,20 @@ import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  plugins: [tailwindcss()],
+  plugins: [tailwindcss()],  // Tailwind CSS 4.x uses CSS-first config
   server: {
     port: 3000,
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost:8080',  // or your backend port
         changeOrigin: true,
       }
     }
   }
 })
 ```
+
+**Note**: Tailwind CSS 4.x는 `@tailwindcss/vite` 플러그인을 사용하며, CSS-first configuration 방식입니다. 별도의 `tailwind.config.js` 파일이 필요 없습니다.
 
 Run frontend:
 ```bash
@@ -661,6 +671,64 @@ cd frontend && npm run dev
 Access application at: http://localhost:3000
 - Frontend proxies `/api/*` requests to backend at `localhost:8080`
 - Backend connects to PostgreSQL at `localhost:5432`
+
+## Current Implementation Status
+
+### ✅ Completed Backend Components
+
+**Domain Entities (모든 엔티티 구현 완료)**
+- `User` - 사용자 정보 및 인증
+- `Band` - 밴드 정보
+- `BandMember` - 사용자-밴드 연결 및 역할 관리
+- `InviteCode` - 다회용 초대 코드
+- `Poll` - 투표 생성 및 관리
+- `Song` - 곡 제안 및 정보
+- `Vote` - 사용자 투표 기록
+
+**Repositories (모든 Repository 구현 완료)**
+- `UserRepository`, `BandRepository`, `BandMemberRepository`
+- `InviteCodeRepository`, `PollRepository`, `SongRepository`, `VoteRepository`
+
+**API Controllers (모든 핵심 Controller 구현 완료)**
+- `AuthController` - 회원가입, 로그인, JWT 토큰 관리
+- `BandController` - 밴드 CRUD, 멤버 관리, 초대 코드
+- `PollController` - 투표 CRUD, 곡 제안
+- `VoteController` - 투표하기, 투표 취소
+
+**Services (비즈니스 로직 구현 완료)**
+- `AuthService` - 인증 및 JWT 처리
+- `BandService` - 밴드 및 멤버 관리
+- `PollService` - 투표 및 곡 관리
+- `VoteService` - 투표 처리
+
+**Security & Infrastructure**
+- JWT 기반 인증 (`JwtTokenProvider`, `JwtAuthenticationFilter`)
+- 권한 검증 (`PermissionService`, `@CurrentUser` annotation)
+- Spring Security 설정 (`SecurityConfig`)
+- 전역 예외 처리 (`GlobalExceptionHandler`, `ErrorCode`)
+- 요청 로깅 (`RequestLoggingFilter`)
+- 시간대 유틸리티 (`DateTimeUtils` - UTC+9 지원)
+
+### ✅ Completed Frontend Components
+
+**Pages**
+- Login/Register pages
+- Band list and detail pages
+- Poll list and detail pages
+- Band settings and member management
+
+**Features**
+- JWT token management
+- API client with authentication
+- Client-side routing
+- Tailwind CSS 4.x styling
+
+### 🔄 Next Steps
+
+1. 추가 API 엔드포인트 구현 (필요시)
+2. 프론트엔드 페이지 완성도 향상
+3. 테스트 커버리지 확대
+4. 배포 자동화 (CI/CD)
 
 ## Deployment
 
@@ -711,9 +779,15 @@ Access application at: http://localhost:3000
 
 ## Notes for Claude Code
 
+### Project Structure
 - This is a **monorepo** with independent backend (Kotlin) and frontend (TypeScript)
 - Backend and frontend have **separate build tools** (Gradle and npm)
 - **No shared code** between backend and frontend - maintain types separately
+- `application-local.yml` is in `.gitignore` (not committed to version control)
+- Test profile uses H2 in-memory database
+- Frontend proxy: `localhost:3000` → `localhost:8080` for `/api` requests
+
+### Development Philosophy
 - This is a learning project for backend engineer expanding to full-stack
 - Prefer simple, straightforward implementations over complex patterns
 - Focus on getting MVP working before optimization
@@ -722,7 +796,18 @@ Access application at: http://localhost:3000
 - UI 텍스트는 한국어로 작성 (버튼, 라벨, 안내 문구, 에러 메시지 등 모두 한국어)
 - Database queries should be optimized from the start (thinking of batch processing experience)
 - When working on features, consider both backend and frontend changes together
-- Deploy targets: Railway (backend) and Vercel (frontend) from same repository
+
+### Important Technical Details
+- **Timezone**: 모든 시간은 **UTC+9 (Asia/Seoul)** 사용
+- **Invite Code**: 다회용(multi-use) - 여러 사용자가 동일한 코드로 가입 가능
+- **Vote System**: 투표는 취소 가능 (DELETE 지원)
+- **Spring Boot 4.0**: `starter-webmvc` 사용, Jackson은 `tools.jackson` group ID 사용
+
+### Deployment
+- Backend: Railway.app
+- Frontend: Vercel
+- Database: Supabase (PostgreSQL)
+- All deployments from same monorepo
 
 
 
