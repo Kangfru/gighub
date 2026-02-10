@@ -353,7 +353,6 @@ async function loadInviteCodes(bandId: number): Promise<void> {
 
 function renderInviteCodeCard(code: InviteCodeResponse): string {
   const isExpired = new Date(code.expiresAt) < new Date()
-  const isUsed = code.usedByUser !== undefined && code.usedByUser !== null
 
   return `
     <div style="background: #fafafa; border: 1px solid #e5e5e5; border-radius: 0.75rem; padding: 1rem;">
@@ -379,29 +378,21 @@ function renderInviteCodeCard(code: InviteCodeResponse): string {
               ${code.role === 'LEADER' ? '리더' : '멤버'}
             </span>
             ${
-              isUsed
-                ? `<span style="color: #15803d; font-weight: 500;">✓ 사용됨 (${code.usedByUser?.name})</span>`
-                : isExpired
+              isExpired
                 ? `<span style="color: #dc2626; font-weight: 500;">만료됨</span>`
                 : `<span>만료: ${formatDate(code.expiresAt)}</span>`
             }
           </div>
         </div>
-        ${
-          !isUsed
-            ? `
-          <button
-            onclick="window.deleteInviteCodeConfirm?.('${code.code}')"
-            style="color: #dc2626; background: none; border: none; cursor: pointer; padding: 0.25rem;"
-            title="삭제"
-          >
-            <svg style="width: 1.25rem; height: 1.25rem;" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-            </svg>
-          </button>
-        `
-            : ''
-        }
+        <button
+          onclick="window.deleteInviteCodeConfirm?.('${code.code}')"
+          style="color: #dc2626; background: none; border: none; cursor: pointer; padding: 0.25rem;"
+          title="삭제"
+        >
+          <svg style="width: 1.25rem; height: 1.25rem;" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
       </div>
     </div>
   `
