@@ -21,33 +21,34 @@ export function renderPollCard(poll: PollResponse): string {
 
   return `
     <div
-      class="card-base card-hover group"
+      class="card card-interactive"
       onclick="window.navigateTo('/polls/${poll.id}')"
+      style="cursor: pointer;"
     >
-      <div class="flex justify-between items-start mb-4">
-        <h3 class="text-xl font-bold text-neutral-900 group-hover:text-blue-600 transition-colors">${poll.title}</h3>
+      <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+        <h3 style="font-size: 1.25rem; font-weight: 600; color: #171717;">${poll.title}</h3>
         <span class="badge ${statusColor}">
           ${statusLabel}
         </span>
       </div>
 
       ${poll.description
-      ? `<p class="text-neutral-600 text-sm mb-4 line-clamp-2">${poll.description}</p>`
+      ? `<p style="color: #525252; font-size: 0.875rem; margin-bottom: 1rem; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${poll.description}</p>`
       : ''
     }
 
-      <div class="text-sm text-neutral-500 space-y-2 pt-4 border-t border-neutral-200">
-        <div class="flex justify-between">
+      <div style="font-size: 0.875rem; color: #737373; display: flex; flex-direction: column; gap: 0.5rem; padding-top: 1rem; border-top: 1px solid #e5e5e5;">
+        <div style="display: flex; justify-content: space-between;">
           <span>기간</span>
-          <span class="text-neutral-700 font-medium">${formatDate(poll.startDate)} ~ ${formatDate(poll.endDate)}</span>
+          <span style="color: #171717; font-weight: 500;">${formatDate(poll.startDate)} ~ ${formatDate(poll.endDate)}</span>
         </div>
-        <div class="flex justify-between">
+        <div style="display: flex; justify-content: space-between;">
           <span>곡 후보</span>
-          <span class="text-neutral-700 font-medium">${poll.songCount}개</span>
+          <span style="color: #171717; font-weight: 500;">${poll.songCount}개</span>
         </div>
-        <div class="flex justify-between">
+        <div style="display: flex; justify-content: space-between;">
           <span>생성자</span>
-          <span class="text-neutral-700 font-medium">${poll.createdBy.name}</span>
+          <span style="color: #171717; font-weight: 500;">${poll.createdBy.name}</span>
         </div>
       </div>
     </div>

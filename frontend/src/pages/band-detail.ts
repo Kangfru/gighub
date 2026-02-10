@@ -25,9 +25,9 @@ export async function renderBandDetailPage(
   // 로딩 UI
   app.innerHTML = `
     ${renderNavbar()}
-    <div class="min-h-screen bg-neutral-50 py-8">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center text-neutral-500">로딩 중...</div>
+    <div style="min-height: 100vh; background: #fafafa; padding: 2rem 0;">
+      <div style="max-width: 80rem; margin: 0 auto; padding: 0 1.5rem;">
+        <div style="text-align: center; color: #737373; padding: 3rem;">로딩 중...</div>
       </div>
     </div>
   `
@@ -40,30 +40,28 @@ export async function renderBandDetailPage(
 
     app.innerHTML = `
       ${renderNavbar()}
-      <div class="min-h-screen bg-neutral-50 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div style="min-height: 100vh; background: #fafafa; padding: 2rem 0;">
+        <div style="max-width: 80rem; margin: 0 auto; padding: 0 1.5rem;">
           <!-- 뒤로가기 -->
           <button
             onclick="window.navigateTo('/bands')"
-            class="text-blue-600 hover:text-blue-700 mb-4 font-medium"
+            style="color: #171717; font-weight: 500; margin-bottom: 1rem; text-decoration: underline; text-underline-offset: 2px; background: none; border: none; cursor: pointer; font-size: 0.9375rem;"
           >
             ← 밴드 목록
           </button>
 
           <!-- 밴드 정보 -->
-          <div class="bg-white border border-neutral-200 rounded-2xl p-8 mb-8 shadow-sm">
-            <div class="flex justify-between items-start mb-4">
-              <div>
-                <h1 class="text-3xl font-bold text-neutral-900">${band.name}</h1>
+          <div class="card fade-in" style="margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+              <div style="flex: 1;">
+                <h1 style="font-size: 2rem; font-weight: 600; color: #171717; margin-bottom: 0.5rem;">${band.name}</h1>
                 ${
                   band.description
-                    ? `<p class="text-neutral-600 mt-2">${band.description}</p>`
+                    ? `<p style="color: #737373; margin-bottom: 0.75rem;">${band.description}</p>`
                     : ''
                 }
-                <span class="inline-block mt-3 px-3 py-1 text-xs font-medium rounded-full ${
-                  band.myRole === 'LEADER'
-                    ? 'badge-leader'
-                    : 'badge-neutral'
+                <span class="badge ${
+                  band.myRole === 'LEADER' ? 'badge-leader' : 'badge-neutral'
                 }">
                   ${band.myRole === 'LEADER' ? '리더' : '멤버'}
                 </span>
@@ -73,9 +71,10 @@ export async function renderBandDetailPage(
                   ? `
                 <button
                   onclick="window.showBandSettingsModal()"
-                  class="btn-secondary flex items-center gap-2"
+                  class="btn btn-secondary"
+                  style="display: inline-flex; align-items: center; gap: 0.5rem;"
                 >
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <svg style="width: 1.25rem; height: 1.25rem;" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
                   </svg>
                   설정
@@ -86,38 +85,40 @@ export async function renderBandDetailPage(
             </div>
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- 투표 목록 -->
-            <div class="lg:col-span-2">
-              <div class="flex justify-between items-center mb-4">
-                <h2 class="text-2xl font-bold text-neutral-900">투표 목록</h2>
-                <button
-                  onclick="window.navigateTo('/bands/${bandId}/polls/create')"
-                  class="btn-primary px-6 py-2.5 rounded-full text-sm"
-                >
-                  + 투표 만들기
-                </button>
+          <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+            <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+              <!-- 투표 목록 -->
+              <div style="grid-column: 1 / -1;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                  <h2 style="font-size: 1.5rem; font-weight: 600; color: #171717;">투표 목록</h2>
+                  <button
+                    onclick="window.navigateTo('/bands/${bandId}/polls/create')"
+                    class="btn btn-primary"
+                  >
+                    + 투표 만들기
+                  </button>
+                </div>
+
+                ${
+                  polls.length === 0
+                    ? `
+                  <div class="card" style="text-align: center; padding: 3rem;">
+                    <p style="color: #737373;">아직 투표가 없습니다.</p>
+                    <p style="color: #a3a3a3; font-size: 0.875rem; margin-top: 0.5rem;">첫 투표를 만들어보세요!</p>
+                  </div>
+                `
+                    : `
+                  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); gap: 1rem;">
+                    ${polls.map((poll) => renderPollCard(poll)).join('')}
+                  </div>
+                `
+                }
               </div>
 
-              ${
-                polls.length === 0
-                  ? `
-                <div class="bg-white border border-neutral-200 rounded-2xl p-8 text-center text-neutral-500 shadow-sm">
-                  <p>아직 투표가 없습니다.</p>
-                  <p class="text-sm mt-2">첫 투표를 만들어보세요!</p>
-                </div>
-              `
-                  : `
-                <div class="space-y-4">
-                  ${polls.map((poll) => renderPollCard(poll)).join('')}
-                </div>
-              `
-              }
-            </div>
-
-            <!-- 멤버 목록 -->
-            <div class="lg:col-span-1">
-              ${renderMemberList(band.members)}
+              <!-- 멤버 목록 -->
+              <div style="grid-column: 1 / -1;">
+                ${renderMemberList(band.members)}
+              </div>
             </div>
           </div>
         </div>
@@ -132,12 +133,13 @@ export async function renderBandDetailPage(
   } catch (error) {
     app.innerHTML = `
       ${renderNavbar()}
-      <div class="min-h-screen bg-neutral-50 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center text-red-600">
-            오류가 발생했습니다: ${
-              error instanceof Error ? error.message : '알 수 없는 오류'
-            }
+      <div style="min-height: 100vh; background: #fafafa; padding: 2rem 0;">
+        <div style="max-width: 80rem; margin: 0 auto; padding: 0 1.5rem;">
+          <div style="text-align: center; padding: 3rem;">
+            <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">오류가 발생했습니다</p>
+            <p style="color: #737373; font-size: 0.875rem;">
+              ${error instanceof Error ? error.message : '알 수 없는 오류'}
+            </p>
           </div>
         </div>
       </div>

@@ -16,27 +16,28 @@ export function renderNavbar(): string {
   }
 
   return `
-    <nav class="bg-white/80 border-b border-neutral-200 text-neutral-900 sticky top-0 z-40 backdrop-blur-lg">
-      <div class="container mx-auto px-8 lg:px-12 w-full">
-        <div class="flex justify-between h-16">
-          <div class="flex items-center">
-            <button
-              class="text-2xl font-bold hover:opacity-70 transition-opacity flex items-center gap-2"
-              onclick="window.navigateTo('/bands')"
-            >
-              <span class="text-2xl">🎸</span>
-              <span class="text-neutral-900 font-bold tracking-tight">GigHub</span>
-            </button>
-          </div>
+    <nav class="navbar" style="position: sticky; top: 0; z-index: 40;">
+      <div style="max-width: 80rem; margin: 0 auto; padding: 0 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; height: 4rem;">
+          <button
+            onclick="window.navigateTo('/bands')"
+            style="display: flex; align-items: center; gap: 0.5rem; background: none; border: none; cursor: pointer; padding: 0.5rem; transition: opacity 0.2s;"
+            onmouseover="this.style.opacity='0.7'"
+            onmouseout="this.style.opacity='1'"
+          >
+            <span style="font-size: 1.5rem;">🎸</span>
+            <span style="font-size: 1.5rem; font-weight: 700; color: #171717; letter-spacing: -0.02em;">GigHub</span>
+          </button>
 
-          <div class="flex items-center gap-6">
-            <div class="text-right hidden sm:block">
-              <div class="font-semibold text-neutral-900">${user.name}</div>
-              ${user.instrument ? `<div class="text-xs text-neutral-500">${user.instrument}</div>` : ''}
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <div style="text-align: right; display: none;" class="sm-block">
+              <div style="font-weight: 600; color: #171717; font-size: 0.9375rem;">${user.name}</div>
+              ${user.instrument ? `<div style="font-size: 0.75rem; color: #737373; margin-top: 0.125rem;">${user.instrument}</div>` : ''}
             </div>
             <button
               onclick="window.handleLogout()"
-              class="px-5 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border border-neutral-300 hover:border-neutral-400 rounded-full font-medium transition-all text-sm"
+              class="btn btn-secondary"
+              style="white-space: nowrap;"
             >
               로그아웃
             </button>
