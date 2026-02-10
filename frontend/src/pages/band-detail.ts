@@ -149,13 +149,13 @@ function renderBandSettingsModal(): string {
   return `
     <!-- 밴드 설정 모달 -->
     <div id="band-settings-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 px-4">
-      <div class="card-base w-full max-w-2xl scale-in shadow-2xl bg-zinc-900 border-zinc-800 max-h-[90vh] overflow-y-auto">
-        <div class="sticky top-0 bg-zinc-900 border-b border-zinc-800 p-6 pb-4">
+      <div class="card-base w-full max-w-2xl scale-in shadow-2xl max-h-[90vh] overflow-y-auto">
+        <div class="sticky top-0 bg-white border-b border-neutral-200 p-6 pb-4 rounded-t-2xl">
           <div class="flex justify-between items-center">
-            <h2 class="text-3xl font-bold text-white">밴드 설정</h2>
+            <h2 class="text-3xl font-bold text-neutral-900">밴드 설정</h2>
             <button
               onclick="window.hideBandSettingsModal()"
-              class="text-zinc-400 hover:text-white transition"
+              class="text-neutral-500 hover:text-neutral-700 transition"
             >
               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -167,10 +167,10 @@ function renderBandSettingsModal(): string {
         <div class="p-6 space-y-8">
           <!-- 밴드 정보 수정 -->
           <div>
-            <h3 class="text-xl font-bold text-white mb-4">밴드 정보</h3>
+            <h3 class="text-xl font-bold text-neutral-900 mb-4">밴드 정보</h3>
             <form id="update-band-form" class="space-y-4">
               <div>
-                <label class="block text-sm font-semibold text-zinc-300 mb-2">
+                <label class="block text-sm font-medium text-neutral-700 mb-2">
                   밴드 이름
                 </label>
                 <input
@@ -183,7 +183,7 @@ function renderBandSettingsModal(): string {
                 />
               </div>
               <div>
-                <label class="block text-sm font-semibold text-zinc-300 mb-2">
+                <label class="block text-sm font-medium text-neutral-700 mb-2">
                   설명 (선택)
                 </label>
                 <textarea
@@ -193,16 +193,16 @@ function renderBandSettingsModal(): string {
                   placeholder="밴드 설명"
                 ></textarea>
               </div>
-              <div id="update-error" class="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-lg hidden"></div>
-              <button type="submit" class="btn-primary w-full">
+              <div id="update-error" class="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl hidden"></div>
+              <button type="submit" class="btn-primary w-full py-3">
                 변경사항 저장
               </button>
             </form>
           </div>
 
           <!-- 초대 코드 관리 -->
-          <div class="border-t border-zinc-800 pt-8">
-            <h3 class="text-xl font-bold text-white mb-4">초대 코드</h3>
+          <div class="border-t border-neutral-200 pt-8">
+            <h3 class="text-xl font-bold text-neutral-900 mb-4">초대 코드</h3>
 
             <form id="create-invite-form" class="mb-6">
               <div class="flex gap-3">
@@ -219,27 +219,27 @@ function renderBandSettingsModal(): string {
                     <option value="LEADER">리더</option>
                   </select>
                 </div>
-                <button type="submit" class="btn-primary whitespace-nowrap">
+                <button type="submit" class="btn-primary whitespace-nowrap px-6">
                   코드 생성
                 </button>
               </div>
             </form>
 
             <div id="invite-codes-list" class="space-y-3">
-              <div class="text-center text-zinc-400 py-4">로딩 중...</div>
+              <div class="text-center text-neutral-500 py-4">로딩 중...</div>
             </div>
           </div>
 
           <!-- 밴드 삭제 -->
-          <div class="border-t border-zinc-800 pt-8">
-            <h3 class="text-xl font-bold text-red-400 mb-4">위험 구역</h3>
-            <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
-              <p class="text-zinc-300 mb-4">
+          <div class="border-t border-neutral-200 pt-8">
+            <h3 class="text-xl font-bold text-red-600 mb-4">위험 구역</h3>
+            <div class="bg-red-50 border border-red-200 rounded-xl p-5">
+              <p class="text-neutral-700 mb-4">
                 밴드를 삭제하면 모든 투표와 데이터가 영구적으로 삭제됩니다.
               </p>
               <button
                 onclick="window.confirmDeleteBand()"
-                class="btn-danger w-full"
+                class="btn-danger w-full py-3"
               >
                 밴드 삭제
               </button>
@@ -338,7 +338,7 @@ async function loadInviteCodes(bandId: number): Promise<void> {
 
     if (codes.length === 0) {
       container.innerHTML = `
-        <div class="text-center text-zinc-400 py-4">
+        <div class="text-center text-neutral-500 py-4">
           초대 코드가 없습니다
         </div>
       `
@@ -348,7 +348,7 @@ async function loadInviteCodes(bandId: number): Promise<void> {
     container.innerHTML = codes.map(code => renderInviteCodeCard(code)).join('')
   } catch (error) {
     container.innerHTML = `
-      <div class="text-center text-red-400 py-4">
+      <div class="text-center text-red-600 py-4">
         초대 코드를 불러오지 못했습니다
       </div>
     `
@@ -360,16 +360,16 @@ function renderInviteCodeCard(code: InviteCodeResponse): string {
   const isUsed = code.usedByUser !== undefined && code.usedByUser !== null
 
   return `
-    <div class="bg-zinc-800 border border-zinc-700 rounded-lg p-4">
+    <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-4">
       <div class="flex justify-between items-start mb-2">
         <div class="flex-1">
           <div class="flex items-center gap-2 mb-2">
-            <code class="text-sm font-mono bg-zinc-900 px-3 py-1 rounded text-blue-400 border border-zinc-700">
+            <code class="text-sm font-mono bg-white px-3 py-1.5 rounded-lg text-blue-600 border border-neutral-300 font-semibold">
               ${code.code}
             </code>
             <button
               onclick="navigator.clipboard.writeText('${code.code}'); window.showToast?.('복사되었습니다', 'success')"
-              class="text-zinc-400 hover:text-white transition"
+              class="text-neutral-500 hover:text-neutral-700 transition"
               title="복사"
             >
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -378,19 +378,19 @@ function renderInviteCodeCard(code: InviteCodeResponse): string {
               </svg>
             </button>
           </div>
-          <div class="flex items-center gap-2 text-xs text-zinc-400">
+          <div class="flex items-center gap-2 text-xs text-neutral-600">
             <span class="px-2 py-1 rounded ${
               code.role === 'LEADER'
-                ? 'bg-blue-500/20 text-blue-400'
-                : 'bg-zinc-700 text-zinc-300'
+                ? 'badge-leader'
+                : 'badge-neutral'
             }">
               ${code.role === 'LEADER' ? '리더' : '멤버'}
             </span>
             ${
               isUsed
-                ? `<span class="text-green-400">✓ 사용됨 (${code.usedByUser?.name})</span>`
+                ? `<span class="text-emerald-600 font-medium">✓ 사용됨 (${code.usedByUser?.name})</span>`
                 : isExpired
-                ? `<span class="text-red-400">만료됨</span>`
+                ? `<span class="text-red-600 font-medium">만료됨</span>`
                 : `<span>만료: ${formatDate(code.expiresAt)}</span>`
             }
           </div>
@@ -400,7 +400,7 @@ function renderInviteCodeCard(code: InviteCodeResponse): string {
             ? `
           <button
             onclick="window.deleteInviteCodeConfirm?.('${code.code}')"
-            class="text-red-400 hover:text-red-300 transition"
+            class="text-red-500 hover:text-red-600 transition"
             title="삭제"
           >
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">

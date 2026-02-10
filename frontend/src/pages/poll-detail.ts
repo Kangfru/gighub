@@ -15,9 +15,9 @@ export async function renderPollDetailPage(
   // 로딩 UI
   app.innerHTML = `
     ${renderNavbar()}
-    <div class="min-h-screen bg-[#0a0a0a] py-8">
+    <div class="min-h-screen bg-neutral-50 py-8">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center text-gray-400">로딩 중...</div>
+        <div class="text-center text-neutral-500">로딩 중...</div>
       </div>
     </div>
   `
@@ -31,9 +31,9 @@ export async function renderPollDetailPage(
     )
 
     const statusColors = {
-      UPCOMING: 'bg-blue-500',
-      ACTIVE: 'bg-green-500',
-      ENDED: 'bg-gray-600'
+      UPCOMING: 'badge-primary',
+      ACTIVE: 'badge-success',
+      ENDED: 'badge-neutral'
     }
 
     const statusLabels = {
@@ -44,33 +44,33 @@ export async function renderPollDetailPage(
 
     app.innerHTML = `
       ${renderNavbar()}
-      <div class="min-h-screen bg-[#0a0a0a] py-8">
+      <div class="min-h-screen bg-neutral-50 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <!-- 뒤로가기 -->
           <button
             onclick="window.navigateTo('/bands/${poll.bandId}')"
-            class="text-blue-400 hover:text-blue-300 mb-4"
+            class="text-blue-600 hover:text-blue-700 mb-4 font-medium"
           >
             ← 밴드로 돌아가기
           </button>
 
           <!-- 투표 정보 -->
-          <div class="bg-[#111111] border border-gray-800 rounded-lg p-6 mb-8">
+          <div class="bg-white border border-neutral-200 rounded-2xl p-8 mb-8 shadow-sm">
             <div class="flex justify-between items-start mb-4">
               <div>
-                <h1 class="text-3xl font-bold text-white">${poll.title}</h1>
+                <h1 class="text-3xl font-bold text-neutral-900">${poll.title}</h1>
                 ${
                   poll.description
-                    ? `<p class="text-gray-400 mt-2">${poll.description}</p>`
+                    ? `<p class="text-neutral-600 mt-2">${poll.description}</p>`
                     : ''
                 }
               </div>
-              <span class="${statusColors[poll.status]} text-white px-3 py-1 rounded">
+              <span class="badge ${statusColors[poll.status]} px-4 py-1.5">
                 ${statusLabels[poll.status]}
               </span>
             </div>
 
-            <div class="text-sm text-gray-500 space-y-1">
+            <div class="text-sm text-neutral-500 space-y-1 pt-4 border-t border-neutral-200">
               <div>기간: ${formatDateTime(poll.startDate)} ~ ${formatDateTime(
       poll.endDate
     )}</div>
@@ -85,7 +85,7 @@ export async function renderPollDetailPage(
             <div class="mb-6">
               <button
                 onclick="window.showAddSongModal()"
-                class="btn-gradient text-white px-6 py-2 rounded-lg transition font-medium"
+                class="btn-primary px-8 py-3 rounded-full"
               >
                 + 곡 제안하기
               </button>
@@ -95,11 +95,11 @@ export async function renderPollDetailPage(
           }
 
           <!-- 곡 목록 -->
-          <h2 class="text-2xl font-bold text-white mb-4">제안된 곡</h2>
+          <h2 class="text-2xl font-bold text-neutral-900 mb-6">제안된 곡</h2>
           ${
             poll.songs.length === 0
               ? `
-            <div class="bg-[#111111] border border-gray-800 rounded-lg p-8 text-center text-gray-400">
+            <div class="bg-white border border-neutral-200 rounded-2xl p-8 text-center text-neutral-500 shadow-sm">
               <p>아직 제안된 곡이 없습니다.</p>
               ${
                 poll.status === 'ACTIVE'
@@ -127,11 +127,11 @@ export async function renderPollDetailPage(
 
       <!-- 곡 제안 모달 -->
       <div id="add-song-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 px-4">
-        <div class="bg-[#111111] border border-gray-800 rounded-2xl p-8 w-full max-w-md">
-          <h2 class="text-2xl font-bold text-white mb-6">곡 제안하기</h2>
-          <form id="add-song-form" class="space-y-4">
+        <div class="card-base w-full max-w-md p-8 shadow-2xl">
+          <h2 class="text-2xl font-bold text-neutral-900 mb-6">곡 제안하기</h2>
+          <form id="add-song-form" class="space-y-5">
             <div>
-              <label class="block text-sm font-medium text-gray-300 mb-1">
+              <label class="block text-sm font-medium text-neutral-700 mb-2">
                 아티스트
               </label>
               <input
@@ -139,12 +139,13 @@ export async function renderPollDetailPage(
                 id="artist"
                 required
                 maxlength="100"
-                class="w-full px-3 py-2 bg-[#1a1a1a] border border-gray-700 rounded-lg focus:outline-none text-white"
+                class="input-base"
+                placeholder="아티스트명"
               />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-300 mb-1">
+              <label class="block text-sm font-medium text-neutral-700 mb-2">
                 곡 제목
               </label>
               <input
@@ -152,47 +153,49 @@ export async function renderPollDetailPage(
                 id="title"
                 required
                 maxlength="200"
-                class="w-full px-3 py-2 bg-[#1a1a1a] border border-gray-700 rounded-lg focus:outline-none text-white"
+                class="input-base"
+                placeholder="곡 제목"
               />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-300 mb-1">
+              <label class="block text-sm font-medium text-neutral-700 mb-2">
                 YouTube URL (선택)
               </label>
               <input
                 type="url"
                 id="youtube-url"
                 maxlength="500"
-                class="w-full px-3 py-2 bg-[#1a1a1a] border border-gray-700 rounded-lg focus:outline-none text-white"
+                class="input-base"
                 placeholder="https://www.youtube.com/watch?v=..."
               />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-300 mb-1">
+              <label class="block text-sm font-medium text-neutral-700 mb-2">
                 설명 (선택)
               </label>
               <textarea
                 id="song-description"
                 rows="3"
-                class="w-full px-3 py-2 bg-[#1a1a1a] border border-gray-700 rounded-lg focus:outline-none text-white resize-none"
+                class="input-base resize-none"
+                placeholder="곡에 대한 설명"
               ></textarea>
             </div>
 
-            <div id="modal-error" class="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-lg hidden"></div>
+            <div id="modal-error" class="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl hidden"></div>
 
-            <div class="flex gap-2">
+            <div class="flex gap-3 pt-2">
               <button
                 type="button"
                 onclick="window.hideAddSongModal()"
-                class="flex-1 btn-secondary py-2 px-4 rounded-lg transition font-medium"
+                class="flex-1 btn-secondary py-3"
               >
                 취소
               </button>
               <button
                 type="submit"
-                class="flex-1 btn-gradient text-white py-2 px-4 rounded-lg transition font-medium"
+                class="flex-1 btn-primary py-3"
               >
                 제안하기
               </button>
@@ -206,9 +209,9 @@ export async function renderPollDetailPage(
   } catch (error) {
     app.innerHTML = `
       ${renderNavbar()}
-      <div class="min-h-screen bg-gray-100 py-8">
+      <div class="min-h-screen bg-neutral-50 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center text-red-500">
+          <div class="text-center text-red-600 font-medium">
             오류가 발생했습니다: ${
               error instanceof Error ? error.message : '알 수 없는 오류'
             }
