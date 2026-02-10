@@ -17,7 +17,7 @@ spring:
       enabled: false
 
 jwt:
-  secret: gighub-test-secret-key-at-least-32-bytes-0123456789-0123456789-0123456789
+  secret: dGVzdC1zZWNyZXQta2V5LWZvci10ZXN0aW5nLXB1cnBvc2VzLW9ubHktbXVzdC1iZS1sb25nLWVub3VnaC1mb3ItaG1hYy1zaGEyNTY=
   access-expiry: 3600000
   refresh-expiry: 604800000
 

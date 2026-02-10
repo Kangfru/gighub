@@ -5,6 +5,7 @@ import com.gighub.domain.user.User
 import com.gighub.domain.user.UserRepository
 import com.gighub.exception.ErrorCode
 import com.gighub.exception.GigHubException
+import com.gighub.security.jwt.JwtProperties
 import com.gighub.security.jwt.JwtTokenProvider
 import com.gighub.web.auth.dto.LoginRequest
 import com.gighub.web.auth.dto.RegisterRequest
@@ -25,13 +26,19 @@ class AuthServiceTest {
     private val bandMemberRepository = mockk<BandMemberRepository>()
     private val passwordEncoder = mockk<PasswordEncoder>()
     private val jwtTokenProvider = mockk<JwtTokenProvider>()
+    private val jwtProperties = JwtProperties(
+        secret = "test-secret-key-for-testing-purposes-only-must-be-long-enough",
+        accessExpiry = 3600000L, // 1 hour
+        refreshExpiry = 604800000L // 7 days
+    )
 
     private val authService = AuthService(
         userRepository,
         inviteCodeRepository,
         bandMemberRepository,
         passwordEncoder,
-        jwtTokenProvider
+        jwtTokenProvider,
+        jwtProperties
     )
 
     @AfterEach
@@ -71,6 +78,7 @@ class AuthServiceTest {
         assertNotNull(response)
         assertEquals("accessToken", response.accessToken)
         assertEquals("refreshToken", response.refreshToken)
+        assertEquals(3600L, response.expiresIn) // 1 hour in seconds
         assertEquals(request.email, response.user.email)
         assertEquals(request.name, response.user.name)
         assertNull(response.band)
@@ -203,6 +211,7 @@ class AuthServiceTest {
         assertNotNull(response)
         assertEquals("accessToken", response.accessToken)
         assertEquals("refreshToken", response.refreshToken)
+        assertEquals(3600L, response.expiresIn) // 1 hour in seconds
         assertEquals(user.email, response.user.email)
         assertEquals(0, response.bands.size)
     }

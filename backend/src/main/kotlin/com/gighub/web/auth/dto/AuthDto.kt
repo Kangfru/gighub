@@ -43,6 +43,7 @@ data class RefreshTokenRequest(
 data class TokenResponse(
     val accessToken: String,
     val refreshToken: String,
+    val expiresIn: Long, // Access token 만료 시간 (초 단위)
     val user: UserInfo,
     val band: BandInfo? = null // 회원가입 시에만 제공
 )
@@ -50,6 +51,7 @@ data class TokenResponse(
 data class LoginResponse(
     val accessToken: String,
     val refreshToken: String,
+    val expiresIn: Long, // Access token 만료 시간 (초 단위)
     val user: UserInfo,
     val bands: List<UserBandInfo>
 )
@@ -82,5 +84,6 @@ data class UserBandInfo(
 )
 
 data class RefreshTokenResponse(
-    val accessToken: String
+    val accessToken: String,
+    val expiresIn: Long // Access token 만료 시간 (초 단위)
 )

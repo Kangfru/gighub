@@ -90,7 +90,7 @@ export function renderLoginPage(): void {
       const response = await login({ email, password })
 
       // 토큰과 사용자 정보 저장
-      saveTokens(response.accessToken, response.refreshToken)
+      saveTokens(response.accessToken, response.refreshToken, response.expiresIn)
       saveUser(response.user)
 
       showToast('로그인 성공!', 'success')

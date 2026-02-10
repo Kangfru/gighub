@@ -142,7 +142,7 @@ export function renderRegisterPage(): void {
       })
 
       // 토큰과 사용자 정보 저장
-      saveTokens(response.accessToken, response.refreshToken)
+      saveTokens(response.accessToken, response.refreshToken, response.expiresIn)
       saveUser(response.user)
 
       showToast('회원가입 성공! 환영합니다 🎉', 'success')

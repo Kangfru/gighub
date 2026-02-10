@@ -10,6 +10,6 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
 
 jwt:
-  secret: test-secret-key
+  secret: dGVzdC1zZWNyZXQta2V5LWZvci10ZXN0aW5nLXB1cnBvc2VzLW9ubHktbXVzdC1iZS1sb25nLWVub3VnaC1mb3ItaG1hYy1zaGEyNTY=
   access-expiry: 3600000
   refresh-expiry: 604800000

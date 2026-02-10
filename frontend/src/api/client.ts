@@ -1,7 +1,8 @@
 // Fetch wrapper with authentication
 
-import { getAccessToken, getRefreshToken, saveTokens, clearAuth } from '../utils/auth'
+import { getAccessToken, getRefreshToken, saveTokens, clearAuth, isTokenExpired } from '../utils/auth'
 import { router } from '../utils/router'
+import type { RefreshTokenResponse } from './auth'
 
 export interface ApiError {
   code: string
@@ -26,10 +27,21 @@ class ApiClient {
       headers.set('Content-Type', 'application/json')
     }
 
-    // Access Token 추가
+    // 토큰 만료 체크 및 자동 갱신
     const token = getAccessToken()
-    if (token) {
-      headers.set('Authorization', `Bearer ${token}`)
+    if (token && isTokenExpired()) {
+      const refreshed = await this.refreshAccessToken()
+      if (!refreshed) {
+        clearAuth()
+        router.navigate('/login')
+        throw new Error('인증이 만료되었습니다. 다시 로그인해주세요.')
+      }
+    }
+
+    // Access Token 추가
+    const currentToken = getAccessToken()
+    if (currentToken) {
+      headers.set('Authorization', `Bearer ${currentToken}`)
     }
 
     try {
@@ -128,8 +140,8 @@ class ApiClient {
       })
 
       if (response.ok) {
-        const data = await response.json()
-        saveTokens(data.accessToken, refreshToken)
+        const data: RefreshTokenResponse = await response.json()
+        saveTokens(data.accessToken, refreshToken, data.expiresIn)
         return true
       }
 

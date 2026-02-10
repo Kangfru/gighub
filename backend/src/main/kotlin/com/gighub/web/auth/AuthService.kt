@@ -6,6 +6,7 @@ import com.gighub.domain.user.User
 import com.gighub.domain.user.UserRepository
 import com.gighub.exception.ErrorCode
 import com.gighub.exception.GigHubException
+import com.gighub.security.jwt.JwtProperties
 import com.gighub.security.jwt.JwtTokenProvider
 import com.gighub.utils.DateTimeUtils
 import com.gighub.web.auth.dto.*
@@ -21,7 +22,8 @@ class AuthService(
     private val inviteCodeRepository: InviteCodeRepository,
     private val bandMemberRepository: BandMemberRepository,
     private val passwordEncoder: PasswordEncoder,
-    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtTokenProvider: JwtTokenProvider,
+    private val jwtProperties: JwtProperties
 ) {
 
     @Transactional
@@ -79,6 +81,7 @@ class AuthService(
         return TokenResponse(
             accessToken = accessToken,
             refreshToken = refreshToken,
+            expiresIn = jwtProperties.accessExpiry / 1000, // 밀리초를 초로 변환
             user = UserInfo.from(savedUser),
             band = bandInfo
         )
@@ -118,6 +121,7 @@ class AuthService(
         return LoginResponse(
             accessToken = accessToken,
             refreshToken = refreshToken,
+            expiresIn = jwtProperties.accessExpiry / 1000, // 밀리초를 초로 변환
             user = UserInfo.from(user),
             bands = bands
         )
@@ -152,6 +156,9 @@ class AuthService(
         // 4. 새로운 Access 토큰 생성
         val accessToken = jwtTokenProvider.generateAccessToken(user.id, user.email)
 
-        return RefreshTokenResponse(accessToken = accessToken)
+        return RefreshTokenResponse(
+            accessToken = accessToken,
+            expiresIn = jwtProperties.accessExpiry / 1000 // 밀리초를 초로 변환
+        )
     }
 }
