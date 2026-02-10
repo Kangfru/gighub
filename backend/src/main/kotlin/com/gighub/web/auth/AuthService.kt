@@ -50,12 +50,6 @@ class AuthService(
                     errorCode = ErrorCode.INVITE_CODE_NOT_FOUND
                 )
 
-            if (inviteCode.usedByUser != null) {
-                throw GigHubException.BusinessException(
-                    errorCode = ErrorCode.INVITE_CODE_ALREADY_USED
-                )
-            }
-
             if (inviteCode.expiresAt.isBefore(LocalDateTime.now())) {
                 throw GigHubException.BusinessException(
                     errorCode = ErrorCode.INVITE_CODE_EXPIRED
@@ -69,10 +63,6 @@ class AuthService(
                 role = inviteCode.inviteRole
             )
             bandMemberRepository.save(bandMember)
-
-            // 초대 코드 사용 처리
-            inviteCode.usedByUser = savedUser
-            inviteCodeRepository.save(inviteCode)
 
             bandInfo = BandInfo(
                 id = inviteCode.band.id,

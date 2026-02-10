@@ -107,7 +107,7 @@ export async function renderBandDetailPage(
                 </div>
               `
                   : `
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
                   ${polls.map((poll) => renderPollCard(poll)).join('')}
                 </div>
               `
