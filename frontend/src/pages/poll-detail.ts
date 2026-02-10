@@ -15,9 +15,9 @@ export async function renderPollDetailPage(
   // 로딩 UI
   app.innerHTML = `
     ${renderNavbar()}
-    <div class="min-h-screen bg-neutral-50 py-8">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center text-neutral-500">로딩 중...</div>
+    <div style="min-height: 100vh; background: #fafafa; padding: 2rem 0;">
+      <div style="max-width: 80rem; margin: 0 auto; padding: 0 1.5rem;">
+        <div style="text-align: center; color: #737373; padding: 3rem;">로딩 중...</div>
       </div>
     </div>
   `
@@ -44,72 +44,70 @@ export async function renderPollDetailPage(
 
     app.innerHTML = `
       ${renderNavbar()}
-      <div class="min-h-screen bg-neutral-50 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div style="min-height: 100vh; background: #fafafa; padding: 2rem 0;">
+        <div style="max-width: 80rem; margin: 0 auto; padding: 0 1.5rem;">
           <!-- 뒤로가기 -->
           <button
             onclick="window.navigateTo('/bands/${poll.bandId}')"
-            class="text-blue-600 hover:text-blue-700 mb-4 font-medium"
+            style="color: #171717; font-weight: 500; margin-bottom: 1rem; text-decoration: underline; text-underline-offset: 2px; background: none; border: none; cursor: pointer; font-size: 0.9375rem;"
           >
             ← 밴드로 돌아가기
           </button>
 
           <!-- 투표 정보 -->
-          <div class="bg-white border border-neutral-200 rounded-2xl p-8 mb-8 shadow-sm">
-            <div class="flex justify-between items-start mb-4">
-              <div>
-                <h1 class="text-3xl font-bold text-neutral-900">${poll.title}</h1>
+          <div class="card fade-in" style="margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+              <div style="flex: 1;">
+                <h1 style="font-size: 2rem; font-weight: 600; color: #171717; margin-bottom: 0.5rem;">${poll.title}</h1>
                 ${
                   poll.description
-                    ? `<p class="text-neutral-600 mt-2">${poll.description}</p>`
+                    ? `<p style="color: #737373;">${poll.description}</p>`
                     : ''
                 }
               </div>
-              <span class="badge ${statusColors[poll.status]} px-4 py-1.5">
+              <span class="badge ${statusColors[poll.status]}" style="padding: 0.375rem 1rem;">
                 ${statusLabels[poll.status]}
               </span>
             </div>
 
-            <div class="text-sm text-neutral-500 space-y-1 pt-4 border-t border-neutral-200">
-              <div>기간: ${formatDateTime(poll.startDate)} ~ ${formatDateTime(
-      poll.endDate
-    )}</div>
+            <div style="font-size: 0.875rem; color: #737373; display: flex; flex-direction: column; gap: 0.25rem; padding-top: 1rem; border-top: 1px solid #e5e5e5;">
+              <div>기간: ${formatDateTime(poll.startDate)} ~ ${formatDateTime(poll.endDate)}</div>
               <div>생성자: ${poll.createdBy.name}</div>
             </div>
           </div>
 
-          <!-- 곡 제안 버튼 -->
-          ${
-            poll.status === 'ACTIVE'
-              ? `
-            <div class="mb-6">
+          <!-- 곡 제안 버튼 & 제목 -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.5rem; font-weight: 600; color: #171717;">제안된 곡</h2>
+            ${
+              poll.status === 'ACTIVE'
+                ? `
               <button
                 onclick="window.showAddSongModal()"
-                class="btn-primary px-8 py-3 rounded-full"
+                class="btn btn-primary"
               >
                 + 곡 제안하기
               </button>
-            </div>
-          `
-              : ''
-          }
+            `
+                : ''
+            }
+          </div>
 
           <!-- 곡 목록 -->
-          <h2 class="text-2xl font-bold text-neutral-900 mb-6">제안된 곡</h2>
           ${
             poll.songs.length === 0
               ? `
-            <div class="bg-white border border-neutral-200 rounded-2xl p-8 text-center text-neutral-500 shadow-sm">
-              <p>아직 제안된 곡이 없습니다.</p>
+            <div class="card" style="text-align: center; padding: 3rem;">
+              <p style="color: #737373;">아직 제안된 곡이 없습니다.</p>
               ${
                 poll.status === 'ACTIVE'
-                  ? '<p class="text-sm mt-2">첫 곡을 제안해보세요!</p>'
+                  ? '<p style="color: #a3a3a3; font-size: 0.875rem; margin-top: 0.5rem;">첫 곡을 제안해보세요!</p>'
                   : ''
               }
             </div>
           `
               : `
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr)); gap: 1.5rem;">
               ${poll.songs
                 .map((song) =>
                   renderSongCard(
@@ -203,12 +201,13 @@ export async function renderPollDetailPage(
   } catch (error) {
     app.innerHTML = `
       ${renderNavbar()}
-      <div class="min-h-screen bg-neutral-50 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center text-red-600 font-medium">
-            오류가 발생했습니다: ${
-              error instanceof Error ? error.message : '알 수 없는 오류'
-            }
+      <div style="min-height: 100vh; background: #fafafa; padding: 2rem 0;">
+        <div style="max-width: 80rem; margin: 0 auto; padding: 0 1.5rem;">
+          <div style="text-align: center; padding: 3rem;">
+            <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">오류가 발생했습니다</p>
+            <p style="color: #737373; font-size: 0.875rem;">
+              ${error instanceof Error ? error.message : '알 수 없는 오류'}
+            </p>
           </div>
         </div>
       </div>
