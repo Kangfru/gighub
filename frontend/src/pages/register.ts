@@ -9,101 +9,110 @@ export function renderRegisterPage(): void {
   const app = document.querySelector<HTMLDivElement>('#app')!
 
   app.innerHTML = `
-    <div class="min-h-screen flex items-center justify-center p-8 bg-neutral-50 w-full">
-      <div class="card-base w-full max-w-md scale-in p-10 sm:p-12">
-        <div class="text-center mb-12">
+    <div class="min-h-screen flex items-center justify-center p-6" style="background: #fafafa;">
+      <div class="w-full max-w-md">
+        <!-- Logo & Title -->
+        <div class="text-center mb-12 fade-in">
           <div class="text-5xl mb-4">🎸</div>
-          <h1 class="text-4xl font-bold text-neutral-900 mb-3 tracking-tight">GigHub</h1>
-          <p class="text-neutral-500 text-base">밴드 연습곡 투표 시스템</p>
+          <h1 class="text-4xl font-semibold mb-3" style="color: #171717; letter-spacing: -0.02em;">GigHub</h1>
+          <p class="text-base" style="color: #737373;">밴드 연습곡 투표 시스템</p>
         </div>
 
-        <form id="register-form" class="space-y-5">
-          <div class="space-y-2">
-            <label class="block text-sm font-medium text-neutral-700">
-              이메일
-            </label>
-            <input
-              type="email"
-              id="email"
-              required
-              class="input-base"
-              placeholder="example@email.com"
-            />
+        <!-- Register Card -->
+        <div class="card fade-in" style="animation-delay: 0.1s;">
+          <h2 class="text-2xl font-semibold mb-8" style="color: #171717;">회원가입</h2>
+
+          <form id="register-form" class="space-y-6">
+            <!-- Email Input -->
+            <div class="form-group">
+              <label class="label">이메일</label>
+              <input
+                type="email"
+                id="email"
+                required
+                class="input"
+                placeholder="example@email.com"
+                autocomplete="email"
+              />
+            </div>
+
+            <!-- Password Input -->
+            <div class="form-group">
+              <label class="label">비밀번호</label>
+              <input
+                type="password"
+                id="password"
+                required
+                minlength="8"
+                class="input"
+                placeholder="최소 8자"
+                autocomplete="new-password"
+              />
+            </div>
+
+            <!-- Name Input -->
+            <div class="form-group">
+              <label class="label">이름</label>
+              <input
+                type="text"
+                id="name"
+                required
+                maxlength="50"
+                class="input"
+                placeholder="홍길동"
+                autocomplete="name"
+              />
+            </div>
+
+            <!-- Instrument Input -->
+            <div class="form-group">
+              <label class="label">악기/역할 <span style="color: #a3a3a3; font-weight: 400;">(선택)</span></label>
+              <input
+                type="text"
+                id="instrument"
+                class="input"
+                placeholder="예: 기타, 보컬, 드럼"
+              />
+            </div>
+
+            <!-- Invite Code Input -->
+            <div class="form-group">
+              <label class="label">초대 코드 <span style="color: #a3a3a3; font-weight: 400;">(선택)</span></label>
+              <input
+                type="text"
+                id="invite-code"
+                class="input"
+                placeholder="밴드 초대 코드"
+                style="font-family: monospace;"
+              />
+              <div class="alert alert-info mt-3">
+                💡 초대 코드가 없어도 가입 가능합니다. 가입 후 밴드를 만들거나 초대를 받으세요.
+              </div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="error-message" class="alert alert-error hidden"></div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              class="btn btn-primary btn-lg w-full"
+              style="margin-top: 2rem;"
+            >
+              가입하기
+            </button>
+          </form>
+
+          <!-- Login Link -->
+          <div class="text-center mt-8 pt-8" style="border-top: 1px solid #e5e5e5;">
+            <span style="color: #737373; font-size: 0.9375rem;">이미 계정이 있으신가요?</span>
+            <button
+              onclick="window.navigateTo('/login')"
+              style="color: #171717; font-weight: 500; margin-left: 0.5rem; text-decoration: underline; text-underline-offset: 2px; background: none; border: none; cursor: pointer; font-size: 0.9375rem;"
+            >
+              로그인
+            </button>
           </div>
-
-          <div class="space-y-2">
-            <label class="block text-sm font-medium text-neutral-700">
-              비밀번호
-            </label>
-            <input
-              type="password"
-              id="password"
-              required
-              minlength="8"
-              class="input-base"
-              placeholder="최소 8자"
-            />
-          </div>
-
-          <div class="space-y-2">
-            <label class="block text-sm font-medium text-neutral-700">
-              이름
-            </label>
-            <input
-              type="text"
-              id="name"
-              required
-              maxlength="50"
-              class="input-base"
-              placeholder="홍길동"
-            />
-          </div>
-
-          <div class="space-y-2">
-            <label class="block text-sm font-medium text-neutral-700">
-              악기/역할 (선택)
-            </label>
-            <input
-              type="text"
-              id="instrument"
-              class="input-base"
-              placeholder="예: 기타, 보컬, 드럼 등"
-            />
-          </div>
-
-          <div class="space-y-2">
-            <label class="block text-sm font-medium text-neutral-700">
-              초대 코드 (선택)
-            </label>
-            <input
-              type="text"
-              id="invite-code"
-              class="input-base"
-              placeholder="밴드 초대 코드"
-            />
-            <p class="text-xs text-blue-700 mt-2 bg-blue-50 border border-blue-200 px-4 py-3 rounded-xl leading-relaxed">
-              💡 초대 코드가 없어도 가입 가능합니다. 가입 후 밴드를 만들거나 초대를 받으세요.
-            </p>
-          </div>
-
-          <div id="error-message" class="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl hidden"></div>
-
-          <button
-            type="submit"
-            class="w-full btn-primary py-4 text-base mt-6"
-          >
-            가입하기
-          </button>
-        </form>
-
-        <div class="mt-8 text-center text-sm text-neutral-500">
-          이미 계정이 있으신가요?
-          <button
-            onclick="window.navigateTo('/login')"
-            class="text-blue-600 hover:text-blue-700 font-medium hover:underline transition ml-1"
-          >
-            로그인
-          </button>
         </div>
       </div>
     </div>
@@ -116,15 +125,10 @@ export function renderRegisterPage(): void {
     e.preventDefault()
 
     const email = (document.querySelector('#email') as HTMLInputElement).value
-    const password = (document.querySelector('#password') as HTMLInputElement)
-      .value
+    const password = (document.querySelector('#password') as HTMLInputElement).value
     const name = (document.querySelector('#name') as HTMLInputElement).value
-    const instrument = (
-      document.querySelector('#instrument') as HTMLInputElement
-    ).value
-    const inviteCode = (
-      document.querySelector('#invite-code') as HTMLInputElement
-    ).value
+    const instrument = (document.querySelector('#instrument') as HTMLInputElement).value
+    const inviteCode = (document.querySelector('#invite-code') as HTMLInputElement).value
 
     try {
       errorMessage.classList.add('hidden')
