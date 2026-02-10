@@ -6,12 +6,16 @@ import { vote, cancelVote } from '../api/votes'
 export function renderSongCard(
   song: SongResponse,
   isVoted: boolean,
-  voteId?: number
+  voteId?: number,
+  currentUserId?: number
 ): string {
   const voteButtonText = isVoted ? '투표 취소' : '투표하기'
   const voteAction = isVoted
     ? `window.handleCancelVote(${voteId})`
     : `window.handleVote(${song.id})`
+
+  // 수정 권한 확인 (제안자 본인)
+  const canEdit = currentUserId && song.suggestedBy.id === currentUserId
 
   return `
     <div class="card" style="transition: background-color 0.2s;">
@@ -55,6 +59,17 @@ export function renderSongCard(
                 ${song.suggestedBy.name.substring(0, 1)}
             </span>
             <span style="font-size: 0.875rem; color: #525252;">제안: ${song.suggestedBy.name}</span>
+            ${canEdit ? `
+              <button
+                onclick="window.showEditSongModal(${song.id})"
+                style="color: #737373; background: none; border: none; cursor: pointer; padding: 0.25rem; display: inline-flex; align-items: center;"
+                title="곡 수정"
+              >
+                <svg style="width: 1rem; height: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+              </button>
+            ` : ''}
         </div>
         <button
           onclick="${voteAction}"
