@@ -78,6 +78,16 @@ class VoteService(
             )
         }
 
+        // 투표 진행 중인지 확인
+        val poll = vote.song.poll
+        val now = DateTimeUtils.now()
+        if (now.isBefore(poll.startDate) || now.isAfter(poll.endDate)) {
+            throw GigHubException.BusinessException(
+                errorCode = ErrorCode.POLL_NOT_ACTIVE,
+                message = "투표 기간이 아닙니다"
+            )
+        }
+
         voteRepository.delete(vote)
     }
 

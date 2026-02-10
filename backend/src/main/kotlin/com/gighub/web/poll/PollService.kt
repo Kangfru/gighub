@@ -84,19 +84,26 @@ class PollService(
         val voteCounts = voteRepository.countVotesBySongForPoll(pollId)
             .associate { it.songId to it.voteCount.toInt() }
 
-        val songResponses = songs.map { song ->
-            SongResponse.from(song, voteCounts[song.id] ?: 0)
-        }
-
-        val myVotes = voteRepository.findByUserIdAndPollId(userId, pollId)
-            .map { it.song.id }
-
         val now = DateTimeUtils.now()
         val status = when {
             now.isBefore(poll.startDate) -> PollStatus.UPCOMING
             now.isAfter(poll.endDate) -> PollStatus.ENDED
             else -> PollStatus.ACTIVE
         }
+
+        // 종료된 투표는 득표수 기준 내림차순 정렬, 그 외는 생성일 기준 오름차순
+        val songResponses = songs
+            .map { song -> SongResponse.from(song, voteCounts[song.id] ?: 0) }
+            .let { responses ->
+                if (status == PollStatus.ENDED) {
+                    responses.sortedByDescending { it.voteCount }
+                } else {
+                    responses.sortedBy { it.createdAt }
+                }
+            }
+
+        val myVotes = voteRepository.findByUserIdAndPollId(userId, pollId)
+            .map { it.song.id }
 
         return PollDetailResponse(
             id = poll.id,

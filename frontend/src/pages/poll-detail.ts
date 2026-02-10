@@ -129,12 +129,14 @@ export async function renderPollDetailPage(
               : `
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr)); gap: 1.5rem;">
               ${poll.songs
-                .map((song) =>
+                .map((song, index) =>
                   renderSongCard(
                     song,
                     myVoteMap.has(song.id),
                     myVoteMap.get(song.id),
-                    currentUser?.id
+                    currentUser?.id,
+                    poll.status === 'ENDED' ? index + 1 : undefined,
+                    poll.status === 'ENDED'
                   )
                 )
                 .join('')}

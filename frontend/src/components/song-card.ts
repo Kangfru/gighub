@@ -7,7 +7,9 @@ export function renderSongCard(
   song: SongResponse,
   isVoted: boolean,
   voteId?: number,
-  currentUserId?: number
+  currentUserId?: number,
+  rank?: number,
+  isEnded: boolean = false
 ): string {
   const voteButtonText = isVoted ? '투표 취소' : '투표하기'
   const voteAction = isVoted
@@ -17,9 +19,23 @@ export function renderSongCard(
   // 수정 권한 확인 (제안자 본인)
   const canEdit = currentUserId && song.suggestedBy.id === currentUserId
 
+  // 순위 배지 생성
+  const getRankBadge = (rank: number) => {
+    const medals = ['🥇', '🥈', '🥉']
+    if (rank <= 3) {
+      return `<div style="font-size: 2rem; line-height: 1;">${medals[rank - 1]}</div>`
+    }
+    return `<div style="font-size: 1.25rem; font-weight: 700; color: #737373;">${rank}위</div>`
+  }
+
   return `
-    <div class="card" style="transition: background-color 0.2s;">
-      <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+    <div class="card" style="transition: background-color 0.2s; ${rank ? 'position: relative;' : ''}">
+      ${rank ? `
+        <div style="position: absolute; top: 1rem; left: 1rem; display: flex; align-items: center; justify-content: center; width: 3rem; height: 3rem; background: white; border-radius: 9999px; border: 2px solid #e5e5e5; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          ${getRankBadge(rank)}
+        </div>
+      ` : ''}
+      <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem; ${rank ? 'margin-left: 3.5rem;' : ''}">
         <div style="flex: 1;">
           <h4 style="font-size: 1.25rem; font-weight: 600; color: #171717; margin-bottom: 0.25rem;">${song.artist}</h4>
           <p style="color: #525252; font-weight: 500;">${song.title}</p>
@@ -59,7 +75,7 @@ export function renderSongCard(
                 ${song.suggestedBy.name.substring(0, 1)}
             </span>
             <span style="font-size: 0.875rem; color: #525252;">제안: ${song.suggestedBy.name}</span>
-            ${canEdit ? `
+            ${canEdit && !isEnded ? `
               <button
                 onclick="window.showEditSongModal(${song.id})"
                 style="color: #737373; background: none; border: none; cursor: pointer; padding: 0.25rem; display: inline-flex; align-items: center;"
@@ -71,23 +87,25 @@ export function renderSongCard(
               </button>
             ` : ''}
         </div>
-        <button
-          onclick="${voteAction}"
-          class="btn ${isVoted ? '' : 'btn-primary'}"
-          style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; ${isVoted ? 'background: #fef2f2; color: #dc2626; border: 1px solid #fecaca;' : ''}"
-          ${isVoted ? 'onmouseover="this.style.background=\'#fee2e2\'" onmouseout="this.style.background=\'#fef2f2\'"' : ''}
-        >
-          ${isVoted ? `
-            <svg style="width: 1rem; height: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          ` : `
-            <svg style="width: 1rem; height: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-          `}
-          ${voteButtonText}
-        </button>
+        ${!isEnded ? `
+          <button
+            onclick="${voteAction}"
+            class="btn ${isVoted ? '' : 'btn-primary'}"
+            style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; ${isVoted ? 'background: #fef2f2; color: #dc2626; border: 1px solid #fecaca;' : ''}"
+            ${isVoted ? 'onmouseover="this.style.background=\'#fee2e2\'" onmouseout="this.style.background=\'#fef2f2\'"' : ''}
+          >
+            ${isVoted ? `
+              <svg style="width: 1rem; height: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            ` : `
+              <svg style="width: 1rem; height: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            `}
+            ${voteButtonText}
+          </button>
+        ` : ''}
       </div>
     </div>
   `

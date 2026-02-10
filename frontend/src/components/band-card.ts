@@ -37,7 +37,8 @@ export function renderBandCard(band: BandResponse): string {
           ${new Date(band.createdAt).toLocaleDateString('ko-KR', {
       year: 'numeric',
       month: '2-digit',
-      day: '2-digit'
+      day: '2-digit',
+      timeZone: 'Asia/Seoul'
     })}
         </span>
       </div>

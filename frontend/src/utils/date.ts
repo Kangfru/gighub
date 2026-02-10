@@ -5,7 +5,8 @@ export function formatDate(date: string | Date): string {
   return d.toLocaleDateString('ko-KR', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
+    timeZone: 'Asia/Seoul'
   })
 }
 
@@ -16,7 +17,8 @@ export function formatDateTime(date: string | Date): string {
     month: 'long',
     day: 'numeric',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
+    timeZone: 'Asia/Seoul'
   })
 }
 

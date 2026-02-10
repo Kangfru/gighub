@@ -25,7 +25,7 @@ export function renderMemberList(members: BandMemberInfo[]): string {
               }
             </div>
             <span style="font-size: 0.875rem; color: #737373;">
-              ${new Date(member.joinedAt).toLocaleDateString('ko-KR')} 가입
+              ${new Date(member.joinedAt).toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' })} 가입
             </span>
           </div>
         `
