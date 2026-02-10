@@ -36,7 +36,7 @@ export function renderCreatePollPage(params: Record<string, string>): void {
 
         <!-- 투표 생성 폼 -->
         <div class="bg-white border border-neutral-200 rounded-2xl p-8 shadow-sm">
-          <h1 class="text-3xl font-bold text-neutral-900 mb-8">새 투표 만들기</h1>
+          <h1 class="text-3xl font-bold text-neutral-900" style="margin-bottom: 1.25rem;">새 투표 만들기</h1>
 
           <form id="create-poll-form" class="space-y-6">
             <div>

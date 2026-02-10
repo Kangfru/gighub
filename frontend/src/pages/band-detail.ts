@@ -167,7 +167,7 @@ function renderBandSettingsModal(): string {
         <div class="p-6 space-y-8">
           <!-- 밴드 정보 수정 -->
           <div>
-            <h3 class="text-xl font-bold text-neutral-900 mb-4">밴드 정보</h3>
+            <h3 class="text-xl font-bold text-neutral-900" style="margin-bottom: 1rem;">밴드 정보</h3>
             <form id="update-band-form" class="space-y-4">
               <div>
                 <label class="block text-sm font-medium text-neutral-700 mb-2">
@@ -202,9 +202,9 @@ function renderBandSettingsModal(): string {
 
           <!-- 초대 코드 관리 -->
           <div class="border-t border-neutral-200 pt-8">
-            <h3 class="text-xl font-bold text-neutral-900 mb-4">초대 코드</h3>
+            <h3 class="text-xl font-bold text-neutral-900" style="margin-bottom: 1rem;">초대 코드</h3>
 
-            <form id="create-invite-form" class="mb-6">
+            <form id="create-invite-form" style="margin-bottom: 1.5rem;">
               <div class="flex gap-3">
                 <div class="flex-1">
                   <select id="invite-expires-days" class="input-base">
@@ -232,7 +232,7 @@ function renderBandSettingsModal(): string {
 
           <!-- 밴드 삭제 -->
           <div class="border-t border-neutral-200 pt-8">
-            <h3 class="text-xl font-bold text-red-600 mb-4">위험 구역</h3>
+            <h3 class="text-xl font-bold text-red-600" style="margin-bottom: 1rem;">위험 구역</h3>
             <div class="bg-red-50 border border-red-200 rounded-xl p-5">
               <p class="text-neutral-700 mb-4">
                 밴드를 삭제하면 모든 투표와 데이터가 영구적으로 삭제됩니다.

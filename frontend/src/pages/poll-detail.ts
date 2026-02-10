@@ -128,7 +128,7 @@ export async function renderPollDetailPage(
       <!-- 곡 제안 모달 -->
       <div id="add-song-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 px-4">
         <div class="card-base w-full max-w-md p-8 shadow-2xl">
-          <h2 class="text-2xl font-bold text-neutral-900 mb-6">곡 제안하기</h2>
+          <h2 class="text-2xl font-bold text-neutral-900" style="margin-bottom: 1.25rem;">곡 제안하기</h2>
           <form id="add-song-form" class="space-y-5">
             <div>
               <label class="block text-sm font-medium text-neutral-700 mb-2">

@@ -93,7 +93,7 @@ export async function renderBandsPage(): Promise<void> {
       <!-- 밴드 생성 모달 -->
       <div id="create-band-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 px-4">
         <div class="card-base w-full max-w-md scale-in shadow-2xl p-8">
-          <h2 class="text-3xl font-bold text-neutral-900 mb-8">새 밴드 만들기</h2>
+          <h2 class="text-3xl font-bold text-neutral-900" style="margin-bottom: 1.25rem;">새 밴드 만들기</h2>
           <form id="create-band-form" class="space-y-6">
             <div>
               <label class="block text-sm font-medium text-neutral-700 mb-2">
@@ -145,7 +145,7 @@ export async function renderBandsPage(): Promise<void> {
       <!-- 밴드 참여 모달 -->
       <div id="join-band-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 px-4">
         <div class="card-base w-full max-w-md scale-in shadow-2xl p-8">
-          <h2 class="text-3xl font-bold text-neutral-900 mb-8">밴드 참여하기</h2>
+          <h2 class="text-3xl font-bold text-neutral-900" style="margin-bottom: 1.25rem;">밴드 참여하기</h2>
           <form id="join-band-form" class="space-y-6">
             <div>
               <label class="block text-sm font-medium text-neutral-700 mb-2">
