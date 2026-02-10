@@ -56,8 +56,8 @@ class ApiClient {
         headers
       })
 
-      // 401 Unauthorized - 토큰 만료
-      if (response.status === 401) {
+      // 401 Unauthorized - 토큰 만료 (public endpoint가 아닐 때만)
+      if (response.status === 401 && !isPublicEndpoint) {
         const refreshToken = getRefreshToken()
         if (refreshToken) {
           // Refresh Token으로 재시도
