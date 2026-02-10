@@ -61,7 +61,7 @@ export function renderLoginPage(): void {
           </form>
 
           <!-- Register Link -->
-          <div class="text-center mt-8 pt-8" style="border-top: 1px solid #e5e5e5;">
+          <div class="text-center mt-10 pt-8" style="border-top: 1px solid #e5e5e5;">
             <span style="color: #737373; font-size: 0.9375rem;">계정이 없으신가요?</span>
             <button
               onclick="window.navigateTo('/register')"
