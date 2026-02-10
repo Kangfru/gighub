@@ -85,40 +85,38 @@ export async function renderBandDetailPage(
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
-            <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
-              <!-- 투표 목록 -->
-              <div style="grid-column: 1 / -1;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                  <h2 style="font-size: 1.5rem; font-weight: 600; color: #171717;">투표 목록</h2>
-                  <button
-                    onclick="window.navigateTo('/bands/${bandId}/polls/create')"
-                    class="btn btn-primary"
-                  >
-                    + 투표 만들기
-                  </button>
+          <div style="display: grid; grid-template-columns: 8fr 2fr; gap: 1.5rem;">
+            <!-- 투표 목록 -->
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2 style="font-size: 1.5rem; font-weight: 600; color: #171717;">투표 목록</h2>
+                <button
+                  onclick="window.navigateTo('/bands/${bandId}/polls/create')"
+                  class="btn btn-primary"
+                >
+                  + 투표 만들기
+                </button>
+              </div>
+
+              ${
+                polls.length === 0
+                  ? `
+                <div class="card" style="text-align: center; padding: 3rem;">
+                  <p style="color: #737373;">아직 투표가 없습니다.</p>
+                  <p style="color: #a3a3a3; font-size: 0.875rem; margin-top: 0.5rem;">첫 투표를 만들어보세요!</p>
                 </div>
+              `
+                  : `
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                  ${polls.map((poll) => renderPollCard(poll)).join('')}
+                </div>
+              `
+              }
+            </div>
 
-                ${
-                  polls.length === 0
-                    ? `
-                  <div class="card" style="text-align: center; padding: 3rem;">
-                    <p style="color: #737373;">아직 투표가 없습니다.</p>
-                    <p style="color: #a3a3a3; font-size: 0.875rem; margin-top: 0.5rem;">첫 투표를 만들어보세요!</p>
-                  </div>
-                `
-                    : `
-                  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); gap: 1rem;">
-                    ${polls.map((poll) => renderPollCard(poll)).join('')}
-                  </div>
-                `
-                }
-              </div>
-
-              <!-- 멤버 목록 -->
-              <div style="grid-column: 1 / -1;">
-                ${renderMemberList(band.members)}
-              </div>
+            <!-- 멤버 목록 -->
+            <div>
+              ${renderMemberList(band.members)}
             </div>
           </div>
         </div>
