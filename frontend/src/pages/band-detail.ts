@@ -148,98 +148,94 @@ export async function renderBandDetailPage(
 function renderBandSettingsModal(): string {
   return `
     <!-- 밴드 설정 모달 -->
-    <div id="band-settings-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 px-4">
-      <div class="card-base w-full max-w-2xl scale-in shadow-2xl max-h-[90vh] overflow-y-auto">
-        <div class="sticky top-0 bg-white border-b border-neutral-200 p-6 pb-4 rounded-t-2xl">
-          <div class="flex justify-between items-center">
-            <h2 class="text-3xl font-bold text-neutral-900">밴드 설정</h2>
+    <div id="band-settings-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50" style="padding: 1.5rem;">
+      <div class="modal-content w-full" style="max-width: 42rem; max-height: 90vh; overflow-y: auto;">
+        <div style="position: sticky; top: 0; background: white; border-bottom: 1px solid #e5e5e5; padding: 1.5rem; border-radius: 1.5rem 1.5rem 0 0; z-index: 10;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 class="text-2xl font-semibold" style="color: #171717;">밴드 설정</h2>
             <button
               onclick="window.hideBandSettingsModal()"
-              class="text-neutral-500 hover:text-neutral-700 transition"
+              style="color: #737373; background: none; border: none; cursor: pointer; padding: 0.25rem;"
             >
-              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <svg style="width: 1.5rem; height: 1.5rem;" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
               </svg>
             </button>
           </div>
         </div>
 
-        <div class="p-6 space-y-8">
+        <div style="padding: 1.5rem; display: flex; flex-direction: column; gap: 2rem;">
           <!-- 밴드 정보 수정 -->
           <div>
-            <h3 class="text-xl font-bold text-neutral-900" style="margin-bottom: 1rem;">밴드 정보</h3>
-            <form id="update-band-form" class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-neutral-700 mb-2">
-                  밴드 이름
-                </label>
+            <h3 style="font-size: 1.125rem; font-weight: 600; color: #171717; margin-bottom: 1rem;">밴드 정보</h3>
+            <form id="update-band-form">
+              <div class="form-group">
+                <label class="label">밴드 이름</label>
                 <input
                   type="text"
                   id="update-band-name"
                   required
                   maxlength="100"
-                  class="input-base"
+                  class="input"
                   placeholder="밴드 이름"
                 />
               </div>
-              <div>
-                <label class="block text-sm font-medium text-neutral-700 mb-2">
-                  설명 (선택)
-                </label>
+              <div class="form-group">
+                <label class="label">설명 <span style="color: #a3a3a3; font-weight: 400;">(선택)</span></label>
                 <textarea
                   id="update-band-description"
                   rows="3"
-                  class="input-base resize-none"
+                  class="input"
                   placeholder="밴드 설명"
                 ></textarea>
               </div>
-              <div id="update-error" class="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl hidden"></div>
-              <button type="submit" class="btn-primary w-full py-3">
+              <div id="update-error" class="alert alert-error hidden"></div>
+              <button type="submit" class="btn btn-primary btn-lg w-full" style="margin-top: 0.75rem;">
                 변경사항 저장
               </button>
             </form>
           </div>
 
           <!-- 초대 코드 관리 -->
-          <div class="border-t border-neutral-200 pt-8">
-            <h3 class="text-xl font-bold text-neutral-900" style="margin-bottom: 1rem;">초대 코드</h3>
+          <div style="border-top: 1px solid #e5e5e5; padding-top: 2rem;">
+            <h3 style="font-size: 1.125rem; font-weight: 600; color: #171717; margin-bottom: 1rem;">초대 코드</h3>
 
             <form id="create-invite-form" style="margin-bottom: 1.5rem;">
-              <div class="flex gap-3">
-                <div class="flex-1">
-                  <select id="invite-expires-days" class="input-base">
+              <div style="display: flex; gap: 0.75rem;">
+                <div style="flex: 1;">
+                  <select id="invite-expires-days" class="input">
                     <option value="7">7일</option>
                     <option value="30" selected>30일</option>
                     <option value="90">90일</option>
                   </select>
                 </div>
-                <div class="flex-1">
-                  <select id="invite-role" class="input-base">
+                <div style="flex: 1;">
+                  <select id="invite-role" class="input">
                     <option value="MEMBER" selected>멤버</option>
                     <option value="LEADER">리더</option>
                   </select>
                 </div>
-                <button type="submit" class="btn-primary whitespace-nowrap px-6">
+                <button type="submit" class="btn btn-primary" style="white-space: nowrap; padding: 0 1.5rem;">
                   코드 생성
                 </button>
               </div>
             </form>
 
-            <div id="invite-codes-list" class="space-y-3">
-              <div class="text-center text-neutral-500 py-4">로딩 중...</div>
+            <div id="invite-codes-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <div style="text-align: center; color: #737373; padding: 1rem;">로딩 중...</div>
             </div>
           </div>
 
           <!-- 밴드 삭제 -->
-          <div class="border-t border-neutral-200 pt-8">
-            <h3 class="text-xl font-bold text-red-600" style="margin-bottom: 1rem;">위험 구역</h3>
-            <div class="bg-red-50 border border-red-200 rounded-xl p-5">
-              <p class="text-neutral-700 mb-4">
+          <div style="border-top: 1px solid #e5e5e5; padding-top: 2rem;">
+            <h3 style="font-size: 1.125rem; font-weight: 600; color: #dc2626; margin-bottom: 1rem;">위험 구역</h3>
+            <div class="alert alert-error" style="padding: 1.25rem;">
+              <p style="color: #171717; margin-bottom: 1rem;">
                 밴드를 삭제하면 모든 투표와 데이터가 영구적으로 삭제됩니다.
               </p>
               <button
                 onclick="window.confirmDeleteBand()"
-                class="btn-danger w-full py-3"
+                class="btn btn-danger btn-lg w-full"
               >
                 밴드 삭제
               </button>
@@ -360,37 +356,33 @@ function renderInviteCodeCard(code: InviteCodeResponse): string {
   const isUsed = code.usedByUser !== undefined && code.usedByUser !== null
 
   return `
-    <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-4">
-      <div class="flex justify-between items-start mb-2">
-        <div class="flex-1">
-          <div class="flex items-center gap-2 mb-2">
-            <code class="text-sm font-mono bg-white px-3 py-1.5 rounded-lg text-blue-600 border border-neutral-300 font-semibold">
+    <div style="background: #fafafa; border: 1px solid #e5e5e5; border-radius: 0.75rem; padding: 1rem;">
+      <div style="display: flex; justify-content: space-between; align-items: start; gap: 0.75rem;">
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <code style="font-family: monospace; font-size: 0.875rem; background: white; padding: 0.375rem 0.75rem; border-radius: 0.5rem; color: #2563eb; border: 1px solid #d4d4d4; font-weight: 600;">
               ${code.code}
             </code>
             <button
               onclick="navigator.clipboard.writeText('${code.code}'); window.showToast?.('복사되었습니다', 'success')"
-              class="text-neutral-500 hover:text-neutral-700 transition"
+              style="color: #737373; background: none; border: none; cursor: pointer; padding: 0.25rem;"
               title="복사"
             >
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <svg style="width: 1rem; height: 1rem;" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path>
                 <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path>
               </svg>
             </button>
           </div>
-          <div class="flex items-center gap-2 text-xs text-neutral-600">
-            <span class="px-2 py-1 rounded ${
-              code.role === 'LEADER'
-                ? 'badge-leader'
-                : 'badge-neutral'
-            }">
+          <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: #525252;">
+            <span class="${code.role === 'LEADER' ? 'badge-leader' : 'badge-neutral'}" style="padding: 0.125rem 0.5rem;">
               ${code.role === 'LEADER' ? '리더' : '멤버'}
             </span>
             ${
               isUsed
-                ? `<span class="text-emerald-600 font-medium">✓ 사용됨 (${code.usedByUser?.name})</span>`
+                ? `<span style="color: #15803d; font-weight: 500;">✓ 사용됨 (${code.usedByUser?.name})</span>`
                 : isExpired
-                ? `<span class="text-red-600 font-medium">만료됨</span>`
+                ? `<span style="color: #dc2626; font-weight: 500;">만료됨</span>`
                 : `<span>만료: ${formatDate(code.expiresAt)}</span>`
             }
           </div>
@@ -400,10 +392,10 @@ function renderInviteCodeCard(code: InviteCodeResponse): string {
             ? `
           <button
             onclick="window.deleteInviteCodeConfirm?.('${code.code}')"
-            class="text-red-500 hover:text-red-600 transition"
+            style="color: #dc2626; background: none; border: none; cursor: pointer; padding: 0.25rem;"
             title="삭제"
           >
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <svg style="width: 1.25rem; height: 1.25rem;" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
             </svg>
           </button>

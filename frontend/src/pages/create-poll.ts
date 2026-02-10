@@ -24,103 +24,90 @@ export function renderCreatePollPage(params: Record<string, string>): void {
 
   app.innerHTML = `
     ${renderNavbar()}
-    <div class="min-h-screen bg-neutral-50 py-8">
-      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="min-h-screen flex items-center justify-center p-6" style="background: #fafafa;">
+      <div class="w-full max-w-2xl">
         <!-- 뒤로가기 -->
         <button
           onclick="window.navigateTo('/bands/${bandId}')"
-          class="text-blue-600 hover:text-blue-700 mb-4 font-medium"
+          style="color: #171717; font-weight: 500; margin-bottom: 1.5rem; text-decoration: underline; text-underline-offset: 2px; background: none; border: none; cursor: pointer; font-size: 0.9375rem;"
         >
           ← 밴드로 돌아가기
         </button>
 
         <!-- 투표 생성 폼 -->
-        <div class="bg-white border border-neutral-200 rounded-2xl p-8 shadow-sm">
-          <h1 class="text-3xl font-bold text-neutral-900" style="margin-bottom: 1.25rem;">새 투표 만들기</h1>
+        <div class="card fade-in">
+          <h1 class="text-4xl font-semibold" style="color: #171717; letter-spacing: -0.02em; margin-bottom: 1.5rem;">새 투표 만들기</h1>
 
-          <form id="create-poll-form" class="space-y-6">
-            <div>
-              <label class="block text-sm font-medium text-neutral-700 mb-2">
-                투표 제목
-              </label>
+          <form id="create-poll-form">
+            <div class="form-group">
+              <label class="label">투표 제목</label>
               <input
                 type="text"
                 id="title"
                 required
                 maxlength="200"
-                class="input-base"
+                class="input"
                 placeholder="예: 다음 연습곡 투표"
               />
             </div>
 
-            <div>
-              <label class="block text-sm font-medium text-neutral-700 mb-2">
-                설명 (선택)
-              </label>
+            <div class="form-group">
+              <label class="label">설명 <span style="color: #a3a3a3; font-weight: 400;">(선택)</span></label>
               <textarea
                 id="description"
                 rows="4"
-                class="input-base resize-none"
+                class="input"
                 placeholder="투표에 대한 추가 설명을 입력하세요"
               ></textarea>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-neutral-700 mb-2">
-                  시작 시간
-                </label>
-                <input
-                  type="datetime-local"
-                  id="start-date"
-                  required
-                  value="${formatDateTimeLocal(today)}"
-                  class="input-base"
-                />
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-neutral-700 mb-2">
-                  종료 시간
-                </label>
-                <input
-                  type="datetime-local"
-                  id="end-date"
-                  required
-                  value="${formatDateTimeLocal(nextWeek)}"
-                  class="input-base"
-                />
-              </div>
+            <div class="form-group">
+              <label class="label">시작 시간</label>
+              <input
+                type="datetime-local"
+                id="start-date"
+                required
+                value="${formatDateTimeLocal(today)}"
+                class="input"
+              />
             </div>
 
-            <div id="error-message" class="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl hidden"></div>
+            <div class="form-group">
+              <label class="label">종료 시간</label>
+              <input
+                type="datetime-local"
+                id="end-date"
+                required
+                value="${formatDateTimeLocal(nextWeek)}"
+                class="input"
+              />
+            </div>
 
-            <div class="flex gap-4 pt-2">
+            <div id="error-message" class="alert alert-error hidden"></div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 0.75rem;">
               <button
                 type="button"
                 onclick="window.navigateTo('/bands/${bandId}')"
-                class="flex-1 btn-secondary py-3"
+                class="btn btn-secondary btn-lg"
+                style="flex: 1;"
               >
                 취소
               </button>
               <button
                 type="submit"
-                class="flex-1 btn-primary py-3"
+                class="btn btn-primary btn-lg"
+                style="flex: 1;"
               >
                 투표 만들기
               </button>
             </div>
           </form>
-        </div>
 
-        <!-- 안내 사항 -->
-        <div class="mt-6 bg-blue-50 border border-blue-200 rounded-2xl p-5">
-          <h3 class="font-semibold text-blue-700 mb-2">💡 투표 생성 안내</h3>
-          <ul class="text-sm text-blue-600 space-y-1">
-            <li>• 투표를 생성한 후 곡을 제안할 수 있습니다.</li>
-            <li>• 모든 밴드 멤버가 곡을 제안하고 투표할 수 있습니다.</li>
-            <li>• 투표 기간 중에는 여러 곡에 투표할 수 있습니다.</li>
-          </ul>
+          <!-- 안내 사항 -->
+          <div class="alert alert-info" style="margin-top: 1.25rem;">
+            💡 투표를 생성한 후 곡을 제안할 수 있습니다. 모든 밴드 멤버가 곡을 제안하고 투표할 수 있습니다.
+          </div>
         </div>
       </div>
     </div>

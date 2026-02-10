@@ -126,76 +126,70 @@ export async function renderPollDetailPage(
       </div>
 
       <!-- 곡 제안 모달 -->
-      <div id="add-song-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 px-4">
-        <div class="card-base w-full max-w-md p-8 shadow-2xl">
-          <h2 class="text-2xl font-bold text-neutral-900" style="margin-bottom: 1.25rem;">곡 제안하기</h2>
-          <form id="add-song-form" class="space-y-5">
-            <div>
-              <label class="block text-sm font-medium text-neutral-700 mb-2">
-                아티스트
-              </label>
+      <div id="add-song-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50" style="padding: 1.5rem;">
+        <div class="card w-full" style="max-width: 28rem; animation: modalSlideUp 0.2s cubic-bezier(0.4, 0, 0.2, 1);">
+          <h2 class="text-2xl font-semibold" style="color: #171717; margin-bottom: 1.25rem;">곡 제안하기</h2>
+          <form id="add-song-form">
+            <div class="form-group">
+              <label class="label">아티스트</label>
               <input
                 type="text"
                 id="artist"
                 required
                 maxlength="100"
-                class="input-base"
+                class="input"
                 placeholder="아티스트명"
               />
             </div>
 
-            <div>
-              <label class="block text-sm font-medium text-neutral-700 mb-2">
-                곡 제목
-              </label>
+            <div class="form-group">
+              <label class="label">곡 제목</label>
               <input
                 type="text"
                 id="title"
                 required
                 maxlength="200"
-                class="input-base"
+                class="input"
                 placeholder="곡 제목"
               />
             </div>
 
-            <div>
-              <label class="block text-sm font-medium text-neutral-700 mb-2">
-                YouTube URL (선택)
-              </label>
+            <div class="form-group">
+              <label class="label">YouTube URL <span style="color: #a3a3a3; font-weight: 400;">(선택)</span></label>
               <input
                 type="url"
                 id="youtube-url"
                 maxlength="500"
-                class="input-base"
+                class="input"
                 placeholder="https://www.youtube.com/watch?v=..."
               />
             </div>
 
-            <div>
-              <label class="block text-sm font-medium text-neutral-700 mb-2">
-                설명 (선택)
-              </label>
+            <div class="form-group">
+              <label class="label">설명 <span style="color: #a3a3a3; font-weight: 400;">(선택)</span></label>
               <textarea
                 id="song-description"
                 rows="3"
-                class="input-base resize-none"
+                class="input"
                 placeholder="곡에 대한 설명"
               ></textarea>
             </div>
 
-            <div id="modal-error" class="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl hidden"></div>
+            <div id="modal-error" class="alert alert-error hidden"></div>
 
-            <div class="flex gap-3 pt-2">
+            <div style="display: flex; gap: 1rem; margin-top: 0.75rem;">
               <button
                 type="button"
                 onclick="window.hideAddSongModal()"
-                class="flex-1 btn-secondary py-3"
+                class="btn btn-secondary btn-lg"
+                style="flex: 1;"
               >
                 취소
               </button>
               <button
                 type="submit"
-                class="flex-1 btn-primary py-3"
+                class="btn btn-primary btn-lg"
+                style="flex: 1;"
               >
                 제안하기
               </button>

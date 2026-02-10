@@ -91,49 +91,47 @@ export async function renderBandsPage(): Promise<void> {
       </div>
 
       <!-- 밴드 생성 모달 -->
-      <div id="create-band-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 px-4">
-        <div class="card-base w-full max-w-md scale-in shadow-2xl p-8">
-          <h2 class="text-3xl font-bold text-neutral-900" style="margin-bottom: 1.25rem;">새 밴드 만들기</h2>
-          <form id="create-band-form" class="space-y-6">
-            <div>
-              <label class="block text-sm font-medium text-neutral-700 mb-2">
-                밴드 이름
-              </label>
+      <div id="create-band-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50" style="padding: 1.5rem;">
+        <div class="card w-full" style="max-width: 28rem; animation: modalSlideUp 0.2s cubic-bezier(0.4, 0, 0.2, 1);">
+          <h2 class="text-2xl font-semibold" style="color: #171717; margin-bottom: 1.25rem;">새 밴드 만들기</h2>
+          <form id="create-band-form">
+            <div class="form-group">
+              <label class="label">밴드 이름</label>
               <input
                 type="text"
                 id="band-name"
                 required
                 maxlength="100"
-                class="input-base"
+                class="input"
                 placeholder="예: 록밴드, 재즈 앙상블"
               />
             </div>
 
-            <div>
-              <label class="block text-sm font-medium text-neutral-700 mb-2">
-                설명 (선택)
-              </label>
+            <div class="form-group">
+              <label class="label">설명 <span style="color: #a3a3a3; font-weight: 400;">(선택)</span></label>
               <textarea
                 id="band-description"
                 rows="3"
-                class="input-base resize-none"
+                class="input"
                 placeholder="밴드에 대해 간단히 소개해주세요"
               ></textarea>
             </div>
 
-            <div id="modal-error" class="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl hidden"></div>
+            <div id="modal-error" class="alert alert-error hidden"></div>
 
-            <div class="flex gap-3 pt-4">
+            <div style="display: flex; gap: 1rem; margin-top: 0.75rem;">
               <button
                 type="button"
                 onclick="window.hideCreateBandModal()"
-                class="flex-1 btn-secondary"
+                class="btn btn-secondary btn-lg"
+                style="flex: 1;"
               >
                 취소
               </button>
               <button
                 type="submit"
-                class="flex-1 btn-primary"
+                class="btn btn-primary btn-lg"
+                style="flex: 1;"
               >
                 만들기
               </button>
@@ -143,39 +141,40 @@ export async function renderBandsPage(): Promise<void> {
       </div>
 
       <!-- 밴드 참여 모달 -->
-      <div id="join-band-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 px-4">
-        <div class="card-base w-full max-w-md scale-in shadow-2xl p-8">
-          <h2 class="text-3xl font-bold text-neutral-900" style="margin-bottom: 1.25rem;">밴드 참여하기</h2>
-          <form id="join-band-form" class="space-y-6">
-            <div>
-              <label class="block text-sm font-medium text-neutral-700 mb-2">
-                초대 코드
-              </label>
+      <div id="join-band-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50" style="padding: 1.5rem;">
+        <div class="card w-full" style="max-width: 28rem; animation: modalSlideUp 0.2s cubic-bezier(0.4, 0, 0.2, 1);">
+          <h2 class="text-2xl font-semibold" style="color: #171717; margin-bottom: 1.25rem;">밴드 참여하기</h2>
+          <form id="join-band-form">
+            <div class="form-group">
+              <label class="label">초대 코드</label>
               <input
                 type="text"
                 id="invite-code"
                 required
-                class="input-base font-mono"
+                class="input"
+                style="font-family: monospace;"
                 placeholder="초대 코드를 입력하세요"
               />
-              <p class="mt-2 text-sm text-neutral-600">
-                밴드 리더로부터 받은 초대 코드를 입력해주세요
-              </p>
+              <div class="alert alert-info" style="margin-top: 0.75rem;">
+                💡 밴드 리더로부터 받은 초대 코드를 입력해주세요
+              </div>
             </div>
 
-            <div id="join-modal-error" class="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl hidden"></div>
+            <div id="join-modal-error" class="alert alert-error hidden"></div>
 
-            <div class="flex gap-3 pt-4">
+            <div style="display: flex; gap: 1rem; margin-top: 0.75rem;">
               <button
                 type="button"
                 onclick="window.hideJoinBandModal()"
-                class="flex-1 btn-secondary"
+                class="btn btn-secondary btn-lg"
+                style="flex: 1;"
               >
                 취소
               </button>
               <button
                 type="submit"
-                class="flex-1 btn-primary"
+                class="btn btn-primary btn-lg"
+                style="flex: 1;"
               >
                 참여하기
               </button>
