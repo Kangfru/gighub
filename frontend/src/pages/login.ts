@@ -20,7 +20,7 @@ export function renderLoginPage(): void {
 
         <!-- Login Card -->
         <div class="card fade-in" style="animation-delay: 0.1s;">
-          <form id="login-form" class="space-y-6">
+          <form id="login-form">
             <!-- Email Input -->
             <div class="form-group">
               <label class="label">이메일</label>

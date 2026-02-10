@@ -22,7 +22,7 @@ export function renderRegisterPage(): void {
         <div class="card fade-in" style="animation-delay: 0.1s;">
           <h2 class="text-2xl font-semibold mb-8" style="color: #171717;">회원가입</h2>
 
-          <form id="register-form" class="space-y-6">
+          <form id="register-form">
             <!-- Email Input -->
             <div class="form-group">
               <label class="label">이메일</label>
@@ -83,9 +83,9 @@ export function renderRegisterPage(): void {
                 id="invite-code"
                 class="input"
                 placeholder="밴드 초대 코드"
-                style="font-family: monospace;"
+                style="font-family: monospace; margin-bottom: 0.75rem;"
               />
-              <div class="alert alert-info mt-3">
+              <div class="alert alert-info">
                 💡 초대 코드가 없어도 가입 가능합니다. 가입 후 밴드를 만들거나 초대를 받으세요.
               </div>
             </div>
