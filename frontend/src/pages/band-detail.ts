@@ -85,7 +85,7 @@ export async function renderBandDetailPage(
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 8fr 2fr; gap: 1.5rem;">
+          <div style="display: grid; grid-template-columns: 7fr 3fr; gap: 1.5rem; align-items: start;">
             <!-- 투표 목록 -->
             <div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
@@ -107,7 +107,7 @@ export async function renderBandDetailPage(
                 </div>
               `
                   : `
-                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
                   ${polls.map((poll) => renderPollCard(poll)).join('')}
                 </div>
               `
@@ -115,7 +115,7 @@ export async function renderBandDetailPage(
             </div>
 
             <!-- 멤버 목록 -->
-            <div>
+            <div style="padding-top: 3.5rem;">
               ${renderMemberList(band.members)}
             </div>
           </div>
