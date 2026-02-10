@@ -2,6 +2,7 @@ package com.gighub.web.poll.dto
 
 import com.gighub.domain.poll.Poll
 import com.gighub.domain.poll.Song
+import com.gighub.utils.DateTimeUtils
 import com.gighub.web.auth.dto.UserInfo
 import jakarta.validation.constraints.Future
 import jakarta.validation.constraints.NotBlank
@@ -84,7 +85,7 @@ data class PollResponse(
 ) {
     companion object {
         fun from(poll: Poll, songCount: Int): PollResponse {
-            val now = LocalDateTime.now()
+            val now = DateTimeUtils.now()
             val status = when {
                 now.isBefore(poll.startDate) -> PollStatus.UPCOMING
                 now.isAfter(poll.endDate) -> PollStatus.ENDED

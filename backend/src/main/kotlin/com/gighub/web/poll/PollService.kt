@@ -6,6 +6,7 @@ import com.gighub.domain.user.UserRepository
 import com.gighub.exception.ErrorCode
 import com.gighub.exception.GigHubException
 import com.gighub.security.PermissionService
+import com.gighub.utils.DateTimeUtils
 import com.gighub.web.poll.dto.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -55,7 +56,7 @@ class PollService(
         permissionService.requireBandMember(userId, bandId)
 
         val polls = pollRepository.findByBandIdOrderByStartDateDesc(bandId)
-        val now = LocalDateTime.now()
+        val now = DateTimeUtils.now()
 
         return polls
             .map { poll ->
@@ -90,7 +91,7 @@ class PollService(
         val myVotes = voteRepository.findByUserIdAndPollId(userId, pollId)
             .map { it.song.id }
 
-        val now = LocalDateTime.now()
+        val now = DateTimeUtils.now()
         val status = when {
             now.isBefore(poll.startDate) -> PollStatus.UPCOMING
             now.isAfter(poll.endDate) -> PollStatus.ENDED

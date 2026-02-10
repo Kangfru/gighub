@@ -1,5 +1,6 @@
 package com.gighub.exception
 
+import com.gighub.utils.DateTimeUtils
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -12,7 +13,7 @@ import java.time.LocalDateTime
 data class ErrorResponse(
     val code: String,
     val message: String,
-    val timestamp: LocalDateTime = LocalDateTime.now(),
+    val timestamp: LocalDateTime = DateTimeUtils.now(),
     val details: Map<String, String>? = null
 )
 

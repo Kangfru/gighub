@@ -5,6 +5,7 @@ import com.gighub.domain.user.UserRepository
 import com.gighub.exception.ErrorCode
 import com.gighub.exception.GigHubException
 import com.gighub.security.PermissionService
+import com.gighub.utils.DateTimeUtils
 import com.gighub.web.band.dto.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -177,7 +178,7 @@ class BandService(
             code = UUID.randomUUID().toString(),
             band = band,
             inviteRole = request.toBandRole(),
-            expiresAt = LocalDateTime.now().plusDays(request.expiresInDays.toLong())
+            expiresAt = DateTimeUtils.now().plusDays(request.expiresInDays.toLong())
         )
 
         val savedCode = inviteCodeRepository.save(inviteCode)
@@ -235,7 +236,7 @@ class BandService(
             ?: throw GigHubException.ResourceNotFoundException(errorCode = ErrorCode.INVITE_CODE_NOT_FOUND)
 
         // 2. 초대 코드가 만료되었는지 확인
-        if (inviteCode.expiresAt.isBefore(LocalDateTime.now())) {
+        if (inviteCode.expiresAt.isBefore(DateTimeUtils.now())) {
             throw GigHubException.BusinessException(
                 errorCode = ErrorCode.INVITE_CODE_EXPIRED,
                 message = "만료된 초대 코드입니다"

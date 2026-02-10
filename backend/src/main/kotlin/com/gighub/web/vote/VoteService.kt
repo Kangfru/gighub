@@ -7,6 +7,7 @@ import com.gighub.domain.user.UserRepository
 import com.gighub.exception.ErrorCode
 import com.gighub.exception.GigHubException
 import com.gighub.security.PermissionService
+import com.gighub.utils.DateTimeUtils
 import com.gighub.web.poll.dto.PollStatus
 import com.gighub.web.vote.dto.CreateVoteRequest
 import com.gighub.web.vote.dto.MyVotesResponse
@@ -37,7 +38,7 @@ class VoteService(
         permissionService.requireBandMember(userId, poll.band.id)
 
         // 투표 진행 중인지 확인
-        val now = LocalDateTime.now()
+        val now = DateTimeUtils.now()
         if (now.isBefore(poll.startDate) || now.isAfter(poll.endDate)) {
             throw GigHubException.BusinessException(
                 errorCode = ErrorCode.POLL_NOT_ACTIVE,

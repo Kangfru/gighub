@@ -7,6 +7,7 @@ import com.gighub.domain.user.UserRepository
 import com.gighub.exception.ErrorCode
 import com.gighub.exception.GigHubException
 import com.gighub.security.jwt.JwtTokenProvider
+import com.gighub.utils.DateTimeUtils
 import com.gighub.web.auth.dto.*
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -50,7 +51,7 @@ class AuthService(
                     errorCode = ErrorCode.INVITE_CODE_NOT_FOUND
                 )
 
-            if (inviteCode.expiresAt.isBefore(LocalDateTime.now())) {
+            if (inviteCode.expiresAt.isBefore(DateTimeUtils.now())) {
                 throw GigHubException.BusinessException(
                     errorCode = ErrorCode.INVITE_CODE_EXPIRED
                 )
