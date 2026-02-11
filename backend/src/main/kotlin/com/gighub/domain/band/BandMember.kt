@@ -2,6 +2,7 @@ package com.gighub.domain.band
 
 import com.gighub.domain.common.BaseTimeEntity
 import com.gighub.domain.user.User
+import com.gighub.utils.DateTimeUtils
 import jakarta.persistence.*
 
 @Entity
@@ -29,5 +30,5 @@ class BandMember(
     var role: BandRole = BandRole.MEMBER,
 
     @Column(nullable = false, updatable = false)
-    val joinedAt: java.time.LocalDateTime = java.time.LocalDateTime.now()
+    val joinedAt: java.time.LocalDateTime = DateTimeUtils.now()
 ) : BaseTimeEntity()

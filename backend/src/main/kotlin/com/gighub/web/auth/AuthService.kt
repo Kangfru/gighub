@@ -6,7 +6,9 @@ import com.gighub.domain.user.User
 import com.gighub.domain.user.UserRepository
 import com.gighub.exception.ErrorCode
 import com.gighub.exception.GigHubException
+import com.gighub.security.jwt.JwtProperties
 import com.gighub.security.jwt.JwtTokenProvider
+import com.gighub.utils.DateTimeUtils
 import com.gighub.web.auth.dto.*
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -20,7 +22,8 @@ class AuthService(
     private val inviteCodeRepository: InviteCodeRepository,
     private val bandMemberRepository: BandMemberRepository,
     private val passwordEncoder: PasswordEncoder,
-    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtTokenProvider: JwtTokenProvider,
+    private val jwtProperties: JwtProperties
 ) {
 
     @Transactional
@@ -50,13 +53,7 @@ class AuthService(
                     errorCode = ErrorCode.INVITE_CODE_NOT_FOUND
                 )
 
-            if (inviteCode.usedByUser != null) {
-                throw GigHubException.BusinessException(
-                    errorCode = ErrorCode.INVITE_CODE_ALREADY_USED
-                )
-            }
-
-            if (inviteCode.expiresAt.isBefore(LocalDateTime.now())) {
+            if (inviteCode.expiresAt.isBefore(DateTimeUtils.now())) {
                 throw GigHubException.BusinessException(
                     errorCode = ErrorCode.INVITE_CODE_EXPIRED
                 )
@@ -69,10 +66,6 @@ class AuthService(
                 role = inviteCode.inviteRole
             )
             bandMemberRepository.save(bandMember)
-
-            // 초대 코드 사용 처리
-            inviteCode.usedByUser = savedUser
-            inviteCodeRepository.save(inviteCode)
 
             bandInfo = BandInfo(
                 id = inviteCode.band.id,
@@ -88,6 +81,7 @@ class AuthService(
         return TokenResponse(
             accessToken = accessToken,
             refreshToken = refreshToken,
+            expiresIn = jwtProperties.accessExpiry / 1000, // 밀리초를 초로 변환
             user = UserInfo.from(savedUser),
             band = bandInfo
         )
@@ -127,6 +121,7 @@ class AuthService(
         return LoginResponse(
             accessToken = accessToken,
             refreshToken = refreshToken,
+            expiresIn = jwtProperties.accessExpiry / 1000, // 밀리초를 초로 변환
             user = UserInfo.from(user),
             bands = bands
         )
@@ -161,6 +156,9 @@ class AuthService(
         // 4. 새로운 Access 토큰 생성
         val accessToken = jwtTokenProvider.generateAccessToken(user.id, user.email)
 
-        return RefreshTokenResponse(accessToken = accessToken)
+        return RefreshTokenResponse(
+            accessToken = accessToken,
+            expiresIn = jwtProperties.accessExpiry / 1000 // 밀리초를 초로 변환
+        )
     }
 }

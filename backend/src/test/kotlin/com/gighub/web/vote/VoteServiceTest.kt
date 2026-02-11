@@ -189,7 +189,23 @@ class VoteServiceTest {
         val userId = 1L
         val voteId = 1L
         val voter = User(id = userId, email = "voter@test.com", password = "pw", name = "투표자")
-        val song = mockk<Song>(relaxed = true)
+
+        val band = Band(id = 1L, name = "테스트 밴드")
+        val poll = Poll(
+            id = 1L,
+            band = band,
+            title = "테스트 투표",
+            createdBy = voter,
+            startDate = LocalDateTime.now().minusDays(1),
+            endDate = LocalDateTime.now().plusDays(1)
+        )
+        val song = Song(
+            id = 1L,
+            poll = poll,
+            suggestedBy = voter,
+            artist = "아티스트",
+            title = "노래 제목"
+        )
 
         val vote = Vote(
             id = voteId,

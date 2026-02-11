@@ -12,8 +12,8 @@ export async function renderBandsPage(): Promise<void> {
   // 로딩 UI
   app.innerHTML = `
     ${renderNavbar()}
-    <div class="min-h-screen py-12 bg-zinc-950 w-full flex justify-center">
-      <div class="container mx-auto px-8 lg:px-12 w-full">
+    <div style="min-height: 100vh; padding: 3rem 0; background: #fafafa; display: flex; justify-content: center;">
+      <div style="max-width: 80rem; width: 100%; padding: 0 1.5rem;">
         ${renderSkeletonGrid()}
       </div>
     </div>
@@ -24,28 +24,30 @@ export async function renderBandsPage(): Promise<void> {
 
     app.innerHTML = `
       ${renderNavbar()}
-      <div class="min-h-screen py-12 bg-zinc-950">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex justify-between items-center mb-12 fade-in">
+      <div style="min-height: 100vh; padding: 3rem 0; background: #fafafa;">
+        <div style="max-width: 80rem; margin: 0 auto; padding: 0 1.5rem;">
+          <div class="fade-in" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
             <div>
-              <h1 class="text-4xl font-bold text-white mb-2 tracking-tight">내 밴드</h1>
-              <p class="text-zinc-400">함께 음악을 만들어가는 공간</p>
+              <h1 style="font-size: 2.25rem; font-weight: 600; color: #171717; margin-bottom: 0.5rem; letter-spacing: -0.02em;">내 밴드</h1>
+              <p style="color: #737373;">함께 음악을 만들어가는 공간</p>
             </div>
-            <div class="flex gap-3">
+            <div style="display: flex; gap: 0.75rem;">
               <button
                 onclick="window.showJoinBandModal()"
-                class="btn-secondary flex items-center gap-2"
+                class="btn btn-secondary"
+                style="display: inline-flex; align-items: center; gap: 0.5rem;"
               >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <svg style="width: 1.25rem; height: 1.25rem;" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M11 6a3 3 0 11-6 0 3 3 0 016 0zM14 17a6 6 0 00-12 0h12zM13 8a1 1 0 100 2h4a1 1 0 100-2h-4z"></path>
                 </svg>
                 밴드 참여
               </button>
               <button
                 onclick="window.showCreateBandModal()"
-                class="btn-primary flex items-center gap-2"
+                class="btn btn-primary"
+                style="display: inline-flex; align-items: center; gap: 0.5rem;"
               >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <svg style="width: 1.25rem; height: 1.25rem;" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
                 </svg>
                 밴드 만들기
@@ -55,25 +57,27 @@ export async function renderBandsPage(): Promise<void> {
 
           ${bands.length === 0
         ? `
-            <div class="text-center mt-24 fade-in">
-              <div class="text-8xl mb-8 animate-bounce">🎸</div>
-              <p class="text-2xl font-bold text-white mb-4">아직 밴드가 없습니다</p>
-              <p class="text-zinc-400 mb-10">밴드를 만들거나 초대 코드로 가입해보세요!</p>
-              <div class="flex gap-4 justify-center">
+            <div class="fade-in" style="text-align: center; margin-top: 6rem;">
+              <div style="font-size: 4.5rem; margin-bottom: 1.5rem;">🎸</div>
+              <p style="font-size: 1.5rem; font-weight: 600; color: #171717; margin-bottom: 0.75rem;">아직 밴드가 없습니다</p>
+              <p style="color: #737373; margin-bottom: 2.5rem;">밴드를 만들거나 초대 코드로 가입해보세요!</p>
+              <div style="display: flex; gap: 1rem; justify-content: center;">
                 <button
                   onclick="window.showJoinBandModal()"
-                  class="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-4"
+                  class="btn btn-secondary btn-lg"
+                  style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1rem; padding: 1rem 2rem;"
                 >
-                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <svg style="width: 1.5rem; height: 1.5rem;" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M11 6a3 3 0 11-6 0 3 3 0 016 0zM14 17a6 6 0 00-12 0h12zM13 8a1 1 0 100 2h4a1 1 0 100-2h-4z"></path>
                   </svg>
                   초대 코드로 참여
                 </button>
                 <button
                   onclick="window.showCreateBandModal()"
-                  class="btn-primary inline-flex items-center gap-2 text-lg px-8 py-4"
+                  class="btn btn-primary btn-lg"
+                  style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1rem; padding: 1rem 2rem;"
                 >
-                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <svg style="width: 1.5rem; height: 1.5rem;" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
                   </svg>
                   첫 밴드 만들기
@@ -82,7 +86,7 @@ export async function renderBandsPage(): Promise<void> {
             </div>
           `
         : `
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); gap: 2rem;">
               ${bands.map((band) => renderBandCard(band)).join('')}
             </div>
           `
@@ -91,49 +95,47 @@ export async function renderBandsPage(): Promise<void> {
       </div>
 
       <!-- 밴드 생성 모달 -->
-      <div id="create-band-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 px-4">
-        <div class="card-base w-full max-w-md scale-in shadow-2xl p-8 bg-zinc-900 border-zinc-800">
-          <h2 class="text-3xl font-bold text-white mb-8">새 밴드 만들기</h2>
-          <form id="create-band-form" class="space-y-6">
-            <div>
-              <label class="block text-sm font-semibold text-zinc-300 mb-2">
-                밴드 이름
-              </label>
+      <div id="create-band-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50" style="padding: 1.5rem;">
+        <div class="card w-full" style="max-width: 28rem; animation: modalSlideUp 0.2s cubic-bezier(0.4, 0, 0.2, 1);">
+          <h2 class="text-2xl font-semibold" style="color: #171717; margin-bottom: 1.25rem;">새 밴드 만들기</h2>
+          <form id="create-band-form">
+            <div class="form-group">
+              <label class="label">밴드 이름</label>
               <input
                 type="text"
                 id="band-name"
                 required
                 maxlength="100"
-                class="input-base"
+                class="input"
                 placeholder="예: 록밴드, 재즈 앙상블"
               />
             </div>
 
-            <div>
-              <label class="block text-sm font-semibold text-zinc-300 mb-2">
-                설명 (선택)
-              </label>
+            <div class="form-group">
+              <label class="label">설명 <span style="color: #a3a3a3; font-weight: 400;">(선택)</span></label>
               <textarea
                 id="band-description"
                 rows="3"
-                class="input-base resize-none"
+                class="input"
                 placeholder="밴드에 대해 간단히 소개해주세요"
               ></textarea>
             </div>
 
-            <div id="modal-error" class="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-lg hidden"></div>
+            <div id="modal-error" class="alert alert-error hidden"></div>
 
-            <div class="flex gap-3 pt-4">
+            <div style="display: flex; gap: 1rem; margin-top: 0.75rem;">
               <button
                 type="button"
                 onclick="window.hideCreateBandModal()"
-                class="flex-1 btn-secondary"
+                class="btn btn-secondary btn-lg"
+                style="flex: 1;"
               >
                 취소
               </button>
               <button
                 type="submit"
-                class="flex-1 btn-primary"
+                class="btn btn-primary btn-lg"
+                style="flex: 1;"
               >
                 만들기
               </button>
@@ -143,39 +145,40 @@ export async function renderBandsPage(): Promise<void> {
       </div>
 
       <!-- 밴드 참여 모달 -->
-      <div id="join-band-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 px-4">
-        <div class="card-base w-full max-w-md scale-in shadow-2xl p-8 bg-zinc-900 border-zinc-800">
-          <h2 class="text-3xl font-bold text-white mb-8">밴드 참여하기</h2>
-          <form id="join-band-form" class="space-y-6">
-            <div>
-              <label class="block text-sm font-semibold text-zinc-300 mb-2">
-                초대 코드
-              </label>
+      <div id="join-band-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50" style="padding: 1.5rem;">
+        <div class="card w-full" style="max-width: 28rem; animation: modalSlideUp 0.2s cubic-bezier(0.4, 0, 0.2, 1);">
+          <h2 class="text-2xl font-semibold" style="color: #171717; margin-bottom: 1.25rem;">밴드 참여하기</h2>
+          <form id="join-band-form">
+            <div class="form-group">
+              <label class="label">초대 코드</label>
               <input
                 type="text"
                 id="invite-code"
                 required
-                class="input-base font-mono"
+                class="input"
+                style="font-family: monospace;"
                 placeholder="초대 코드를 입력하세요"
               />
-              <p class="mt-2 text-sm text-zinc-400">
-                밴드 리더로부터 받은 초대 코드를 입력해주세요
-              </p>
+              <div class="alert alert-info" style="margin-top: 0.75rem;">
+                💡 밴드 리더로부터 받은 초대 코드를 입력해주세요
+              </div>
             </div>
 
-            <div id="join-modal-error" class="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-lg hidden"></div>
+            <div id="join-modal-error" class="alert alert-error hidden"></div>
 
-            <div class="flex gap-3 pt-4">
+            <div style="display: flex; gap: 1rem; margin-top: 0.75rem;">
               <button
                 type="button"
                 onclick="window.hideJoinBandModal()"
-                class="flex-1 btn-secondary"
+                class="btn btn-secondary btn-lg"
+                style="flex: 1;"
               >
                 취소
               </button>
               <button
                 type="submit"
-                class="flex-1 btn-primary"
+                class="btn btn-primary btn-lg"
+                style="flex: 1;"
               >
                 참여하기
               </button>
@@ -191,15 +194,15 @@ export async function renderBandsPage(): Promise<void> {
     const message = error instanceof Error ? error.message : '알 수 없는 오류'
     app.innerHTML = `
       ${renderNavbar()}
-      <div class="min-h-screen py-12 bg-zinc-950">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center mt-24 fade-in">
-            <div class="text-8xl mb-6">⚠️</div>
-            <p class="text-2xl font-bold text-red-400 mb-3">오류가 발생했습니다</p>
-            <p class="text-zinc-400 mb-8">${message}</p>
+      <div style="min-height: 100vh; padding: 3rem 0; background: #fafafa;">
+        <div style="max-width: 80rem; margin: 0 auto; padding: 0 1.5rem;">
+          <div class="fade-in" style="text-align: center; margin-top: 6rem;">
+            <div style="font-size: 4.5rem; margin-bottom: 1.5rem;">⚠️</div>
+            <p style="font-size: 1.5rem; font-weight: 600; color: #dc2626; margin-bottom: 0.75rem;">오류가 발생했습니다</p>
+            <p style="color: #737373; margin-bottom: 2rem;">${message}</p>
             <button
               onclick="window.location.reload()"
-              class="btn-primary"
+              class="btn btn-primary"
             >
               다시 시도
             </button>

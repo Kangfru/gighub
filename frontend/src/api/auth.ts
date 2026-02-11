@@ -19,6 +19,7 @@ export interface LoginRequest {
 export interface TokenResponse {
   accessToken: string
   refreshToken: string
+  expiresIn: number
   user: User
   band?: {
     id: number
@@ -30,6 +31,7 @@ export interface TokenResponse {
 export interface LoginResponse {
   accessToken: string
   refreshToken: string
+  expiresIn: number
   user: User
   bands: Array<{
     band: {
@@ -39,6 +41,11 @@ export interface LoginResponse {
     }
     role: string
   }>
+}
+
+export interface RefreshTokenResponse {
+  accessToken: string
+  expiresIn: number
 }
 
 export async function register(data: RegisterRequest): Promise<TokenResponse> {

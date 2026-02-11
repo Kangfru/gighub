@@ -1,7 +1,8 @@
 // Fetch wrapper with authentication
 
-import { getAccessToken, getRefreshToken, saveTokens, clearAuth } from '../utils/auth'
+import { getAccessToken, getRefreshToken, saveTokens, clearAuth, isTokenExpired } from '../utils/auth'
 import { router } from '../utils/router'
+import type { RefreshTokenResponse } from './auth'
 
 export interface ApiError {
   code: string
@@ -26,10 +27,27 @@ class ApiClient {
       headers.set('Content-Type', 'application/json')
     }
 
-    // Access Token 추가
-    const token = getAccessToken()
-    if (token) {
-      headers.set('Authorization', `Bearer ${token}`)
+    // 인증이 필요 없는 엔드포인트는 토큰 체크 건너뛰기
+    const publicEndpoints = ['/api/auth/login', '/api/auth/register']
+    const isPublicEndpoint = publicEndpoints.some(pe => endpoint.startsWith(pe))
+
+    // 토큰 만료 체크 및 자동 갱신 (public endpoint가 아닐 때만)
+    if (!isPublicEndpoint) {
+      const token = getAccessToken()
+      if (token && isTokenExpired()) {
+        const refreshed = await this.refreshAccessToken()
+        if (!refreshed) {
+          clearAuth()
+          router.navigate('/login')
+          throw new Error('인증이 만료되었습니다. 다시 로그인해주세요.')
+        }
+      }
+
+      // Access Token 추가
+      const currentToken = getAccessToken()
+      if (currentToken) {
+        headers.set('Authorization', `Bearer ${currentToken}`)
+      }
     }
 
     try {
@@ -38,8 +56,8 @@ class ApiClient {
         headers
       })
 
-      // 401 Unauthorized - 토큰 만료
-      if (response.status === 401) {
+      // 401 Unauthorized - 토큰 만료 (public endpoint가 아닐 때만)
+      if (response.status === 401 && !isPublicEndpoint) {
         const refreshToken = getRefreshToken()
         if (refreshToken) {
           // Refresh Token으로 재시도
@@ -88,7 +106,12 @@ class ApiClient {
     }
 
     if (!response.ok) {
-      // 사용자 친화적인 에러 메시지 매핑
+      // 백엔드에서 보낸 에러 메시지가 있으면 우선 사용
+      if (data && data.message) {
+        throw new Error(data.message)
+      }
+
+      // 없으면 기본 메시지 사용
       const userMessage = this.getUserFriendlyMessage(response.status)
       throw new Error(userMessage)
     }
@@ -128,8 +151,8 @@ class ApiClient {
       })
 
       if (response.ok) {
-        const data = await response.json()
-        saveTokens(data.accessToken, refreshToken)
+        const data: RefreshTokenResponse = await response.json()
+        saveTokens(data.accessToken, refreshToken, data.expiresIn)
         return true
       }
 

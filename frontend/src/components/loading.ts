@@ -2,7 +2,7 @@
 
 export function renderLoadingSpinner(): string {
   return `
-    <div class="flex items-center justify-center py-12">
+    <div style="display: flex; align-items: center; justify-content: center; padding: 3rem 0;">
       <div class="spinner"></div>
     </div>
   `
@@ -10,16 +10,16 @@ export function renderLoadingSpinner(): string {
 
 export function renderSkeletonCard(): string {
   return `
-    <div class="bg-[#111111] border border-gray-800 rounded-xl p-6">
-      <div class="flex justify-between items-start mb-4">
-        <div class="skeleton h-6 w-32 rounded"></div>
-        <div class="skeleton h-6 w-16 rounded-full"></div>
+    <div class="card" style="animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;">
+      <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+        <div style="height: 2rem; width: 10rem; background: #e5e5e5; border-radius: 0.5rem;"></div>
+        <div style="height: 1.75rem; width: 4rem; background: #e5e5e5; border-radius: 9999px;"></div>
       </div>
-      <div class="skeleton h-4 w-full rounded mb-2"></div>
-      <div class="skeleton h-4 w-3/4 rounded mb-4"></div>
-      <div class="flex justify-between items-center">
-        <div class="skeleton h-4 w-20 rounded"></div>
-        <div class="skeleton h-4 w-24 rounded"></div>
+      <div style="height: 1rem; width: 100%; background: #e5e5e5; border-radius: 0.5rem; margin-bottom: 0.5rem;"></div>
+      <div style="height: 1rem; width: 75%; background: #e5e5e5; border-radius: 0.5rem; margin-bottom: 1.5rem;"></div>
+      <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid #e5e5e5;">
+        <div style="height: 1rem; width: 5rem; background: #e5e5e5; border-radius: 0.5rem;"></div>
+        <div style="height: 1rem; width: 7rem; background: #e5e5e5; border-radius: 0.5rem;"></div>
       </div>
     </div>
   `
@@ -27,7 +27,7 @@ export function renderSkeletonCard(): string {
 
 export function renderSkeletonGrid(count: number = 3): string {
   return `
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); gap: 2rem;">
       ${Array.from({ length: count }, () => renderSkeletonCard()).join('')}
     </div>
   `
