@@ -1,7 +1,6 @@
 // Forgot password page
 
 import { forgotPassword } from '../api/auth'
-import { router } from '../utils/router'
 
 export function renderForgotPasswordPage(): void {
   const app = document.querySelector<HTMLDivElement>('#app')!
