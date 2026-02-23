@@ -28,7 +28,7 @@ class ApiClient {
     }
 
     // 인증이 필요 없는 엔드포인트는 토큰 체크 건너뛰기
-    const publicEndpoints = ['/api/auth/login', '/api/auth/register']
+    const publicEndpoints = ['/api/auth/login', '/api/auth/register', '/api/auth/forgot-password', '/api/auth/reset-password']
     const isPublicEndpoint = publicEndpoints.some(pe => endpoint.startsWith(pe))
 
     // 토큰 만료 체크 및 자동 갱신 (public endpoint가 아닐 때만)

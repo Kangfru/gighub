@@ -59,3 +59,11 @@ export async function login(data: LoginRequest): Promise<LoginResponse> {
 export async function logout(): Promise<void> {
   return apiClient.post<void>('/api/auth/logout')
 }
+
+export async function forgotPassword(email: string): Promise<{ message: string }> {
+  return apiClient.post<{ message: string }>('/api/auth/forgot-password', { email })
+}
+
+export async function resetPassword(token: string, newPassword: string): Promise<{ message: string }> {
+  return apiClient.post<{ message: string }>('/api/auth/reset-password', { token, newPassword })
+}

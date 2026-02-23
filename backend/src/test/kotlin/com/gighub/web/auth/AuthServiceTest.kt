@@ -1,6 +1,8 @@
 package com.gighub.web.auth
 
+import com.gighub.config.EmailService
 import com.gighub.domain.band.*
+import com.gighub.domain.user.PasswordResetTokenRepository
 import com.gighub.domain.user.User
 import com.gighub.domain.user.UserRepository
 import com.gighub.exception.ErrorCode
@@ -24,8 +26,10 @@ class AuthServiceTest {
     private val userRepository = mockk<UserRepository>()
     private val inviteCodeRepository = mockk<InviteCodeRepository>()
     private val bandMemberRepository = mockk<BandMemberRepository>()
+    private val passwordResetTokenRepository = mockk<PasswordResetTokenRepository>()
     private val passwordEncoder = mockk<PasswordEncoder>()
     private val jwtTokenProvider = mockk<JwtTokenProvider>()
+    private val emailService = mockk<EmailService>()
     private val jwtProperties = JwtProperties(
         secret = "test-secret-key-for-testing-purposes-only-must-be-long-enough",
         accessExpiry = 3600000L, // 1 hour
@@ -36,9 +40,12 @@ class AuthServiceTest {
         userRepository,
         inviteCodeRepository,
         bandMemberRepository,
+        passwordResetTokenRepository,
         passwordEncoder,
         jwtTokenProvider,
-        jwtProperties
+        jwtProperties,
+        emailService,
+        frontendUrl = "http://localhost:3000"
     )
 
     @AfterEach

@@ -9,6 +9,8 @@ import { renderBandsPage } from './pages/bands'
 import { renderBandDetailPage } from './pages/band-detail'
 import { renderPollDetailPage } from './pages/poll-detail'
 import { renderCreatePollPage } from './pages/create-poll'
+import { renderForgotPasswordPage } from './pages/forgot-password'
+import { renderResetPasswordPage } from './pages/reset-password'
 
 // 인증 필요한 페이지 가드
 function requireAuth(handler: (params?: Record<string, string>) => void) {
@@ -36,6 +38,18 @@ router.add('/register', () => {
     return
   }
   renderRegisterPage()
+})
+
+router.add('/forgot-password', () => {
+  if (isAuthenticated()) {
+    router.navigate('/bands')
+    return
+  }
+  renderForgotPasswordPage()
+})
+
+router.add('/reset-password', () => {
+  renderResetPasswordPage()
 })
 
 router.add('/bands', requireAuth(() => renderBandsPage()))

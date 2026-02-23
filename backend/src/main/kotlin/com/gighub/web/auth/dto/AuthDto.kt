@@ -87,3 +87,20 @@ data class RefreshTokenResponse(
     val accessToken: String,
     val expiresIn: Long // Access token 만료 시간 (초 단위)
 )
+
+data class ForgotPasswordRequest(
+    @field:NotBlank(message = "이메일은 필수입니다")
+    @field:Email(message = "올바른 이메일 형식이 아닙니다")
+    val email: String
+)
+
+data class ResetPasswordRequest(
+    @field:NotBlank(message = "토큰은 필수입니다")
+    val token: String,
+
+    @field:NotBlank(message = "비밀번호는 필수입니다")
+    @field:Size(min = 8, message = "비밀번호는 최소 8자 이상이어야 합니다")
+    val newPassword: String
+)
+
+data class MessageResponse(val message: String)

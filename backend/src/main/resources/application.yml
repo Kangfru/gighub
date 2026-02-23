@@ -15,11 +15,24 @@ spring:
           time_zone: Asia/Seoul
   jackson:
     time-zone: Asia/Seoul
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:noreply@example.com}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
 
 jwt:
   secret: ${JWT_SECRET}
   access-expiry: 3600000
   refresh-expiry: 604800000
+
+app:
+  frontend-url: ${FRONTEND_URL:http://localhost:3000}
+  mail:
+    from: ${MAIL_USERNAME:noreply@example.com}
 
 server:
   port: 28080

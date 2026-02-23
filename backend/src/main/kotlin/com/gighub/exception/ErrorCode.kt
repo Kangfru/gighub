@@ -26,6 +26,7 @@ enum class ErrorCode(
     SONG_NOT_FOUND("RES005", HttpStatus.NOT_FOUND, "곡을 찾을 수 없습니다"),
     VOTE_NOT_FOUND("RES006", HttpStatus.NOT_FOUND, "투표 내역을 찾을 수 없습니다"),
     INVITE_CODE_NOT_FOUND("RES007", HttpStatus.NOT_FOUND, "초대 코드를 찾을 수 없습니다"),
+    RESET_TOKEN_INVALID("RES008", HttpStatus.NOT_FOUND, "유효하지 않은 비밀번호 재설정 토큰입니다"),
 
     // 비즈니스 로직 관련 (BIZ)
     DUPLICATE_VOTE("BIZ001", HttpStatus.CONFLICT, "이미 투표한 곡입니다"),
@@ -34,6 +35,7 @@ enum class ErrorCode(
     POLL_NOT_ACTIVE("BIZ004", HttpStatus.BAD_REQUEST, "투표가 진행 중이 아닙니다"),
     INVALID_DATE_RANGE("BIZ005", HttpStatus.BAD_REQUEST, "시작일은 종료일보다 이전이어야 합니다"),
     CANNOT_REMOVE_LAST_LEADER("BIZ006", HttpStatus.BAD_REQUEST, "마지막 리더는 제거할 수 없습니다"),
+    RESET_TOKEN_EXPIRED("BIZ007", HttpStatus.BAD_REQUEST, "만료된 비밀번호 재설정 토큰입니다"),
     ALREADY_BAND_MEMBER("BIZ007", HttpStatus.CONFLICT, "이미 해당 밴드의 멤버입니다"),
 
     // 서버 에러 (SYS)

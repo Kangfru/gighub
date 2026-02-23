@@ -1,7 +1,10 @@
 package com.gighub.web.auth
 
+import com.gighub.config.EmailService
 import com.gighub.domain.band.BandMemberRepository
 import com.gighub.domain.band.InviteCodeRepository
+import com.gighub.domain.user.PasswordResetToken
+import com.gighub.domain.user.PasswordResetTokenRepository
 import com.gighub.domain.user.User
 import com.gighub.domain.user.UserRepository
 import com.gighub.exception.ErrorCode
@@ -10,10 +13,13 @@ import com.gighub.security.jwt.JwtProperties
 import com.gighub.security.jwt.JwtTokenProvider
 import com.gighub.utils.DateTimeUtils
 import com.gighub.web.auth.dto.*
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Service
 @Transactional(readOnly = true)
@@ -21,10 +27,15 @@ class AuthService(
     private val userRepository: UserRepository,
     private val inviteCodeRepository: InviteCodeRepository,
     private val bandMemberRepository: BandMemberRepository,
+    private val passwordResetTokenRepository: PasswordResetTokenRepository,
     private val passwordEncoder: PasswordEncoder,
     private val jwtTokenProvider: JwtTokenProvider,
-    private val jwtProperties: JwtProperties
+    private val jwtProperties: JwtProperties,
+    private val emailService: EmailService,
+    @param:Value("\${app.frontend-url}") private val frontendUrl: String
 ) {
+
+    private val log = LoggerFactory.getLogger(AuthService::class.java)
 
     @Transactional
     fun register(request: RegisterRequest): TokenResponse {
@@ -125,6 +136,53 @@ class AuthService(
             user = UserInfo.from(user),
             bands = bands
         )
+    }
+
+    @Transactional
+    fun requestPasswordReset(request: ForgotPasswordRequest) {
+        // 이메일 존재 여부와 관계없이 동일한 응답 (열거 공격 방지)
+        val user = userRepository.findByEmail(request.email) ?: run {
+            log.info("비밀번호 재설정 요청 - 존재하지 않는 이메일: {}", request.email)
+            return
+        }
+
+        // 기존 미사용 토큰 삭제
+        passwordResetTokenRepository.deleteByEmailAndUsedFalse(user.email)
+
+        // 새 토큰 생성 (30분 유효)
+        val token = UUID.randomUUID().toString()
+        val expiresAt = DateTimeUtils.now().plusMinutes(30)
+        passwordResetTokenRepository.save(
+            PasswordResetToken(token = token, email = user.email, expiresAt = expiresAt)
+        )
+
+        // 이메일 발송
+        val resetUrl = "$frontendUrl/reset-password?token=$token"
+        emailService.sendPasswordResetEmail(user.email, token, resetUrl)
+    }
+
+    @Transactional
+    fun resetPassword(request: ResetPasswordRequest) {
+        val resetToken = passwordResetTokenRepository.findByToken(request.token)
+            ?: throw GigHubException.ResourceNotFoundException(errorCode = ErrorCode.RESET_TOKEN_INVALID)
+
+        if (resetToken.used) {
+            throw GigHubException.ResourceNotFoundException(errorCode = ErrorCode.RESET_TOKEN_INVALID)
+        }
+
+        if (resetToken.expiresAt.isBefore(DateTimeUtils.now())) {
+            throw GigHubException.BusinessException(errorCode = ErrorCode.RESET_TOKEN_EXPIRED)
+        }
+
+        val user = userRepository.findByEmail(resetToken.email)
+            ?: throw GigHubException.ResourceNotFoundException(errorCode = ErrorCode.USER_NOT_FOUND)
+
+        // 비밀번호 변경
+        val encodedPassword = passwordEncoder.encode(request.newPassword) ?: throw IllegalStateException("Failed to encode password")
+        userRepository.updatePassword(user.id, encodedPassword)
+
+        // 토큰 사용 처리
+        resetToken.used = true
     }
 
     fun refresh(request: RefreshTokenRequest): RefreshTokenResponse {

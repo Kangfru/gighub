@@ -37,4 +37,16 @@ class AuthController(
         // 클라이언트가 토큰을 삭제하면 됨
         return ResponseEntity.noContent().build()
     }
+
+    @PostMapping("/forgot-password")
+    fun forgotPassword(@Valid @RequestBody request: ForgotPasswordRequest): ResponseEntity<MessageResponse> {
+        authService.requestPasswordReset(request)
+        return ResponseEntity.ok(MessageResponse("이메일을 확인해주세요. 비밀번호 재설정 링크를 발송했습니다."))
+    }
+
+    @PostMapping("/reset-password")
+    fun resetPassword(@Valid @RequestBody request: ResetPasswordRequest): ResponseEntity<MessageResponse> {
+        authService.resetPassword(request)
+        return ResponseEntity.ok(MessageResponse("비밀번호가 변경되었습니다."))
+    }
 }

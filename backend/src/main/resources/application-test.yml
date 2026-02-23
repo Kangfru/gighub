@@ -21,6 +21,21 @@ jwt:
   access-expiry: 3600000
   refresh-expiry: 604800000
 
+spring:
+  mail:
+    host: localhost
+    port: 25
+    username: test@test.com
+    password: test
+    properties:
+      mail.smtp.auth: false
+      mail.smtp.starttls.enable: false
+
+app:
+  frontend-url: http://localhost:3000
+  mail:
+    from: test@test.com
+
 logging:
   level:
     com.gighub: DEBUG

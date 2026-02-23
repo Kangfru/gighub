@@ -60,6 +60,16 @@ export function renderLoginPage(): void {
             </button>
           </form>
 
+          <!-- Forgot Password Link -->
+          <div class="text-center" style="margin-top: 0.75rem;">
+            <button
+              onclick="window.navigateTo('/forgot-password')"
+              style="color: #737373; font-size: 0.875rem; text-decoration: underline; text-underline-offset: 2px; background: none; border: none; cursor: pointer;"
+            >
+              비밀번호를 잊으셨나요?
+            </button>
+          </div>
+
           <!-- Register Link -->
           <div class="text-center pt-8" style="border-top: 1px solid #e5e5e5; margin-top: 1.25rem;">
             <span style="color: #737373; font-size: 0.9375rem;">계정이 없으신가요?</span>
