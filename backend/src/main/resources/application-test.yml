@@ -15,6 +15,14 @@ spring:
   h2:
     console:
       enabled: false
+  mail:
+    host: localhost
+    port: 25
+    username: test@test.com
+    password: test
+    properties:
+      mail.smtp.auth: false
+      mail.smtp.starttls.enable: false
 
 jwt:
   secret: dGVzdC1zZWNyZXQta2V5LWZvci10ZXN0aW5nLXB1cnBvc2VzLW9ubHktbXVzdC1iZS1sb25nLWVub3VnaC1mb3ItaG1hYy1zaGEyNTY=
@@ -23,10 +31,8 @@ jwt:
 
 app:
   frontend-url: http://localhost:3000
-  resend:
-    api-key: test-api-key
   mail:
-    from: GigHub <test@test.com>
+    from: test@test.com
 
 logging:
   level:

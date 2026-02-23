@@ -15,6 +15,14 @@ spring:
           time_zone: Asia/Seoul
   jackson:
     time-zone: Asia/Seoul
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:noreply@example.com}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
 
 jwt:
   secret: ${JWT_SECRET}
@@ -23,10 +31,8 @@ jwt:
 
 app:
   frontend-url: ${FRONTEND_URL:http://localhost:3000}
-  resend:
-    api-key: ${RESEND_API_KEY:}
   mail:
-    from: ${MAIL_FROM:GigHub <onboarding@resend.dev>}
+    from: ${MAIL_USERNAME:noreply@example.com}
 
 server:
   port: 28080

@@ -2,38 +2,29 @@ package com.gighub.config
 
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.MediaType
+import org.springframework.mail.javamail.JavaMailSender
+import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Service
-import org.springframework.web.client.RestClient
 
 @Service
 class EmailService(
-    @param:Value("\${app.resend.api-key}") private val apiKey: String,
+    private val mailSender: JavaMailSender,
     @param:Value("\${app.mail.from}") private val fromEmail: String
 ) {
 
     private val log = LoggerFactory.getLogger(EmailService::class.java)
-    private val restClient = RestClient.builder()
-        .baseUrl("https://api.resend.com")
-        .build()
 
     fun sendPasswordResetEmail(email: String, token: String, resetUrl: String) {
         try {
-            val body = mapOf(
-                "from" to fromEmail,
-                "to" to listOf(email),
-                "subject" to "[GigHub] 비밀번호 재설정 안내",
-                "html" to buildResetEmailHtml(resetUrl)
-            )
+            val message = mailSender.createMimeMessage()
+            val helper = MimeMessageHelper(message, false, "UTF-8")
 
-            restClient.post()
-                .uri("/emails")
-                .header("Authorization", "Bearer $apiKey")
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(body)
-                .retrieve()
-                .toBodilessEntity()
+            helper.setFrom(fromEmail)
+            helper.setTo(email)
+            helper.setSubject("[GigHub] 비밀번호 재설정 안내")
+            helper.setText(buildResetEmailHtml(resetUrl), true)
 
+            mailSender.send(message)
             log.info("비밀번호 재설정 이메일 발송: {}", email)
         } catch (e: Exception) {
             log.error("이메일 발송 실패: {}", email, e)
