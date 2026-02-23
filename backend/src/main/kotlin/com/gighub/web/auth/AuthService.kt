@@ -140,11 +140,8 @@ class AuthService(
 
     @Transactional
     fun requestPasswordReset(request: ForgotPasswordRequest) {
-        // 이메일 존재 여부와 관계없이 동일한 응답 (열거 공격 방지)
-        val user = userRepository.findByEmail(request.email) ?: run {
-            log.info("비밀번호 재설정 요청 - 존재하지 않는 이메일: {}", request.email)
-            return
-        }
+        val user = userRepository.findByEmail(request.email)
+            ?: throw GigHubException.ResourceNotFoundException(errorCode = ErrorCode.USER_NOT_FOUND)
 
         // 기존 미사용 토큰 삭제
         passwordResetTokenRepository.deleteByEmailAndUsedFalse(user.email)
