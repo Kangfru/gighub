@@ -61,26 +61,28 @@ export function renderCreatePollPage(params: Record<string, string>): void {
               ></textarea>
             </div>
 
-            <div class="form-group">
-              <label class="label">시작 시간</label>
-              <input
-                type="datetime-local"
-                id="start-date"
-                required
-                value="${formatDateTimeLocal(today)}"
-                class="input"
-              />
-            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label class="label">시작 시간</label>
+                <input
+                  type="datetime-local"
+                  id="start-date"
+                  required
+                  value="${formatDateTimeLocal(today)}"
+                  class="input"
+                />
+              </div>
 
-            <div class="form-group">
-              <label class="label">종료 시간</label>
-              <input
-                type="datetime-local"
-                id="end-date"
-                required
-                value="${formatDateTimeLocal(nextWeek)}"
-                class="input"
-              />
+              <div class="form-group">
+                <label class="label">종료 시간</label>
+                <input
+                  type="datetime-local"
+                  id="end-date"
+                  required
+                  value="${formatDateTimeLocal(nextWeek)}"
+                  class="input"
+                />
+              </div>
             </div>
 
             <div id="error-message" class="alert alert-error hidden"></div>
