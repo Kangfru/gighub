@@ -467,7 +467,7 @@ src/
 ├── main.ts
 ├── style.css
 ├── api/
-│   ├── client.ts          # Fetch wrapper with auth
+│   ├── client.ts          # Fetch wrapper with auth (자동 토큰 갱신)
 │   ├── auth.ts            # Auth API calls
 │   ├── bands.ts           # Band API calls
 │   ├── polls.ts           # Poll API calls
@@ -475,22 +475,24 @@ src/
 ├── pages/
 │   ├── login.ts           # Login page
 │   ├── register.ts        # Registration page
-│   ├── bands.ts           # Band list page (user's bands)
-│   ├── band-detail.ts     # Band detail with polls
-│   ├── polls.ts           # Poll list page
-│   ├── poll-detail.ts     # Single poll view
-│   ├── create-poll.ts     # Create poll form
-│   └── band-settings.ts   # Band settings (for LEADER)
+│   ├── bands.ts           # Band list page (user's bands, 생성/참여 모달)
+│   ├── band-detail.ts     # Band detail with polls, 멤버 관리, 초대코드 관리
+│   ├── poll-detail.ts     # Single poll view (투표/취소, 곡 추가)
+│   └── create-poll.ts     # Create poll form
 ├── components/
 │   ├── navbar.ts          # Navigation bar
 │   ├── band-card.ts       # Band card component
-│   ├── poll-card.ts       # Poll card component
+│   ├── poll-card.ts       # Poll card component (상태 배지)
 │   ├── song-card.ts       # Song card with vote button
-│   └── member-list.ts     # Band member list
+│   ├── member-list.ts     # Band member list
+│   └── loading.ts         # Loading skeleton UI
+├── types/
+│   └── window.d.ts        # Global type definitions
 └── utils/
-    ├── router.ts          # Simple client-side routing
-    ├── auth.ts            # Token management
-    └── date.ts            # Date formatting utilities
+    ├── router.ts          # Simple client-side routing (파라미터 지원)
+    ├── auth.ts            # Token management (만료 시간 관리)
+    ├── date.ts            # Date formatting utilities
+    └── toast.ts           # Toast notification utility
 ```
 
 ## Monorepo Structure
@@ -502,8 +504,19 @@ gighub/
 │   ├── settings.gradle.kts
 │   ├── src/
 │   │   ├── main/
-│   │   │   ├── kotlin/
+│   │   │   ├── kotlin/com/gighub/
+│   │   │   │   ├── domain/     # Entities & Repositories
+│   │   │   │   ├── web/        # Controllers & Services
+│   │   │   │   ├── security/   # JWT, Permission
+│   │   │   │   ├── config/     # SecurityConfig, CORS, Logging
+│   │   │   │   ├── exception/  # ErrorCode, GlobalExceptionHandler
+│   │   │   │   └── utils/      # DateTimeUtils
 │   │   │   └── resources/
+│   │   │       ├── application.yml
+│   │   │       ├── application-local.yml  # .gitignore에서 제외
+│   │   │       ├── application-prod.yml
+│   │   │       ├── application-test.yml
+│   │   │       └── logback-spring.xml
 │   │   └── test/
 │   ├── gradle/
 │   └── gradlew
@@ -517,16 +530,17 @@ gighub/
 │   │   ├── api/
 │   │   ├── pages/
 │   │   ├── components/
+│   │   ├── types/
 │   │   └── utils/
 │   └── index.html
-├── .github/
-│   └── workflows/
-│       ├── backend-ci.yml      # Backend CI/CD
-│       └── frontend-ci.yml     # Frontend CI/CD
+├── docker-compose.yml          # PostgreSQL 17 로컬 개발용
 ├── .gitignore
 ├── README.md
+├── DEPLOYMENT.md               # 배포 가이드
 └── CLAUDE.md
 ```
+
+> **Note**: `.github/workflows/` CI/CD 파일은 아직 작성되지 않았습니다.
 
 ## Local Development Environment
 
@@ -661,7 +675,7 @@ npm run preview
 # Terminal 1 - Database
 docker-compose up
 
-# Terminal 2 - Backend (http://localhost:8080)
+# Terminal 2 - Backend (http://localhost:28080)
 cd backend && ./gradlew bootRun --args='--spring.profiles.active=local'
 
 # Terminal 3 - Frontend (http://localhost:3000)
@@ -669,8 +683,10 @@ cd frontend && npm run dev
 ```
 
 Access application at: http://localhost:3000
-- Frontend proxies `/api/*` requests to backend at `localhost:8080`
+- Frontend proxies `/api/*` requests to backend at `localhost:28080` (로컬 프로파일 기준)
 - Backend connects to PostgreSQL at `localhost:5432`
+
+> **Note**: 로컬 개발 백엔드 포트는 `application-local.yml`의 `server.port` 설정에 따라 다를 수 있습니다. `vite.config.ts` 프록시 설정과 일치시켜야 합니다.
 
 ## Current Implementation Status
 
@@ -679,56 +695,66 @@ Access application at: http://localhost:3000
 **Domain Entities (모든 엔티티 구현 완료)**
 - `User` - 사용자 정보 및 인증
 - `Band` - 밴드 정보
-- `BandMember` - 사용자-밴드 연결 및 역할 관리
-- `InviteCode` - 다회용 초대 코드
-- `Poll` - 투표 생성 및 관리
-- `Song` - 곡 제안 및 정보
-- `Vote` - 사용자 투표 기록
+- `BandMember` - 사용자-밴드 연결 및 역할 관리 (LEADER/MEMBER)
+- `InviteCode` - 다회용 초대 코드 (UUID, 만료일)
+- `Poll` - 투표 생성 및 관리 (상태: UPCOMING/ACTIVE/ENDED)
+- `Song` - 곡 제안 및 정보 (YouTube URL 지원)
+- `Vote` - 사용자 투표 기록 (취소 가능)
 
 **Repositories (모든 Repository 구현 완료)**
-- `UserRepository`, `BandRepository`, `BandMemberRepository`
+- `UserRepository`, `BandRepository`, `BandMemberRepository` (Fetch Join 최적화)
 - `InviteCodeRepository`, `PollRepository`, `SongRepository`, `VoteRepository`
 
-**API Controllers (모든 핵심 Controller 구현 완료)**
-- `AuthController` - 회원가입, 로그인, JWT 토큰 관리
-- `BandController` - 밴드 CRUD, 멤버 관리, 초대 코드
-- `PollController` - 투표 CRUD, 곡 제안
-- `VoteController` - 투표하기, 투표 취소
+**API Controllers (모든 핵심 Controller 구현 완료, 24개 엔드포인트)**
+- `AuthController` - 회원가입, 로그인, JWT 토큰 관리, 로그아웃
+- `BandController` - 밴드 CRUD, 멤버 관리, 역할 변경, 초대 코드 CRUD
+- `PollController` - 투표 CRUD, 곡 제안/수정/삭제
+- `VoteController` - 투표하기, 투표 취소, 내 투표 조회
 
 **Services (비즈니스 로직 구현 완료)**
-- `AuthService` - 인증 및 JWT 처리
-- `BandService` - 밴드 및 멤버 관리
-- `PollService` - 투표 및 곡 관리
-- `VoteService` - 투표 처리
+- `AuthService` - 인증 및 JWT 처리, 초대코드 유효성 검증
+- `BandService` - 밴드 및 멤버 관리, 마지막 LEADER 탈퇴 방지
+- `PollService` - 투표 CRUD, 곡 관리, 상태 판별, 종료된 투표 득표 정렬
+- `VoteService` - 투표 처리, 투표 기간 검증
 
 **Security & Infrastructure**
 - JWT 기반 인증 (`JwtTokenProvider`, `JwtAuthenticationFilter`)
 - 권한 검증 (`PermissionService`, `@CurrentUser` annotation)
 - Spring Security 설정 (`SecurityConfig`)
-- 전역 예외 처리 (`GlobalExceptionHandler`, `ErrorCode`)
+- 전역 예외 처리 (`GlobalExceptionHandler`, `ErrorCode` - 20개 에러 코드)
 - 요청 로깅 (`RequestLoggingFilter`)
 - 시간대 유틸리티 (`DateTimeUtils` - UTC+9 지원)
 
+**Tests**
+- `GighubApplicationTest` - 컨텍스트 로드 테스트
+- `AuthServiceTest`, `BandServiceTest`, `VoteServiceTest` - 서비스 단위 테스트
+- `PermissionServiceTest` - 권한 검증 테스트
+
 ### ✅ Completed Frontend Components
 
-**Pages**
-- Login/Register pages
-- Band list and detail pages
-- Poll list and detail pages
-- Band settings and member management
+**Pages (6개)**
+- `login.ts`, `register.ts` - 인증 페이지
+- `bands.ts` - 밴드 목록 (생성/참여 모달 포함)
+- `band-detail.ts` - 밴드 상세 + 투표 목록 + 멤버 관리 + 초대코드 관리
+- `poll-detail.ts` - 투표 상세 + 곡 목록 + 투표/취소 + 곡 추가
+- `create-poll.ts` - 투표 생성 폼
+
+**Components (6개)**
+- `navbar.ts`, `band-card.ts`, `poll-card.ts`, `song-card.ts`, `member-list.ts`
+- `loading.ts` - 스켈레톤 UI
 
 **Features**
-- JWT token management
-- API client with authentication
-- Client-side routing
-- Tailwind CSS 4.x styling
+- JWT 토큰 관리 및 자동 갱신 (만료 시 Refresh Token 사용)
+- API 클라이언트 (public endpoint 구분)
+- 클라이언트사이드 라우팅 (파라미터 지원, History API)
+- Tailwind CSS 4.x 스타일링
+- Toast 알림 시스템
 
 ### 🔄 Next Steps
 
-1. 추가 API 엔드포인트 구현 (필요시)
-2. 프론트엔드 페이지 완성도 향상
-3. 테스트 커버리지 확대
-4. 배포 자동화 (CI/CD)
+1. CI/CD 워크플로우 작성 (`.github/workflows/`)
+2. 테스트 커버리지 확대 (통합 테스트)
+3. 배포 실행 (Railway + Vercel + Supabase 설정 완료 대기)
 
 ## Deployment
 
@@ -785,7 +811,9 @@ Access application at: http://localhost:3000
 - **No shared code** between backend and frontend - maintain types separately
 - `application-local.yml` is in `.gitignore` (not committed to version control)
 - Test profile uses H2 in-memory database
-- Frontend proxy: `localhost:3000` → `localhost:8080` for `/api` requests
+- Frontend proxy: `localhost:3000` → `localhost:28080` for `/api` requests (로컬 프로파일 기준)
+- **로컬 백엔드 포트**: `application-local.yml`의 `server.port` 설정에 따라 결정 (현재 28080)
+- `vite.config.ts`의 proxy target과 백엔드 포트를 항상 일치시킬 것
 
 ### Development Philosophy
 - This is a learning project for backend engineer expanding to full-stack
